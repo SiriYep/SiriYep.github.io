@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://SiriYep.github.io/sitemap.xml
+Sitemap: https://siriyep.github.io/sitemap.xml
