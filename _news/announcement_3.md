@@ -1,8 +1,8 @@
 ---
 layout: post
-date: 2016-01-15 07:59:00-0400
+date: 2025-04-01
 inline: true
 related_posts: false
 ---
 
-A simple inline announcement with Markdown emoji! :sparkles: :smile:
+Our paper **RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation** has been accepted to **RSS 2025**!

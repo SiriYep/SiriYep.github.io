@@ -1,189 +1,168 @@
 cv:
-  name: Albert Einstein
-  label: Scientist
-  email: einstein@example.com
-  location: Princeton, NJ
+  name: Siyuan Qian
+  label: Ph.D. Student
+  email: qiansiyuan@stu.pku.edu.cn
+  location: Beijing, China
   image: ""
-  summary: A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time
+  summary: Ph.D. student at Peking University HMI Lab, advised by Prof. Shanghang Zhang. Research focuses on Embodied AI, exploring VLA, World Model, and VLM for real-world robotic scenarios such as mobile manipulation.
 
   social_networks:
-    - network: X
-      username: AlbertEinstein
     - network: GitHub
-      username: example
-    - network: LinkedIn
-      username: example
-
-  address:
-    street: 2712 Broadway St
-    city: San Francisco
-    region: California
-    postalCode: CA 94115
-    countryCode: US
+      username: SiriYep
 
   sections:
     Education:
-      - institution: University of Zurich
-        location: Zurich, Switzerland
-        url: https://www.uzh.ch/
-        area: Physics
-        studyType: PhD
-        start_date: 1900
-        end_date: 1905
-        score: ""
-        courses: "Theory of Relativity"
+      - institution: Peking University
+        location: Beijing, China
+        url: https://www.pku.edu.cn/
+        area: Computer Applied Technology, School of Computer Science
+        studyType: Ph.D.
+        start_date: 2022-09-01
+        end_date: 2027-06-01
         highlights:
-          - Description 1.
-          - Description 2.
+          - "Research: Multimodal perception fusion and adaptive action decision-making in embodied intelligence scenarios"
+          - "Focus: Embodied AI (VLA / World Model / VLM)"
+          - "Advisor: Prof. Shanghang Zhang"
 
-      - institution: Eidgenössische Technische Hochschule
-        location: Zurich, Switzerland
-        area: Physics
-        studyType: Federal teaching diploma
-        start_date: 1896
-        end_date: 1900
+      - institution: Beihang University (BUAA)
+        location: Beijing, China
+        url: https://www.buaa.edu.cn/
+        area: Electronic Information Engineering
+        studyType: B.Eng.
+        start_date: 2018-09-01
+        end_date: 2022-06-01
         highlights:
-          - Description 1.
-          - Description 2.
+          - "Highest Honor for undergraduate students in Information category (top 0.3%)"
+          - "Highest Honor for undergraduate students in School of EIE (top 3%)"
+          - "Outstanding Graduate (top 10%)"
 
     Experience:
-      - company: Institute for Advanced Study, Princeton University
-        position: Professor of Theoretical Physics
-        location: Princeton University, NJ
-        start_date: 1933
-        end_date: 1955
-        summary: Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.
+      - company: Zhijian Dynamics (Startup)
+        position: Research Intern
+        location: Beijing, China
+        start_date: 2025-09-01
+        end_date: present
+        summary: Advancing VLA deployment in real mobile manipulation scenarios, optimizing whole-body control and mobile-manipulation coupling, incorporating World Model for long-horizon task modeling.
         highlights:
-          - Relativity
-          - Description 2.
+          - Deployed and operated Galaxea R1 Lite and Franka Emika Panda robots end-to-end
+          - Integrated multimodal perception (vision, spatial structure, proprioception) for robust 3D perception
+          - Designed 3D-printed robot components for rapid structural iteration
 
-      - company: California Institute of Technology
-        position: Visiting Professor
-        location: Pasadena, California, US
-        start_date: 1933
-        end_date: 1933
+      - company: Beijing Academy of Artificial Intelligence (BAAI)
+        position: Research Intern, Embodied Multimodal LLM Research Center
+        location: Beijing, China
+        start_date: 2024-08-01
+        end_date: 2025-08-01
+        summary: Contributed to open-source projects RoboBrain 1.0 & 2.0, co-proposed end-to-end VLA mobile manipulation framework AC-DiT achieving SOTA on multiple benchmarks.
         highlights:
-          - Description 1.
-          - Description 2.
+          - Co-built RoboBrain 1.0 & 2.0, enhancing LLM/VLM spatial understanding and temporal modeling
+          - Co-proposed AC-DiT end-to-end VLA framework, achieving SOTA on multiple benchmarks
+          - Managed hardware debugging and real-robot data collection for Mobile ALOHA and composite mobile manipulators
+          - Built mobile manipulation datasets and benchmarks across multiple simulators
+          - Led construction of 100+ object and 10+ scene digital assets across simulators
 
-      - company: Kaiser Wilhelm Institute for Physics
-        position: Director
-        location: Berlin, Germany
-        start_date: 1917
-        end_date: 1933
+    Research:
+      - title: "AC-DiT: Adaptive Coordination Diffusion Transformer for Mobile Manipulation"
+        description: "Co-first author. Proposed an end-to-end VLA framework for mobile manipulation with two-stage action generation (coarse prediction + diffusion refinement), achieving significantly better performance on multiple benchmarks and real-robot experiments."
+        venue: NeurIPS 2025
+        url: https://github.com/PKU-HMI-Lab/AC-DiT
 
-      - company: Karl-Ferdinand University
-        position: Professor of Theoretical Physics
-        location: Prague, Czechoslovakia
-        start_date: 1911
-        end_date: 1917
+      - title: "RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation"
+        description: "Contributed to proposing the RoboMIND multi-embodiment teleoperation dataset covering 107K demonstration trajectories, 479 tasks, 96 object categories, and 4 robot morphologies."
+        venue: RSS 2025
 
-      - company: University of Zurich
-        position: Associate Professor of Theoretical Physics
-        location: Zurich, Switzerland
-        start_date: 1909
-        end_date: 1911
+      - title: "Chain of Thought Prompt Tuning in Vision Language Models"
+        description: "Proposed Chain-of-Thought prompt tuning method, introducing CoT into VLMs by jointly leveraging visual and textual embedding information, significantly improving generalization and transfer in image classification, image-text retrieval, and VQA tasks."
 
-    Volunteer:
-      - company: People's Climate March
-        position: Lead Organizer
-        location: Zurich, Switzerland
-        start_date: 2014-04-01
-        end_date: 2015-07-01
-        summary: Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.
-        highlights:
-          - "Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march."
-          - "Men of the year 2014 by Time magazine"
+      - title: "Implicit Neural Image Field for Biological Microscopy Image Compression"
+        description: "Proposed an INR-based adaptive compression pipeline supporting arbitrary-shape images and pixel-level decompression, achieving up to 512x compression ratio on real biological microscopy images."
+        venue: Nature Computational Science
 
-    Awards:
-      - title: Nobel Prize in Physics
-        authors:
-          - "Royal Swedish Academy of Sciences"
-        date: 1921-11-01
-        awarder: Royal Swedish Academy of Sciences
-        url: https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/
-        summary: The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'
+    Open_Source:
+      - name: "CAMEL: Communicative Agents for Mind Exploration of LLM Society"
+        url: https://github.com/camel-ai/camel
+        description: "Multi-agent research and application framework (15k+ GitHub stars). Designed embodied Agent tools and prompt schemes supporting Zero-shot and One-shot task execution, demonstrating superior performance over representative VLA models on RoboTwin Benchmark."
 
-      - title: Max Planck Medal
-        authors:
-          - "German Physical Society"
-        date: 2029
-        awarder: German Physical Society
-        summary: Awarded for outstanding scientific achievement
+      - name: "AC-DiT: Adaptive Coordination Diffusion Transformer"
+        url: https://github.com/PKU-HMI-Lab/AC-DiT
+        description: "Official code for NeurIPS 2025 paper. Responsible for core module implementation including multimodal input processing, two-stage action generation, and simulation/real-robot evaluation."
 
-    Publications:
-      - title: Zur Elektrodynamik bewegter Körper
-        authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1905-06-30
-        url: https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies
-        summary: It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source.
-
-      - title: Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt
-        authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1905-03-18
-        url: https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt
-        summary: In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921.
-
-      - title: Die Grundlage der allgemeinen Relativitätstheorie
-        authors:
-          - Albert Einstein
-        publisher: Annalen der Physik
-        releaseDate: 1916-03-20
-        url: https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie
-        summary: The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914).
+      - name: "Awesome-World-Models"
+        url: https://github.com/leofan90/Awesome-World-Models
+        description: "World Model research survey and resource index (890+ GitHub stars). Maintained and expanded a curated collection covering video prediction, action-conditioned dynamics, embodied AI, and reinforcement learning."
 
     Skills:
-      - name: Physics
-        level: Master
-        icon: fa-solid fa-hashtag
-        keywords: "Quantum Mechanics, Quantum Computing, Quantum Information, Quantum Cryptography, Quantum Communication, Quantum Teleportation"
+      - name: Research & Deployment
+        level: Expert
+        icon: fa-solid fa-robot
+        keywords: "End-to-end research-to-deployment on real robot systems, covering data collection, cleaning, model training, evaluation, and deployment"
+
+      - name: Frameworks & Tools
+        level: Expert
+        icon: fa-solid fa-code
+        keywords: "PyTorch, ROS/ROS2, Robot Simulators, 3D Printing, VR Teleoperation"
+
+      - name: Robot Platforms
+        level: Expert
+        icon: fa-solid fa-gear
+        keywords: "Mobile ALOHA, Galaxea R1 Lite, Franka Emika Panda, Composite Mobile Manipulators"
+
+      - name: Research Areas
+        level: Expert
+        icon: fa-solid fa-brain
+        keywords: "Embodied AI, VLA, World Models, VLM, Mobile Manipulation, Multi-agent Systems"
+
+    Patents:
+      - title: "A Multi-camera Linkage Real-time Analysis Method for Specific Targets"
+        type: Invention Patent (Co-inventor)
+      - title: "A Ground Camera Fixed Monitoring and Aerial UAV Linkage Analysis Method"
+        type: Invention Patent (Co-inventor)
+
+    Software_Copyrights:
+      - title: "Integrated Sky-Ground Video Big Data Offline Retrieval and Trajectory Playback System"
+      - title: "Integrated Sky-Ground Intelligent Human-Vehicle Target Real-time and Offline Tracking Method"
+      - title: "Integrated Sky-Ground Intelligent Monitoring Platform"
+
+    Awards:
+      - title: Highest Honor for Undergraduate Students in Information Category
+        date: 2022
+        awarder: Beihang University
+        summary: "Top 0.3% among all undergraduates in the Information category"
+
+      - title: Highest Honor for Undergraduate Students in School of EIE
+        date: 2022
+        awarder: Beihang University
+        summary: "Top 3% in the School of Electronic Information Engineering"
+
+      - title: Outstanding Graduate
+        date: 2022
+        awarder: Beihang University
+        summary: "Top 10% in the major"
+
+      - title: Grand Prize in Academic Competition Scholarship
+        date: 2021
+        awarder: Beihang University
+
+      - title: First-class Academic Excellence Scholarship
+        date: 2021
+        awarder: Beihang University
+
+      - title: First-class Innovation and Entrepreneurship Scholarship
+        date: 2021
+        awarder: Beihang University
 
     Languages:
-      - name: German
+      - name: Chinese
         summary: "Native speaker"
 
       - name: English
         summary: "Fluent"
 
     Interests:
-      - name: Physics
-        icon: fa-solid fa-tag
-        keywords: "Quantum Mechanics, Quantum Computing, Quantum Information, Quantum Cryptography, Quantum Communication, Quantum Teleportation"
+      - name: Embodied AI
+        icon: fa-solid fa-robot
+        keywords: "VLA, World Models, VLM, Mobile Manipulation, Multi-agent Systems"
 
-    Certificates:
-      - name: Machine Learning
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-location-dot
-
-      - name: Quantum Computing
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-tag
-
-      - name: Quantum Information
-        date: 2018-01-01
-        issuer: Stanford University
-        icon: fa-solid fa-envelope
-
-    Projects:
-      - name: Quantum Computing
-        summary: Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.
-        highlights:
-          - Quantum Teleportation
-          - Quantum Cryptography
-        start_date: 2018-01-01
-        end_date: 2018-01-01
-
-    References:
-      - name: Professor John Doe
-        icon: fa-solid fa-laptop
-        reference: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit.
-
-      - name: Professor Jane Smith
-        icon: fa-solid fa-thumbtack
-        reference: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit.
+      - name: Hobbies
+        icon: fa-solid fa-heart
+        keywords: "Badminton, Photography"

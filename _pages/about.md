@@ -2,16 +2,16 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: Ph.D. Student @ <a href='https://www.pku.edu.cn/'>Peking University</a>, School of Computer Science
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>HMI Lab, School of Computer Science</p>
+    <p>Peking University</p>
+    <p>Beijing, China</p>
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -22,13 +22,13 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: true
+  enabled: false
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](https://www.reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I am a Ph.D. student at the [HMI Lab](https://www.pku.edu.cn/), School of Computer Science, Peking University, advised by Prof. [Shanghang Zhang](https://www.shanghangzhang.com/). My research focuses on **Embodied AI**, exploring the modeling, reasoning, and generalization capabilities of **VLA (Vision-Language-Action)**, **World Models**, and **VLM (Vision-Language Models)** in real-world robotic scenarios such as mobile manipulation.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+I have published papers at top-tier venues including **NeurIPS**, **RSS**, and **Nature Computational Science**, and serve as a reviewer for conferences such as NeurIPS and ECCV.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Previously, I obtained my B.Eng. in Electronic Information Engineering from [Beihang University](https://www.buaa.edu.cn/) (BUAA), where I received the highest honor for undergraduate students in the Information category (top 0.3%).
