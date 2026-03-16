@@ -4,34 +4,34 @@ const ninja = document.querySelector('ninja-keys');
 // add the home and posts menu items
 ninja.data = [{
     id: "nav-about",
-    title: "about",
+    title: "About",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
     },
   },{id: "nav-blog",
-          title: "blog",
+          title: "Blog",
           description: "",
           section: "Navigation",
           handler: () => {
             window.location.href = "/blog/";
           },
         },{id: "nav-publications",
-          title: "publications",
+          title: "Publications",
           description: "Publications in reversed chronological order.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/publications/";
           },
         },{id: "nav-projects",
-          title: "projects",
+          title: "Projects",
           description: "Open source projects I have contributed to.",
           section: "Navigation",
           handler: () => {
             window.location.href = "/projects/";
           },
         },{id: "nav-repositories",
-          title: "repositories",
+          title: "Repositories",
           description: "Edit the `_data/repositories.yml` and change the `github_users` and `github_repos` lists to include your own GitHub profile and repositories.",
           section: "Navigation",
           handler: () => {
@@ -44,35 +44,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "nav-teaching",
-          title: "teaching",
-          description: "Course materials, schedules, and resources for classes taught.",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/teaching/";
-          },
-        },{id: "nav-people",
-          title: "people",
-          description: "members of the lab or group",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/people/";
-          },
-        },{id: "dropdown-bookshelf",
-              title: "bookshelf",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/books/";
-              },
-            },{id: "dropdown-blog",
-              title: "blog",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/blog/";
-              },
-            },{id: "post-a-post-with-plotly-js",
+        },{id: "post-a-post-with-plotly-js",
         
           title: "a post with plotly.js",
         
@@ -418,20 +390,20 @@ ninja.data = [{
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-our-paper-on-implicit-neural-image-field-for-biological-microscopy-image-compression-has-been-published-in-nature-computational-science",
-          title: 'Our paper on Implicit Neural Image Field for Biological Microscopy Image Compression has...',
-          description: "",
-          section: "News",},{id: "news-started-research-internship-at-baai-beijing-academy-of-artificial-intelligence-embodied-multimodal-llm-research-center",
+            },},{id: "news-started-research-internship-at-baai-beijing-academy-of-artificial-intelligence-embodied-multimodal-llm-research-center",
           title: 'Started research internship at BAAI (Beijing Academy of Artificial Intelligence), Embodied Multimodal LLM...',
           description: "",
           section: "News",},{id: "news-our-paper-robomind-benchmark-on-multi-embodiment-intelligence-normative-data-for-robot-manipulation-has-been-accepted-to-rss-2025",
           title: 'Our paper RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation has...',
           description: "",
+          section: "News",},{id: "news-joined-simplexity-robotics-as-a-research-intern-working-on-vla-deployment-for-real-mobile-manipulation-scenarios",
+          title: 'Joined Simplexity Robotics as a research intern, working on VLA deployment for real...',
+          description: "",
           section: "News",},{id: "news-our-paper-ac-dit-adaptive-coordination-diffusion-transformer-for-mobile-manipulation-has-been-accepted-to-neurips-2025",
           title: 'Our paper AC-DiT: Adaptive Coordination Diffusion Transformer for Mobile Manipulation has been accepted...',
           description: "",
-          section: "News",},{id: "news-joined-zhijian-dynamics-as-a-research-intern-working-on-vla-deployment-for-real-mobile-manipulation-scenarios",
-          title: 'Joined Zhijian Dynamics as a research intern, working on VLA deployment for real...',
+          section: "News",},{id: "news-our-paper-on-implicit-neural-image-field-for-biological-microscopy-image-compression-has-been-published-in-nature-computational-science",
+          title: 'Our paper on Implicit Neural Image Field for Biological Microscopy Image Compression has...',
           description: "",
           section: "News",},{id: "projects-camel-communicative-agents-for-mind-exploration-of-llm-society",
           title: 'CAMEL: Communicative Agents for Mind Exploration of LLM Society',
