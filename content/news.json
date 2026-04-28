@@ -1,0 +1,135 @@
+[
+  {
+    "type": "experience",
+    "badge": "Intern",
+    "count": 1,
+    "icon": "FaBriefcase",
+    "iconColor": "green.400",
+    "title": "Beijing Innovation Center of Humanoid Robotics",
+    "description": "Started research internship at Beijing Innovation Center of Humanoid Robotics, working on memory systems and World Action Models for embodied world models.",
+    "date": "Mar 2026",
+    "sortDate": "2026-03-01",
+    "links": [
+      {
+        "text": "Website",
+        "url": "https://www.x-humanoid.com/",
+        "icon": "FaGlobe"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "Paper",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 Nature Computational Science",
+    "description": "Our paper on Implicit Neural Image Field for Biological Microscopy Image Compression has been published in Nature Computational Science!",
+    "date": "Oct 2025",
+    "sortDate": "2025-10-10",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2405.19012",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "Code",
+        "url": "https://github.com/RoyZry98/INIF-Pytorch",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "Paper",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 NeurIPS 2025",
+    "description": "Our paper AC-DiT: Adaptive Coordination Diffusion Transformer for Mobile Manipulation has been accepted to NeurIPS 2025!",
+    "date": "Sep 2025",
+    "sortDate": "2025-09-18",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2507.01961",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "Project",
+        "url": "https://ac-dit.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "Code",
+        "url": "https://github.com/PKU-HMI-Lab/AC-DiT",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "experience",
+    "badge": "Researcher",
+    "count": 1,
+    "icon": "FaFlask",
+    "iconColor": "green.400",
+    "title": "Joint Lab (Simplexity Robotics & PKU)",
+    "description": "Joined the Joint Lab (Simplexity Robotics & PKU) as a researcher, working on VLA deployment for real mobile manipulation scenarios.",
+    "date": "Sep 2025",
+    "sortDate": "2025-09-01",
+    "links": [
+      {
+        "text": "Website",
+        "url": "https://www.simplexity.ai/",
+        "icon": "FaGlobe"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "Paper",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 RSS 2025",
+    "description": "Our paper RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation has been accepted to RSS 2025!",
+    "date": "May 2025",
+    "sortDate": "2025-05-07",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2412.13877",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "Project",
+        "url": "https://x-humanoid-robomind.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "Code",
+        "url": "https://github.com/x-humanoid-robomind",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "experience",
+    "badge": "Intern",
+    "count": 1,
+    "icon": "FaBriefcase",
+    "iconColor": "green.400",
+    "title": "BAAI",
+    "description": "Started research internship at BAAI (Beijing Academy of Artificial Intelligence), Embodied Multimodal LLM Research Center.",
+    "date": "Aug 2024",
+    "sortDate": "2024-08-27",
+    "links": [
+      {
+        "text": "Website",
+        "url": "https://www.baai.ac.cn/",
+        "icon": "FaGlobe"
+      }
+    ]
+  }
+]

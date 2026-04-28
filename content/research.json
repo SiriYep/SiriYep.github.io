@@ -1,0 +1,25 @@
+{
+  "currentResearch": [
+    {
+      "lab": "Peking University HMI Lab",
+      "emoji": "🤖",
+      "advisor": "Prof. Shanghang Zhang",
+      "advisorUrl": "https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao",
+      "focus": "Embodied AI, VLA, World Model, and VLM for real-world robotic scenarios",
+      "link": "https://idm.pku.edu.cn/",
+      "institution": "Peking University"
+    },
+    {
+      "lab": "Beijing Innovation Center of Humanoid Robotics",
+      "emoji": "🧠",
+      "focus": "Embodied world models, memory systems, and World Action Models",
+      "link": "https://www.x-humanoid.com/"
+    },
+    {
+      "lab": "Simplexity Robotics",
+      "emoji": "🧪",
+      "focus": "VLA deployment for real mobile manipulation with Simplexity Robotics",
+      "link": "https://www.simplexity.ai/"
+    }
+  ]
+}

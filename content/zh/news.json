@@ -1,0 +1,135 @@
+[
+  {
+    "type": "experience",
+    "badge": "实习",
+    "count": 1,
+    "icon": "FaBriefcase",
+    "iconColor": "green.400",
+    "title": "北京人形机器人创新中心",
+    "description": "开始在北京人形机器人创新中心担任研究实习生，研究面向具身世界模型的记忆系统与 World Action Model。",
+    "date": "Mar 2026",
+    "sortDate": "2026-03-01",
+    "links": [
+      {
+        "text": "官网",
+        "url": "https://www.x-humanoid.com/",
+        "icon": "FaGlobe"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 Nature Computational Science",
+    "description": "我们关于 Implicit Neural Image Field for Biological Microscopy Image Compression 的论文发表于 Nature Computational Science。",
+    "date": "Oct 2025",
+    "sortDate": "2025-10-10",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2405.19012",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "代码",
+        "url": "https://github.com/RoyZry98/INIF-Pytorch",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 NeurIPS 2025",
+    "description": "我们的论文 AC-DiT: Adaptive Coordination Diffusion Transformer for Mobile Manipulation 被 NeurIPS 2025 接收。",
+    "date": "Sep 2025",
+    "sortDate": "2025-09-18",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2507.01961",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "项目",
+        "url": "https://ac-dit.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "代码",
+        "url": "https://github.com/PKU-HMI-Lab/AC-DiT",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "experience",
+    "badge": "研究员",
+    "count": 1,
+    "icon": "FaFlask",
+    "iconColor": "green.400",
+    "title": "联合实验室（至简动力 & 北京大学）",
+    "description": "加入联合实验室（至简动力 & 北京大学），担任研究员，推进真实移动操作场景中的 VLA 部署。",
+    "date": "Sep 2025",
+    "sortDate": "2025-09-01",
+    "links": [
+      {
+        "text": "官网",
+        "url": "https://www.simplexity.ai/",
+        "icon": "FaGlobe"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 RSS 2025",
+    "description": "我们的论文 RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation 被 RSS 2025 接收。",
+    "date": "May 2025",
+    "sortDate": "2025-05-07",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2412.13877",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "项目",
+        "url": "https://x-humanoid-robomind.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "代码",
+        "url": "https://github.com/x-humanoid-robomind",
+        "icon": "FaGithub"
+      }
+    ]
+  },
+  {
+    "type": "experience",
+    "badge": "实习",
+    "count": 1,
+    "icon": "FaBriefcase",
+    "iconColor": "green.400",
+    "title": "BAAI",
+    "description": "开始在北京智源人工智能研究院（BAAI）具身多模态大模型研究中心担任研究实习生。",
+    "date": "Aug 2024",
+    "sortDate": "2024-08-27",
+    "links": [
+      {
+        "text": "官网",
+        "url": "https://www.baai.ac.cn/",
+        "icon": "FaGlobe"
+      }
+    ]
+  }
+]

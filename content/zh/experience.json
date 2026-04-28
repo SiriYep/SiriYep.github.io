@@ -1,0 +1,75 @@
+{
+  "education": {
+    "courses": [
+      {
+        "course": "博士，计算机应用技术，计算机学院",
+        "institution": "PKU / 北京大学",
+        "year": "2022-2027"
+      },
+      {
+        "course": "工学学士，电子信息工程",
+        "institution": "BUAA / 北京航空航天大学",
+        "year": "2018-2022"
+      }
+    ]
+  },
+  "reviewing": [
+    { "venue": "ECCV 2026", "role": "审稿人" },
+    { "venue": "ICML 2026", "role": "审稿人" },
+    { "venue": "NeurIPS 2025", "role": "审稿人" },
+    { "venue": "ICML 2025", "role": "审稿人" },
+    { "venue": "ECCV 2024", "role": "审稿人" }
+  ],
+  "timeline": [
+    {
+      "title": "研究实习生",
+      "company": "北京人形机器人创新中心",
+      "companyUrl": "https://www.x-humanoid.com/",
+      "location": "中国北京",
+      "start": "2026-03-01",
+      "category": "research",
+      "roleType": "research",
+      "summary": "针对具身场景中的世界模型，设计记忆系统与 World Action Model，提升长程任务规划能力与生成稳定性。",
+      "highlights": [
+        "针对世界模型在长视频生成中时序一致性不足的问题，设计面向具身场景的记忆系统。",
+        "基于记忆系统构建 World Action Model，使机器人在长程任务中具备更稳定的任务规划与生成表现。",
+        "探索世界模型赋能 VLA 模型泛化性与任务理解能力的路径。"
+      ]
+    },
+    {
+      "title": "联合实验室（至简动力 & 北京大学）研究员",
+      "company": "Simplexity Robotics",
+      "companyUrl": "https://www.simplexity.ai/",
+      "location": "中国北京",
+      "start": "2025-09-01",
+      "category": "industry",
+      "roleType": "research",
+      "summary": "在联合实验室（至简动力 & 北京大学）担任研究员，面向真实移动操纵场景推进 VLA 在机器人系统中的落地，覆盖任务理解、动作生成、执行反馈与真机部署。",
+      "highlights": [
+        "系统性优化机器人全身控制与移动-操纵耦合建模，提升复杂运动状态下动作生成的稳定性与一致性。",
+        "融合关节力矩等本体感知信号，增强模型对机器人物理状态的感知能力。",
+        "引入 Human-in-the-Loop 强化学习机制，结合人类在线反馈持续优化策略。",
+        "将多任务多视角的人手数据手套采集数据融入 VLA 预训练与下游任务训练，提升 OOD 场景泛化能力。",
+        "熟练部署并操作 Galaxea R1 Lite 与 Franka Emika Panda，覆盖真机数据采集、清洗、模型训练和测试验证。",
+        "熟悉 3D 打印机器人零部件设计与制作流程，支持快速结构迭代与真实系统调试。"
+      ]
+    },
+    {
+      "title": "研究实习生，具身多模态大模型研究中心",
+      "company": "北京智源人工智能研究院（BAAI）",
+      "companyUrl": "https://www.baai.ac.cn/",
+      "location": "中国北京",
+      "start": "2024-08-01",
+      "end": "2025-08-01",
+      "category": "research",
+      "roleType": "research",
+      "summary": "参与开源项目 RoboBrain 1.0 与 2.0，并共同提出端到端 VLA 移动操作框架 AC-DiT，在多个基准上达到 SOTA。",
+      "highlights": [
+        "共同建设 RoboBrain 1.0 与 2.0，增强 LLM/VLM 的空间理解与时序建模能力。",
+        "共同提出 AC-DiT 端到端 VLA 框架，在多个基准上达到 SOTA。",
+        "负责 Mobile ALOHA 与复合式移动操作平台的硬件调试和真实机器人数据采集。",
+        "构建跨仿真器的移动操作数据集与基准。"
+      ]
+    }
+  ]
+}

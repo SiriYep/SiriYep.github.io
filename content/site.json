@@ -1,0 +1,162 @@
+{
+  "_comment": "Primary editable homepage content. Update this file directly; the one-time al-folio migration has been completed.",
+  "template": "terminal",
+  "components": {},
+  "sections": [
+    "hero",
+    "bio",
+    "newsDisplay",
+    "selectedPublications",
+    "journey",
+    "skills",
+    "accomplishments",
+    "contact",
+    "footer"
+  ],
+  "name": {
+    "full": "Siyuan Qian",
+    "first": "Siyuan",
+    "nickname": "Siyuan",
+    "last": "Qian",
+    "display": "Siyuan Qian",
+    "authorVariants": [
+      "Siyuan Qian",
+      "Siyuan Qian",
+      "Qian Siyuan"
+    ]
+  },
+  "title": "Hi, I'm Siyuan Qian",
+  "tagline": "I'm a Ph.D. candidate at Peking University HMI Lab, advised by Prof. Shanghang Zhang. My research centers on Embodied AI, with interests in VLA and World Models. I mainly investigate long-horizon robotic tasks in mobile manipulation and ultra-long-horizon manipulation scenarios.",
+  "avatar": "My_Photo.jpg",
+  "terminal": {
+    "username": "siriyep",
+    "rotatingSubtitles": [
+      "research embodied AI",
+      "build VLA systems",
+      "work with real robots",
+      "study world models",
+      "explore VLM reasoning",
+      "bridge research and deployment",
+      "model long-horizon actions"
+    ],
+    "skills": [
+      {
+        "name": "Embodied AI",
+        "description": "Building AI systems that perceive, reason, and act through robots in physical environments."
+      },
+      {
+        "name": "Vision-Language-Action Models",
+        "description": "Models that map multimodal observations and language goals into executable robot actions."
+      },
+      {
+        "name": "World Models",
+        "description": "Learning predictive models of environment dynamics for planning and long-horizon decision-making."
+      },
+      {
+        "name": "Vision-Language Models",
+        "description": "Multimodal perception and reasoning over images, videos, and language instructions."
+      },
+      {
+        "name": "Mobile Manipulation",
+        "description": "Whole-body and mobile-base manipulation with real robotic platforms."
+      },
+      {
+        "name": "PyTorch",
+        "description": "Deep learning training, evaluation, and deployment workflows."
+      },
+      {
+        "name": "ROS/ROS2",
+        "description": "Robot middleware for sensors, control, data collection, and system integration."
+      },
+      {
+        "name": "Robot Simulators",
+        "description": "Simulation pipelines for data generation, benchmarking, and task validation."
+      },
+      {
+        "name": "3D Printing",
+        "description": "Rapid hardware prototyping for robot components and experimental fixtures."
+      },
+      {
+        "name": "VR Teleoperation",
+        "description": "Human data collection and robot control through immersive teleoperation interfaces."
+      },
+      {
+        "name": "Multi-Agent Systems",
+        "description": "Coordination and interaction among multiple agents in embodied environments."
+      },
+      {
+        "name": "Research-to-Deployment",
+        "description": "Taking models from papers and benchmarks into real robot systems."
+      },
+      {
+        "name": "Human-in-the-Loop RL",
+        "description": "Using online human feedback to improve robustness and adaptation."
+      },
+      {
+        "name": "World Action Models",
+        "description": "Action-aware world models for long-horizon embodied task planning."
+      },
+      {
+        "name": "Proprioceptive Modeling",
+        "description": "Modeling joint, force, and robot-state signals to improve action generation."
+      }
+    ],
+    "timezone": "Asia/Shanghai"
+  },
+  "contact": {
+    "email": "qiansiyuan@stu.pku.edu.cn",
+    "academicEmail": "qiansiyuan@stu.pku.edu.cn",
+    "personalEmail": "siriyep@gmail.com",
+    "hiringEmail": "siriyep@gmail.com",
+    "location": "Beijing, China"
+  },
+  "social": {
+    "github": "https://github.com/SiriYep",
+    "linkedin": "",
+    "medium": "",
+    "googleScholar": "https://scholar.google.com/citations?user=X2ekEX8AAAAJ",
+    "twitter": "",
+    "youtube": "",
+    "bilibili": "",
+    "zhihu": "",
+    "csdn": "",
+    "blog": "",
+    "cv": "/cv.pdf"
+  },
+  "pets": [],
+  "features": {
+    "publications": true,
+    "projects": true,
+    "articles": false,
+    "experience": true,
+    "news": true,
+    "pets": false,
+    "guide": false
+  },
+  "heroSocialIcons": [
+    {
+      "platform": "github",
+      "icon": "FaGithub",
+      "label": "GitHub",
+      "color": "#333333"
+    },
+    {
+      "platform": "googleScholar",
+      "icon": "SiGooglescholar",
+      "label": "Google Scholar",
+      "color": "#4285F4"
+    },
+    {
+      "platform": "cv",
+      "icon": "FaFileAlt",
+      "label": "CV",
+      "color": "#5E81AC"
+    }
+  ],
+  "selectedPublicationIds": [
+    "chen2025acdit",
+    "wu2025robomind",
+    "ge2023cot",
+    "dai2025implicit"
+  ]
+}

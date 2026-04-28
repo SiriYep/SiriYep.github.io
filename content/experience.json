@@ -1,0 +1,76 @@
+{
+  "education": {
+    "courses": [
+      {
+        "course": "Ph.D. in Computer Applied Technology, School of Computer Science",
+        "institution": "PKU / Peking University",
+        "year": "2022-2027"
+      },
+      {
+        "course": "B.Eng. in Electronic Information Engineering",
+        "institution": "BUAA / Beihang University",
+        "year": "2018-2022"
+      }
+    ]
+  },
+  "reviewing": [
+    { "venue": "ECCV 2026", "role": "Reviewer" },
+    { "venue": "ICML 2026", "role": "Reviewer" },
+    { "venue": "NeurIPS 2025", "role": "Reviewer" },
+    { "venue": "ICML 2025", "role": "Reviewer" },
+    { "venue": "ECCV 2024", "role": "Reviewer" }
+  ],
+  "timeline": [
+    {
+      "title": "Research Intern",
+      "company": "Beijing Innovation Center of Humanoid Robotics",
+      "companyUrl": "https://www.x-humanoid.com/",
+      "location": "Beijing, China",
+      "start": "2026-03-01",
+      "category": "research",
+      "roleType": "research",
+      "summary": "Designing memory systems and World Action Models for embodied world models, improving long-horizon task planning and reliable generation in robotic scenarios.",
+      "highlights": [
+        "Designed an embodied memory system to reduce temporal inconsistency and memory drift in long-video world model generation.",
+        "Built a World Action Model around the memory system to improve long-horizon robot task planning.",
+        "Explored how world models can strengthen VLA generalization and task understanding."
+      ]
+    },
+    {
+      "title": "Joint Lab (Simplexity Robotics & PKU) Researcher",
+      "company": "Simplexity Robotics",
+      "companyUrl": "https://www.simplexity.ai/",
+      "location": "Beijing, China",
+      "start": "2025-09-01",
+      "category": "industry",
+      "roleType": "research",
+      "summary": "Conducted research in the Joint Lab (Simplexity Robotics & PKU) on VLA deployment in real mobile manipulation scenarios, spanning task understanding, action generation, execution feedback, and robot-system deployment.",
+      "highlights": [
+        "Optimized whole-body control and mobile-manipulation coupling for stable action generation under complex motion states.",
+        "Explored robot proprioception modeling by integrating joint-torque and other physical-state signals.",
+        "Introduced Human-in-the-Loop reinforcement learning with online human feedback to improve real-world adaptability and robustness.",
+        "Incorporated multi-task, multi-view human data collected from data gloves into VLA pretraining and downstream training.",
+        "Deployed and operated Galaxea R1 Lite and Franka Emika Panda robots end-to-end, covering data collection, cleaning, training, testing, and validation.",
+        "Designed and fabricated 3D-printed robot components to support rapid hardware iteration and system debugging."
+      ]
+    },
+    {
+      "title": "Research Intern, Embodied Multimodal LLM Research Center",
+      "company": "Beijing Academy of Artificial Intelligence (BAAI)",
+      "companyUrl": "https://www.baai.ac.cn/",
+      "location": "Beijing, China",
+      "start": "2024-08-01",
+      "end": "2025-08-01",
+      "category": "research",
+      "roleType": "research",
+      "summary": "Contributed to RoboBrain 1.0/2.0 and co-proposed AC-DiT, an end-to-end VLA framework for mobile manipulation with state-of-the-art benchmark performance.",
+      "highlights": [
+        "Co-built RoboBrain 1.0/2.0 to improve LLM/VLM spatial understanding, temporal modeling, and long-chain reasoning.",
+        "Co-proposed AC-DiT, an end-to-end VLA framework that achieved SOTA on multiple mobile-manipulation benchmarks.",
+        "Handled hardware debugging, real-robot data collection, training, and testing on Mobile ALOHA and compound mobile manipulators.",
+        "Built mobile-manipulation datasets and benchmarks across multiple simulators, including VR and SpaceMouse teleoperation pipelines.",
+        "Led construction of robot digital assets across simulators, including 100+ objects and 10+ scenes."
+      ]
+    }
+  ]
+}

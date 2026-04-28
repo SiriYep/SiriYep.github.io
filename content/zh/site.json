@@ -1,0 +1,162 @@
+{
+  "_comment": "当前主页的可编辑内容源。旧版 al-folio 迁移已经完成，后续请直接维护本文件。",
+  "template": "terminal",
+  "components": {},
+  "sections": [
+    "hero",
+    "bio",
+    "newsDisplay",
+    "selectedPublications",
+    "journey",
+    "skills",
+    "accomplishments",
+    "contact",
+    "footer"
+  ],
+  "name": {
+    "full": "Siyuan Qian",
+    "first": "Siyuan",
+    "nickname": "Siyuan",
+    "last": "Qian",
+    "display": "Siyuan Qian",
+    "authorVariants": [
+      "Siyuan Qian",
+      "Siyuan Qian",
+      "Qian Siyuan"
+    ]
+  },
+  "title": "你好，我是 Siyuan Qian",
+  "tagline": "我是北京大学 HMI Lab 博士候选人，导师为张尚航教授。我的研究围绕具身智能展开，兴趣包括 VLA 与世界模型，主要探索移动操作和超长程操作场景中的长程机器人任务。",
+  "avatar": "My_Photo.jpg",
+  "terminal": {
+    "username": "siriyep",
+    "rotatingSubtitles": [
+      "研究具身智能",
+      "构建 VLA 系统",
+      "部署真实机器人",
+      "探索世界模型",
+      "研究 VLM 推理",
+      "连接研究与落地",
+      "建模长程动作"
+    ],
+    "skills": [
+      {
+        "name": "具身智能",
+        "description": "构建能在物理环境中感知、推理并通过机器人行动的智能系统。"
+      },
+      {
+        "name": "视觉-语言-动作模型",
+        "description": "将多模态观测与语言目标映射为可执行机器人动作的模型。"
+      },
+      {
+        "name": "世界模型",
+        "description": "学习环境动态的预测模型，用于规划与长程决策。"
+      },
+      {
+        "name": "视觉语言模型",
+        "description": "围绕图像、视频与语言指令的多模态感知和推理。"
+      },
+      {
+        "name": "移动操作",
+        "description": "真实机器人平台上的全身控制与移动底盘操作。"
+      },
+      {
+        "name": "PyTorch",
+        "description": "深度学习训练、评测与部署工作流。"
+      },
+      {
+        "name": "ROS/ROS2",
+        "description": "用于传感器、控制、数据采集和系统集成的机器人中间件。"
+      },
+      {
+        "name": "机器人仿真",
+        "description": "用于数据生成、基准测试与任务验证的仿真流水线。"
+      },
+      {
+        "name": "3D 打印",
+        "description": "机器人零部件与实验治具的快速硬件原型制作。"
+      },
+      {
+        "name": "VR 遥操作",
+        "description": "通过沉浸式遥操作界面进行人类数据采集与机器人控制。"
+      },
+      {
+        "name": "多智能体系统",
+        "description": "具身环境中多个智能体之间的协作与交互。"
+      },
+      {
+        "name": "研究到部署",
+        "description": "将论文和基准中的模型推进到真实机器人系统。"
+      },
+      {
+        "name": "Human-in-the-Loop 强化学习",
+        "description": "利用人类在线反馈提升模型鲁棒性与适应性。"
+      },
+      {
+        "name": "World Action Model",
+        "description": "面向长程具身任务规划的动作感知世界模型。"
+      },
+      {
+        "name": "本体感知建模",
+        "description": "建模关节、力和机器人状态信号，以提升动作生成质量。"
+      }
+    ],
+    "timezone": "Asia/Shanghai"
+  },
+  "contact": {
+    "email": "qiansiyuan@stu.pku.edu.cn",
+    "academicEmail": "qiansiyuan@stu.pku.edu.cn",
+    "personalEmail": "siriyep@gmail.com",
+    "hiringEmail": "siriyep@gmail.com",
+    "location": "中国北京"
+  },
+  "social": {
+    "github": "https://github.com/SiriYep",
+    "linkedin": "",
+    "medium": "",
+    "googleScholar": "https://scholar.google.com/citations?user=X2ekEX8AAAAJ",
+    "twitter": "",
+    "youtube": "",
+    "bilibili": "",
+    "zhihu": "",
+    "csdn": "",
+    "blog": "",
+    "cv": "/cv.pdf"
+  },
+  "pets": [],
+  "features": {
+    "publications": true,
+    "projects": true,
+    "articles": false,
+    "experience": true,
+    "news": true,
+    "pets": false,
+    "guide": false
+  },
+  "heroSocialIcons": [
+    {
+      "platform": "github",
+      "icon": "FaGithub",
+      "label": "GitHub",
+      "color": "#333333"
+    },
+    {
+      "platform": "googleScholar",
+      "icon": "SiGooglescholar",
+      "label": "Google Scholar",
+      "color": "#4285F4"
+    },
+    {
+      "platform": "cv",
+      "icon": "FaFileAlt",
+      "label": "CV",
+      "color": "#5E81AC"
+    }
+  ],
+  "selectedPublicationIds": [
+    "chen2025acdit",
+    "wu2025robomind",
+    "ge2023cot",
+    "dai2025implicit"
+  ]
+}

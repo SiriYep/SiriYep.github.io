@@ -1,0 +1,59 @@
+[
+  {
+    "title": "Highest Honor for Undergraduate Students in the College of Information Technology",
+    "org": "BUAA",
+    "date": "2022",
+    "kind": "honor",
+    "egg": "Top 0.3% among undergraduates in the College of Information Technology"
+  },
+  {
+    "title": "Highest Honor for Undergraduate Students in School of EE",
+    "org": "BUAA",
+    "date": "2022",
+    "kind": "honor",
+    "egg": "Top 3% in the School of Electronic Engineering"
+  },
+  {
+    "title": "Outstanding Graduate",
+    "org": "BUAA",
+    "date": "2022",
+    "kind": "honor",
+    "egg": "Top 10% in the major"
+  },
+  {
+    "title": "Grand Prize in Academic Competition Scholarship",
+    "org": "BUAA",
+    "date": "2021",
+    "kind": "scholarship"
+  },
+  {
+    "title": "First-class Academic Excellence Scholarship",
+    "org": "BUAA",
+    "date": "2021",
+    "kind": "scholarship"
+  },
+  {
+    "title": "First-class Innovation and Entrepreneurship Scholarship",
+    "org": "BUAA",
+    "date": "2021",
+    "kind": "scholarship"
+  },
+  {
+    "title": "University Merit Student",
+    "org": "BUAA",
+    "date": "2018-2022",
+    "kind": "honor"
+  },
+  {
+    "title": "Outstanding League Member",
+    "org": "BUAA",
+    "date": "2018-2022",
+    "kind": "honor"
+  },
+  {
+    "title": "Second-class Student Work Scholarship",
+    "org": "BUAA",
+    "date": "2018-2022",
+    "kind": "scholarship"
+  }
+]
