@@ -26,7 +26,7 @@
     ]
   },
   "title": "Hi, I'm Siyuan Qian",
-  "tagline": "I'm a Ph.D. candidate at Peking University HMI Lab, advised by Prof. Shanghang Zhang. My research centers on Embodied AI, with interests in VLA and World Models. I mainly investigate long-horizon robotic tasks in mobile manipulation and ultra-long-horizon manipulation scenarios.",
+  "tagline": "I'm a Ph.D. candidate at Peking University HMI Lab, advised by Prof. Shanghang Zhang. My research centers on Embodied AI, with interests in VLA and World Models. I focus on long-horizon robotic tasks, particularly in mobile manipulation and complex multi-stage manipulation.",
   "avatar": "My_Photo.jpg",
   "terminal": {
     "username": "siriyep",
