@@ -1,11 +1,12 @@
 import {
-  Box, Flex, IconButton, useColorMode, HStack, Link as ChakraLink, Image,
+  Box, Flex, IconButton, useColorMode, HStack, Link as ChakraLink,
   useDisclosure, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody,
   VStack, Divider, Button
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon, HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link, useLocation } from 'react-router-dom'
 import { FaGithub, FaLinkedin, FaMedium, FaEnvelope } from 'react-icons/fa'
+import { LuBot } from 'react-icons/lu'
 import { SiGooglescholar } from 'react-icons/si'
 import { useTranslation } from 'react-i18next'
 import { navItems, siteOwner } from '@/site.config'
@@ -62,17 +63,32 @@ const Navbar: React.FC = () => {
         <ChakraLink
           as={Link}
           to="/"
+          aria-label="TermHub home"
           display={{ base: 'none', md: 'flex' }}
           alignItems="center"
-          _hover={{ opacity: 0.85 }}
-          transition="opacity 0.15s"
+          justifyContent="center"
+          h="44px"
+          w="auto"
+          gap={2}
+          pr={2}
+          borderRadius="md"
+          color="#facc15"
+          _hover={{
+            bg: 'var(--hover-color)',
+            transform: 'translateY(-2px)',
+          }}
+          transition="all 0.2s"
         >
-          <Image
-            src={`${import.meta.env.BASE_URL}logo-icon.svg`}
-            alt="TermHub"
-            h="28px"
-            w="28px"
-          />
+          <Box as={LuBot} fontSize="2.6rem" flexShrink={0} />
+          <Box
+            as="span"
+            fontFamily="mono"
+            fontSize="1rem"
+            fontWeight={700}
+            lineHeight="1"
+          >
+            SiriYep
+          </Box>
         </ChakraLink>
 
         {/* Desktop nav (right aligned) */}

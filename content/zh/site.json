@@ -26,7 +26,7 @@
     ]
   },
   "title": "你好，我是 Siyuan Qian",
-  "tagline": "我是北京大学 HMI Lab 博士候选人，导师为张尚航教授。我的研究围绕具身智能展开，兴趣包括 VLA 与世界模型，专注于长程机器人任务，特别是移动操作和复杂多阶段操作场景。",
+  "tagline": "我是北京大学 HMI Lab 的博士，导师为仉尚航。我的研究方向聚焦在具身智能领域，兴趣主要集中在视觉-语言-动作模型（VLA）与世界模型（World Model），我专注于面向长程具身任务的一系列问题，包括移动操作与考察记忆能力复杂多阶段操作等。",
   "avatar": "My_Photo.jpg",
   "terminal": {
     "username": "siriyep",
@@ -154,6 +154,7 @@
     }
   ],
   "selectedPublicationIds": [
+    "chen2026lastr1",
     "chen2025acdit",
     "wu2025robomind",
     "ge2023cot",

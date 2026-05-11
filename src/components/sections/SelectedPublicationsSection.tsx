@@ -32,13 +32,14 @@ const PublicationCard = ({ pub }: { pub: any }) => {
   const { siteOwner } = useLocalizedData()
   const { isOpen: isAbstractOpen, onToggle: onToggleAbstract } = useDisclosure()
   const { isOpen: isImageOpen, onOpen: onImageOpen, onClose: onImageClose } = useDisclosure()
+  const cardBg = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
   const coFirstColor = useColorModeValue('gray.700', 'gray.200')
   const selfAuthorColor = useColorModeValue('cyan.600', 'cyan.300')
   const authorVariants = siteOwner.name.authorVariants as readonly string[]
 
   return (
-    <Box p={[4, 5, 6]} bg={useColorModeValue('white', 'gray.800')} borderRadius="md" border="1px solid" borderColor={borderColor} transition="all 0.2s" _hover={{ borderColor: useColorModeValue('cyan.300', 'cyan.600') }}>
+    <Box p={[4, 5, 6]} bg={cardBg} borderRadius="md" border="1px solid" borderColor={borderColor} transition="all 0.2s" _hover={{ borderColor: useColorModeValue('cyan.300', 'cyan.600') }}>
       <Flex direction={["column", "column", "row"]} gap={[4, 4, 6]} align="stretch">
         {pub.featuredImage && (
           <Box flexShrink={0} w={["full", "full", "300px"]} minH={["200px", "220px", "auto"]}
@@ -46,7 +47,7 @@ const PublicationCard = ({ pub }: { pub: any }) => {
             onKeyDown={(e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onImageOpen() } }}
             cursor="zoom-in" overflow="hidden" borderRadius="sm"
           >
-            <Image src={pub.featuredImage} alt={pub.title} w="full" h="full" objectFit="contain" bg={useColorModeValue('gray.50', 'gray.900')} p={1} transition="transform 0.3s" _hover={{ transform: 'scale(1.03)' }} />
+            <Image src={pub.featuredImage} alt={pub.title} w="full" h="full" objectFit="contain" bg={cardBg} p={1} transition="transform 0.3s" _hover={{ transform: 'scale(1.03)' }} />
           </Box>
         )}
         <VStack align="start" spacing={2.5} flex={1} justify="center">

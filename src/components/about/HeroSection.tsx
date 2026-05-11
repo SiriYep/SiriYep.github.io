@@ -1,10 +1,11 @@
 import { Box, VStack, Text, useColorModeValue, Image, HStack, Container, Stack, Link, Flex, SimpleGrid, Heading, Tooltip } from '@chakra-ui/react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { withBase } from '@/utils/asset'
 import DynamicIcon from '../DynamicIcon'
 import { useTranslation } from 'react-i18next'
-import { heroSocialIcons } from '@/site.config'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
+import { cvEntries } from '@/generated/cv-manifest'
 
 const MotionBox = motion(Box)
 const MotionText = motion(Text)
@@ -35,12 +36,20 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ title, avatar, research = [], researchLogos = {}, education = [], educationLogos = {} }: HeroSectionProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { siteOwner, siteConfig } = useLocalizedData()
+  const [isCvOpen, setIsCvOpen] = useState(false)
   const headingColor = useColorModeValue('gray.800', 'white')
   const textColor = useColorModeValue('gray.600', 'gray.400')
   const bg = useColorModeValue('gray.50', 'gray.900')
   const accentBg = useColorModeValue('blue.50', 'blue.900')
+  const itemHoverBg = useColorModeValue('gray.100', 'gray.700')
+  const logoShellBg = useColorModeValue('white', 'gray.800')
+  const logoShellBorder = useColorModeValue('gray.200', 'gray.700')
+  const socialIconColor = useColorModeValue('gray.400', 'gray.500')
+  const cvOptionBg = useColorModeValue('gray.100', 'gray.800')
+  const cvOptionText = useColorModeValue('gray.700', 'gray.300')
+  const cvOptionBorder = useColorModeValue('gray.200', 'gray.700')
   const emailLinks = [
     siteOwner.contact.academicEmail && {
       icon: 'FaGraduationCap',
@@ -53,6 +62,25 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
       value: siteOwner.contact.personalEmail,
     },
   ].filter(Boolean) as { icon: string; label: string; value: string }[]
+  const heroSocialIcons = (siteConfig.heroSocialIcons ?? []).map(item => ({
+    ...item,
+    href: (siteConfig.social as Record<string, string>)[item.platform] ?? '',
+  }))
+  const isZh = i18n.language.startsWith('zh')
+  const cvUpdatedLabel = isZh ? '最新更新' : 'Last updated'
+  const getCvLabel = (lang: string) => {
+    if (isZh) return lang === 'zh' ? '中文简历' : '英文简历'
+    return lang === 'zh' ? 'Chinese CV' : 'English CV'
+  }
+  const getCvTooltipLabel = (entry: { lang: string; updated: string }) => {
+    const label = getCvLabel(entry.lang)
+    return (
+      <VStack spacing={0.5} align="center">
+        <Text as="span" fontWeight="semibold">{label}</Text>
+        <Text as="span" opacity={0.85}>{cvUpdatedLabel}: {entry.updated}</Text>
+      </VStack>
+    )
+  }
 
   return (
     <Box
@@ -177,27 +205,37 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 {research.length > 0 && (
                   <VStack align="start" spacing={2}>
                     <Heading size="xs" color={textColor} textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                      Current Research
+                      {t('about.researchExperience', 'Research & Internships')}
                     </Heading>
                     {research.map((item, index) => {
                       const logo = researchLogos[item.lab]
                       const cardHref = item.advisorUrl || item.link
                       return (
                         <Link key={index} href={cardHref} isExternal _hover={{ textDecoration: 'none' }} w="full">
-                          <HStack spacing={2.5} p={2} borderRadius="md" transition="all 0.2s" _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}>
-                            {logo ? (
-                              <Image src={withBase(logo)} alt={item.lab} w="28px" h="28px" borderRadius="sm" objectFit="contain" flexShrink={0} />
-                            ) : (
-                              <Flex w="28px" h="28px" borderRadius="sm" bg={accentBg} align="center" justify="center" flexShrink={0}>
+                          <HStack spacing={2.5} p={2} minH="46px" align="center" borderRadius="md" transition="all 0.2s" _hover={{ bg: itemHoverBg }}>
+                            <Flex
+                              w="32px"
+                              h="32px"
+                              borderRadius="md"
+                              bg={logo ? logoShellBg : accentBg}
+                              border="1px solid"
+                              borderColor={logo ? logoShellBorder : 'transparent'}
+                              align="center"
+                              justify="center"
+                              flexShrink={0}
+                            >
+                              {logo ? (
+                                <Image src={withBase(logo)} alt={item.lab} maxW="26px" maxH="26px" objectFit="contain" />
+                              ) : (
                                 <Text fontSize="sm">{item.emoji}</Text>
-                              </Flex>
-                            )}
-                            <VStack align="start" spacing={0} flex={1}>
+                              )}
+                            </Flex>
+                            <VStack align="start" spacing={0} flex={1} minW={0}>
                               <Text fontSize={["xs", "sm"]} fontWeight="medium" lineHeight="short" color={headingColor}>{item.lab}</Text>
                               <Text fontSize="2xs" color={textColor} lineHeight="short" noOfLines={1}>
                                 {item.advisor ? (
                                   <>
-                                    <Text as="span" color={textColor}>Advisor: </Text>
+                                    <Text as="span" color={textColor}>{t('hero.advisorPrefix', 'Advisor: ')}</Text>
                                     <Text as="span" color="cyan.400" fontWeight="semibold">{item.advisor}</Text>
                                   </>
                                 ) : item.focus}
@@ -212,20 +250,30 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 {education.length > 0 && (
                   <VStack align="start" spacing={2}>
                     <Heading size="xs" color={textColor} textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                      Education
+                      {t('about.educationJourney', 'Education')}
                     </Heading>
                     {education.map((item, index) => {
                       const logo = educationLogos[item.institution]
                       return (
-                        <HStack key={index} spacing={2.5} p={2} borderRadius="md" w="full">
-                          {logo ? (
-                            <Image src={withBase(logo)} alt={item.institution} w="28px" h="28px" borderRadius="sm" objectFit="contain" flexShrink={0} />
-                          ) : (
-                            <Flex w="28px" h="28px" borderRadius="sm" bg={accentBg} align="center" justify="center" flexShrink={0}>
+                        <HStack key={index} spacing={2.5} p={2} minH="46px" align="center" borderRadius="md" w="full">
+                          <Flex
+                            w="32px"
+                            h="32px"
+                            borderRadius="md"
+                            bg={logo ? logoShellBg : accentBg}
+                            border="1px solid"
+                            borderColor={logo ? logoShellBorder : 'transparent'}
+                            align="center"
+                            justify="center"
+                            flexShrink={0}
+                          >
+                            {logo ? (
+                              <Image src={withBase(logo)} alt={item.institution} maxW="26px" maxH="26px" objectFit="contain" />
+                            ) : (
                               <Text fontSize="sm" fontWeight="bold" color="blue.500">{item.institution.charAt(0)}</Text>
-                            </Flex>
-                          )}
-                          <VStack align="start" spacing={0} flex={1}>
+                            )}
+                          </Flex>
+                          <VStack align="start" spacing={0} flex={1} minW={0}>
                             <Text fontSize={["xs", "sm"]} fontWeight="medium" lineHeight="short" color={headingColor}>{item.course}</Text>
                             <Text fontSize="2xs" color={textColor} lineHeight="short">{item.institution} · {item.year}</Text>
                           </VStack>
@@ -291,24 +339,88 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 border="1px solid"
                 borderColor={useColorModeValue('gray.200', 'gray.700')}
               />
-              {/* Social icons row below avatar */}
-              <HStack spacing={[1, 1.5]} justify="center">
-                {heroSocialIcons.map((item) => (
-                  <Tooltip key={item.label} label={item.label} fontSize="xs" hasArrow placement="bottom" openDelay={200} fontFamily="mono">
-                    <Link href={item.href} isExternal _hover={{ textDecoration: 'none' }}>
+              <Box position="relative" w="full" display="flex" justifyContent="center">
+                {/* Social icons row below avatar */}
+                <HStack spacing={[1, 1.5]} justify="center">
+                  {heroSocialIcons.map((item) => {
+                    const isCv = item.platform === 'cv'
+                    const icon = (
                       <Box
+                        as={isCv ? 'button' : 'span'}
+                        aria-expanded={isCv ? isCvOpen : undefined}
+                        aria-label={item.label}
+                        display="inline-flex"
+                        alignItems="center"
+                        justifyContent="center"
                         p={1.5}
+                        bg="transparent"
+                        border="0"
                         cursor="pointer"
-                        color={useColorModeValue('gray.400', 'gray.500')}
+                        color={socialIconColor}
+                        lineHeight="1"
                         transition="all 0.2s"
                         _hover={{ color: item.color, transform: 'scale(1.2)' }}
+                        _focusVisible={{ outline: '1px solid', outlineColor: item.color }}
+                        onClick={isCv ? () => setIsCvOpen(open => !open) : undefined}
                       >
                         <DynamicIcon name={item.icon} boxSize={[3, 3.5]} />
                       </Box>
-                    </Link>
-                  </Tooltip>
-                ))}
-              </HStack>
+                    )
+
+                    return (
+                      <Tooltip key={item.label} label={item.label} fontSize="xs" hasArrow placement="bottom" openDelay={200} fontFamily="mono">
+                        {isCv ? icon : (
+                          <Link href={item.href} isExternal _hover={{ textDecoration: 'none' }}>
+                            {icon}
+                          </Link>
+                        )}
+                      </Tooltip>
+                    )
+                  })}
+                </HStack>
+                <HStack
+                  spacing={1.5}
+                  justify="center"
+                  flexWrap="wrap"
+                  position="absolute"
+                  top="calc(100% + 4px)"
+                  left="50%"
+                  zIndex={10}
+                  w="max-content"
+                  maxW="260px"
+                  opacity={isCvOpen ? 1 : 0}
+                  pointerEvents={isCvOpen ? 'auto' : 'none'}
+                  visibility={isCvOpen ? 'visible' : 'hidden'}
+                  transform={isCvOpen ? 'translate(-50%, 0)' : 'translate(-50%, -4px)'}
+                  transition="opacity 0.16s ease, transform 0.16s ease, visibility 0.16s"
+                >
+                  {cvEntries.map((entry) => (
+                    <Tooltip key={entry.lang} label={getCvTooltipLabel(entry)} fontSize="xs" hasArrow placement="bottom" openDelay={200} fontFamily="mono">
+                      <Link
+                        href={withBase(entry.href)}
+                        isExternal
+                        display="inline-flex"
+                        alignItems="center"
+                        gap={1.5}
+                        px={2.5}
+                        py={1}
+                        bg={cvOptionBg}
+                        color={cvOptionText}
+                        border="1px solid"
+                        borderColor={cvOptionBorder}
+                        borderRadius="sm"
+                        fontFamily="mono"
+                        fontSize="2xs"
+                        _hover={{ color: 'cyan.400', borderColor: 'cyan.400', textDecoration: 'none' }}
+                        transition="all 0.15s"
+                      >
+                        <DynamicIcon name="FaFileAlt" boxSize={2.5} />
+                        <Text as="span">{getCvLabel(entry.lang)}</Text>
+                      </Link>
+                    </Tooltip>
+                  ))}
+                </HStack>
+              </Box>
               {((siteConfig.pets ?? []) as { name: string; emoji: string; image: string }[]).length > 0 && (
                 <HStack spacing={[4, 5]} justify="center">
                   {((siteConfig.pets ?? []) as { name: string; emoji: string; image: string }[]).map((pet) => (
