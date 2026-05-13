@@ -36,7 +36,8 @@
   },
   "hero": {
     "greeting": "你好，我是",
-    "sometimesI": "我有时会"
+    "sometimesI": "我有时会",
+    "advisorPrefix": "导师："
   },
   "footer": {
     "poweredBy": "由以下技术驱动"
@@ -95,7 +96,7 @@
     "quickLinks": "快速链接",
     "email": "邮箱：",
     "academicEmailLabel": "学术邮箱",
-    "personalEmailLabel": "私人邮箱",
+    "personalEmailLabel": "个人邮箱",
     "linkedin": "领英：",
     "github": "GitHub：",
     "medium": "Medium：",

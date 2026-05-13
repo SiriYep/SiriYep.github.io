@@ -267,16 +267,28 @@ const Experience: React.FC = () => {
               {education.map(edu => {
                 const logo = institutionLogos[edu.institution]
                 return (
-                  <HStack key={edu.course} fontSize="xs" spacing={2}>
-                    {logo ? (
-                      <Image src={withBase(logo)} alt="" w="16px" h="16px" borderRadius="sm" objectFit="contain" flexShrink={0} />
-                    ) : (
-                      <Box w="16px" h="16px" borderRadius="sm" bg={`${termCommand}20`} flexShrink={0} />
-                    )}
-                    <Text color={termText} fontWeight="medium">{edu.course}</Text>
-                    <Text color={termSecondary}>·</Text>
-                    <Text color={termCommand}>{edu.institution}</Text>
-                    <Text color={termSecondary} ml="auto" flexShrink={0}>{edu.year}</Text>
+                  <HStack key={edu.course} fontSize="xs" spacing={2} align="center" minH="24px">
+                    <Flex
+                      w="20px"
+                      h="20px"
+                      borderRadius="sm"
+                      bg={logo ? (isDark ? 'rgba(255,255,255,0.04)' : 'white') : `${termCommand}20`}
+                      border="1px solid"
+                      borderColor={logo ? termBorder : 'transparent'}
+                      align="center"
+                      justify="center"
+                      flexShrink={0}
+                    >
+                      {logo && (
+                        <Image src={withBase(logo)} alt="" maxW="16px" maxH="16px" objectFit="contain" />
+                      )}
+                    </Flex>
+                    <Flex flex="1" minW={0} align="center" gap={2} flexWrap={['wrap', 'nowrap']}>
+                      <Text color={termText} fontWeight="medium" minW={0}>{edu.course}</Text>
+                      <Text color={termSecondary} flexShrink={0}>·</Text>
+                      <Text color={termCommand} minW={0}>{edu.institution}</Text>
+                    </Flex>
+                    <Text color={termSecondary} flexShrink={0}>{edu.year}</Text>
                   </HStack>
                 )
               })}
@@ -372,18 +384,28 @@ const Experience: React.FC = () => {
                         onClick={() => toggleExpanded(id)}
                       >
                         {/* Logo */}
-                        <Box flexShrink={0} mt="2px">
+                        <Flex
+                          w="36px"
+                          h="36px"
+                          borderRadius="md"
+                          bg={icon ? (isDark ? 'rgba(255,255,255,0.04)' : 'white') : `${rtColor}18`}
+                          color={rtColor}
+                          border="1px solid"
+                          borderColor={icon ? termBorder : 'transparent'}
+                          align="center"
+                          justify="center"
+                          flexShrink={0}
+                        >
                           {icon ? (
                             <Image
                               src={resolveIconSrc(icon)}
                               alt=""
-                              w="32px" h="32px"
-                              borderRadius="md"
+                              maxW="30px"
+                              maxH="30px"
                               objectFit="contain"
                               fallback={
                                 <Flex
-                                  w="32px" h="32px" borderRadius="md"
-                                  bg={`${rtColor}18`} color={rtColor}
+                                  w="full" h="full"
                                   align="center" justify="center"
                                   fontSize="sm" fontWeight="bold"
                                 >
@@ -392,16 +414,11 @@ const Experience: React.FC = () => {
                               }
                             />
                           ) : (
-                            <Flex
-                              w="32px" h="32px" borderRadius="md"
-                              bg={`${rtColor}18`} color={rtColor}
-                              align="center" justify="center"
-                              fontSize="sm" fontWeight="bold"
-                            >
+                            <Text fontSize="sm" fontWeight="bold">
                               {exp.company.charAt(0)}
-                            </Flex>
+                            </Text>
                           )}
-                        </Box>
+                        </Flex>
 
                         {/* Content */}
                         <Box flex="1" minW={0}>

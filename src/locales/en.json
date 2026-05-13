@@ -36,7 +36,8 @@
   },
   "hero": {
     "greeting": "Hi there, I'm",
-    "sometimesI": "Sometimes I"
+    "sometimesI": "Sometimes I",
+    "advisorPrefix": "Advisor: "
   },
   "footer": {
     "poweredBy": "Powered by"

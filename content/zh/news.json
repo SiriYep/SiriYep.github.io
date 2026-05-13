@@ -1,5 +1,33 @@
 [
   {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "📄 LaST-R1 技术报告",
+    "description": "我们的技术报告 LaST-R1: Reinforcing Action via Adaptive Physical Latent Reasoning for VLA Models 已发布在 arXiv。",
+    "date": "Apr 2026",
+    "sortDate": "2026-04-30",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2604.28192",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "项目",
+        "url": "https://siriyep.github.io/last-r1/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "PDF",
+        "url": "https://arxiv.org/pdf/2604.28192",
+        "icon": "FaFileAlt"
+      }
+    ]
+  },
+  {
     "type": "experience",
     "badge": "实习",
     "count": 1,

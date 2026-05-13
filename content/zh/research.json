@@ -3,7 +3,7 @@
     {
       "lab": "北京大学 HMI Lab",
       "emoji": "🤖",
-      "advisor": "张尚航教授",
+      "advisor": "仉尚航",
       "advisorUrl": "https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao",
       "focus": "面向真实机器人场景的具身智能、VLA、世界模型与 VLM",
       "link": "https://idm.pku.edu.cn/",
@@ -16,7 +16,7 @@
       "link": "https://www.x-humanoid.com/"
     },
     {
-      "lab": "Simplexity Robotics",
+      "lab": "至简动力",
       "emoji": "🧪",
       "focus": "面向真实移动操作场景的 VLA 部署与机器人系统研究",
       "link": "https://www.simplexity.ai/"

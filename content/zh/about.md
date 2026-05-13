@@ -13,7 +13,7 @@ journeyPhases:
     period: 2022 - 至今
     title: 计算机应用技术博士生
     org: PKU / 北京大学
-    description: 在 **PKU / 北京大学 HMI Lab** 攻读博士学位，导师为张尚航教授，研究多模态感知融合和具身智能场景中的自适应动作决策。
+    description: 在 **PKU / 北京大学 HMI Lab** 攻读博士学位，导师为仉尚航，研究多模态感知融合和具身智能场景中的自适应动作决策。
     tags:
       - 具身智能
       - VLA
@@ -32,7 +32,7 @@ journeyPhases:
   - kind: experience
     period: 2025.09 - 至今
     title: 联合实验室（至简动力 & 北京大学）研究员
-    org: Simplexity Robotics
+    org: 至简动力
     description: 在 **联合实验室（至简动力 & 北京大学）** 担任研究员，推进真实移动操纵场景中的 **VLA 部署**，包括全身控制、移动-操纵耦合、本体感知建模、Human-in-the-Loop 强化学习和人手数据驱动的泛化能力提升。
     tags:
       - 真实机器人
@@ -58,7 +58,7 @@ version:
         - 完成一次性 al-folio 导入后，作为可直接编辑的 TermHub 内容维护
 ---
 
-我目前是[北京大学](https://www.pku.edu.cn/)计算机学院[视觉技术国家工程研究中心](https://idm.pku.edu.cn/)博士生，导师为[张尚航教授](https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao)。本科毕业于[北京航空航天大学](https://www.buaa.edu.cn/)电子信息工程专业。
+我目前是[北京大学](https://www.pku.edu.cn/)计算机学院[视觉技术国家工程研究中心](https://idm.pku.edu.cn/)博士生，导师为[仉尚航](https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao)。本科毕业于[北京航空航天大学](https://www.buaa.edu.cn/)电子信息工程专业。
 
 我同时在联合实验室（至简动力 & 北京大学）担任研究员，并在北京人形机器人创新中心担任研究实习生。
 
