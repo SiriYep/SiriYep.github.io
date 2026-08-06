@@ -505,23 +505,12 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
         </Flex>
       </Flex>
 
-      {/* ═══ Scrollable content area ═══ */}
-      <Box
-        flex={1}
-        bg={termBg}
-        color={termText}
-        overflowY="auto"
-        maxH={["350px", "450px", "550px"]}
-        sx={{
-          '&::-webkit-scrollbar': { width: '6px', background: 'transparent' },
-          '&::-webkit-scrollbar-thumb': { background: tc.border, borderRadius: '3px' },
-        }}
-      >
-        {/* Hint line - zsh-style syntax highlighting */}
+      {/* Hint line — fixed above the table, zsh-style syntax highlighting */}
         <Box
           px={[2, 3]}
           py={[0.5, 1]}
           fontSize={["3xs", "2xs"]}
+          bg={termBg}
           color={termInfo}
           borderBottom={`1px solid ${termBorder}`}
           display={isVerySmallScreen ? "none" : "block"}
@@ -543,13 +532,9 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           </Flex>
         </Box>
 
-        {/* Table header — syntax highlighted, frozen while rows scroll */}
-        <Box p={[0.5, 1, 2]}>
+        {/* Table header — part of the window chrome, never scrolls */}
+        <Box bg={termBg} color={termText} px={[0.5, 1, 2]} pt={[0.5, 1, 2]}>
           <Flex
-            position="sticky"
-            top={0}
-            zIndex={2}
-            bg={termBg}
             borderBottom={`1px solid ${termBorder}`}
             py={[0.5, 1]}
             fontSize={["2xs", "xs", "13px"]}
@@ -565,7 +550,21 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
             <Text w={linksColumnWidth} color={termWarning} display={["none", "block"]}>{t('newsTimeline.links')}</Text>
             <Text w={controlColumnWidth} color={termPrompt} textAlign="center">{isVerySmallScreen ? "+" : t('newsTimeline.ctrl')}</Text>
           </Flex>
+        </Box>
 
+        {/* ═══ Scrollable rows area ═══ */}
+        <Box
+          flex={1}
+          bg={termBg}
+          color={termText}
+          overflowY="auto"
+          maxH={["350px", "450px", "550px"]}
+          sx={{
+            '&::-webkit-scrollbar': { width: '6px', background: 'transparent' },
+            '&::-webkit-scrollbar-thumb': { background: tc.border, borderRadius: '3px' },
+          }}
+        >
+          <Box px={[0.5, 1, 2]} pb={[0.5, 1, 2]}>
           {/* Table rows */}
           {news.map((item, index) => (
             <Box
