@@ -1,5 +1,5 @@
 import { Box, VStack, Text, useColorModeValue, Image, HStack, Container, Stack, Link, Flex, SimpleGrid, Heading, Tooltip } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { withBase } from '@/utils/asset'
 import DynamicIcon from '../DynamicIcon'
@@ -13,6 +13,22 @@ const MotionText = motion(Text)
 // Fixed row height for the rotating-subtitle ticker (constant across breakpoints
 // so the animated y offsets always line up with the visible window).
 const TICKER_ROW_PX = 22
+
+const copyText = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text)
+  } catch {
+    // Clipboard API unavailable (non-secure context) — legacy fallback
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+  }
+}
 
 interface ResearchItem {
   lab: string
@@ -43,6 +59,17 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
   const { t, i18n } = useTranslation()
   const { siteOwner, siteConfig } = useLocalizedData()
   const [isCvOpen, setIsCvOpen] = useState(false)
+  const [copiedEmail, setCopiedEmail] = useState<string | null>(null)
+  const copyTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => () => clearTimeout(copyTimer.current), [])
+
+  const handleCopyEmail = (email: { label: string; value: string }) => {
+    void copyText(email.value)
+    setCopiedEmail(email.label)
+    clearTimeout(copyTimer.current)
+    copyTimer.current = setTimeout(() => setCopiedEmail(null), 1600)
+  }
   const headingColor = useColorModeValue('gray.800', 'white')
   const textColor = useColorModeValue('gray.600', 'gray.400')
   const bg = useColorModeValue('gray.50', 'gray.900')
@@ -360,10 +387,17 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 {siteConfig.tagline ?? ''}
               </Text>
               <VStack spacing={1.5} align={['center', 'center', 'flex-start']} flexShrink={0}>
-                {emailLinks.map((email) => (
-                  <Tooltip key={email.label} label={`${email.label}: mailto:${email.value}`} fontSize="xs" hasArrow placement="top" openDelay={200} fontFamily="mono">
-                    <Link href={`mailto:${email.value}`} isExternal _hover={{ textDecoration: 'none' }}>
+                {emailLinks.map((email) => {
+                  const isCopied = copiedEmail === email.label
+                  return (
+                    <Tooltip key={email.label} label={t('contact.clickToCopy', 'Click to copy')} fontSize="xs" hasArrow placement="top" openDelay={200} fontFamily="mono">
                       <HStack
+                        as="button"
+                        type="button"
+                        aria-label={`${t('contact.clickToCopy', 'Click to copy')}: ${email.value}`}
+                        onClick={() => handleCopyEmail(email)}
+                        cursor="pointer"
+                        bg="transparent"
                         spacing={1.5}
                         px={2.5}
                         py={1}
@@ -374,17 +408,25 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                         transition="border-color 0.15s ease, color 0.15s ease"
                         _hover={{ borderColor: 'accent', color: 'accent' }}
                       >
-                        <DynamicIcon name={email.icon} boxSize={3.5} />
+                        <DynamicIcon name={isCopied ? 'FaCheck' : email.icon} boxSize={3.5} color={isCopied ? 'prompt' : undefined} />
                         <Text as="span" fontSize="2xs" fontFamily="mono" fontWeight="bold" textTransform="uppercase" letterSpacing="wide">
                           {email.label}
                         </Text>
-                        <Text fontSize="xs" fontFamily="mono" maxW={["170px", "220px", "260px"]} isTruncated>
-                          {email.value}
-                        </Text>
+                        {/* Value keeps its width while "copied ✓" overlays it, so the chip never resizes */}
+                        <Box as="span" position="relative" display="inline-block" maxW={["170px", "220px", "260px"]}>
+                          <Text fontSize="xs" fontFamily="mono" isTruncated visibility={isCopied ? 'hidden' : 'visible'}>
+                            {email.value}
+                          </Text>
+                          {isCopied && (
+                            <Flex as="span" position="absolute" inset={0} align="center" justify="center" fontSize="xs" fontFamily="mono" color="prompt" whiteSpace="nowrap">
+                              {t('contact.copied', 'copied')} ✓
+                            </Flex>
+                          )}
+                        </Box>
                       </HStack>
-                    </Link>
-                  </Tooltip>
-                ))}
+                    </Tooltip>
+                  )
+                })}
                 {siteOwner.social.linkedin && (
                   <Link href={siteOwner.social.linkedin} isExternal _hover={{ textDecoration: 'none' }}>
                     <HStack
