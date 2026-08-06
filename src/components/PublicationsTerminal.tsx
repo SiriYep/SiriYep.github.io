@@ -549,7 +549,7 @@ const PublicationsTerminal: React.FC = () => {
                           px={1}
                           py={0}
                         >
-                          {badge}
+                          {badge === 'Best Paper' ? `🏆 ${badge}` : badge}
                         </Badge>
                       ))}
                     </HStack>

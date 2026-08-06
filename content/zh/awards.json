@@ -1,5 +1,13 @@
 [
   {
+    "title": "最佳论文奖",
+    "org": "首届 RSS 2026 Embodied4Arts Workshop",
+    "date": "2026",
+    "kind": "honor",
+    "link": "https://openreview.net/forum?id=hbWxRNpba4&noteId=1zbobq3xho",
+    "egg": "HDR：分层去噪驱动的多步视觉推理与机器人世界-动作建模"
+  },
+  {
     "title": "信息技术学院本科生最高荣誉",
     "org": "BUAA",
     "date": "2022",

@@ -62,4 +62,4 @@ I am currently a Ph.D. candidate at the [National Engineering Research Center of
 
 I am also a researcher at the Joint Lab (Simplexity Robotics & PKU) and a research intern at Beijing Innovation Center of Humanoid Robotics.
 
-My research centers on **Embodied AI**, with interests in **Vision-Language-Action Models (VLA)** and **World Models**. I focus on long-horizon robotic tasks, particularly in mobile manipulation and complex multi-stage manipulation. I have published papers at top-tier venues including **NeurIPS**, **RSS**, and **Nature Computational Science**, and serve as a reviewer for conferences such as NeurIPS, ICML and ECCV.
+My research centers on **Embodied AI**, with interests in **Vision-Language-Action Models (VLA)** and **World Models**. I focus on long-horizon robotic tasks, particularly in mobile manipulation and complex multi-stage manipulation. I have published papers at top-tier venues including **ACM MM**, **NeurIPS**, **RSS**, and **Nature Computational Science**, and serve as a reviewer for conferences such as NeurIPS, ICML and ECCV.

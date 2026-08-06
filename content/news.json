@@ -1,5 +1,56 @@
 [
   {
+    "type": "award",
+    "badge": "Best Paper",
+    "count": 1,
+    "icon": "FaTrophy",
+    "iconColor": "yellow.400",
+    "title": "🏆 Best Paper · RSS 2026 Embodied4Arts",
+    "description": "HDR received the Best Paper Award at the 1st Embodied4Arts Workshop at RSS 2026 for connecting hierarchical multi-step visual reasoning with robotic world-action modeling, including a physical brush-painting demonstration.",
+    "date": "Aug 2026",
+    "sortDate": "2026-08-06",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2607.15278v1",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "Project",
+        "url": "https://hierarchical-diffusion-reasoning.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "OpenReview",
+        "url": "https://openreview.net/forum?id=hbWxRNpba4&noteId=1zbobq3xho",
+        "icon": "FaExternalLinkAlt"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "Paper",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 ACM MM 2026",
+    "description": "Our paper Group-of-Latents: Perceptual Video Compression at Extreme Bitrates via Masked Latent Generative Modeling has been accepted to ACM MM 2026.",
+    "date": "Jul 2026",
+    "sortDate": "2026-07-21",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2607.19437",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "PDF",
+        "url": "https://arxiv.org/pdf/2607.19437",
+        "icon": "FaFileAlt"
+      }
+    ]
+  },
+  {
     "type": "publication",
     "badge": "Paper",
     "count": 1,

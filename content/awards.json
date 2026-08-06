@@ -1,5 +1,13 @@
 [
   {
+    "title": "Best Paper Award",
+    "org": "1st Embodied4Arts Workshop at RSS 2026",
+    "date": "2026",
+    "kind": "honor",
+    "link": "https://openreview.net/forum?id=hbWxRNpba4&noteId=1zbobq3xho",
+    "egg": "HDR: Hierarchical Denoising for Multi-Step Visual Reasoning and Robotic World Action Modeling"
+  },
+  {
     "title": "Highest Honor for Undergraduate Students in the College of Information Technology",
     "org": "BUAA",
     "date": "2022",

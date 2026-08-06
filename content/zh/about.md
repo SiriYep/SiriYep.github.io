@@ -62,4 +62,4 @@ version:
 
 我同时在联合实验室（至简动力 & 北京大学）担任研究员，并在北京人形机器人创新中心担任研究实习生。
 
-我的研究围绕**具身智能**展开，兴趣包括**视觉-语言-动作模型（VLA）**和**世界模型**。我专注于长程机器人任务，特别是移动操作和复杂多阶段操作场景。我在 NeurIPS、RSS 和 Nature Computational Science 等会议和期刊发表论文，并担任 NeurIPS、ICML、ECCV 等会议审稿人。
+我的研究围绕**具身智能**展开，兴趣包括**视觉-语言-动作模型（VLA）**和**世界模型**。我专注于长程机器人任务，特别是移动操作和复杂多阶段操作场景。我在 ACM MM、NeurIPS、RSS 和 Nature Computational Science 等会议和期刊发表论文，并担任 NeurIPS、ICML、ECCV 等会议审稿人。

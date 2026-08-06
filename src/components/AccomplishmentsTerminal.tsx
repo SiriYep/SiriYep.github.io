@@ -30,15 +30,19 @@ const kindMeta: Record<string, { labelKey: string; color: [string, string] }> = 
   hackathon: { labelKey: 'awards.hackathon', color: ['purple.500', 'purple.300'] },
   travel: { labelKey: 'awards.travel', color: ['blue.400', 'blue.300'] },
   scholarship: { labelKey: 'awards.scholarship', color: ['purple.500', 'purple.300'] },
-  honor: { labelKey: 'awards.honor', color: ['green.500', 'green.300'] },
+  honor: { labelKey: 'awards.honor', color: ['orange.500', 'yellow.300'] },
   employment: { labelKey: 'awards.employment', color: ['blue.500', 'blue.300'] },
   competition: { labelKey: 'awards.competition', color: ['orange.400', 'orange.300'] },
   innovation: { labelKey: 'awards.innovation', color: ['cyan.500', 'cyan.300'] },
   other: { labelKey: 'awards.other', color: ['gray.400', 'gray.500'] },
 }
 
+const isBestPaperAward = (title: string) =>
+  title.toLowerCase().includes('best paper') || title.includes('最佳论文')
+
 const awardPrefix = (title: string) => {
   const normalized = title.toLowerCase()
+  if (isBestPaperAward(title)) return '🏆 '
   if (normalized.includes('highest honor') || title.includes('最高荣誉')) return '🏆 '
   if (normalized.includes('outstanding graduate') || title.includes('优秀毕业生')) return '🏅 '
   if (normalized.includes('merit student') || title.includes('三好学生')) return '🏅 '

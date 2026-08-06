@@ -1,5 +1,56 @@
 [
   {
+    "type": "award",
+    "badge": "最佳论文",
+    "count": 1,
+    "icon": "FaTrophy",
+    "iconColor": "yellow.400",
+    "title": "🏆 最佳论文 · RSS 2026 Embodied4Arts",
+    "description": "HDR 获得首届 RSS 2026 Embodied4Arts Workshop 最佳论文奖。该工作将分层多步视觉推理与机器人世界-动作建模相结合，并通过实体机器人毛笔绘画演示将持续演化的视觉规划转化为创造性行为。",
+    "date": "2026 年 8 月",
+    "sortDate": "2026-08-06",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2607.15278v1",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "项目",
+        "url": "https://hierarchical-diffusion-reasoning.github.io/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "OpenReview",
+        "url": "https://openreview.net/forum?id=hbWxRNpba4&noteId=1zbobq3xho",
+        "icon": "FaExternalLinkAlt"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 ACM MM 2026",
+    "description": "我们的论文 Group-of-Latents: Perceptual Video Compression at Extreme Bitrates via Masked Latent Generative Modeling 被 ACM MM 2026 接收。",
+    "date": "2026 年 7 月",
+    "sortDate": "2026-07-21",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2607.19437",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "PDF",
+        "url": "https://arxiv.org/pdf/2607.19437",
+        "icon": "FaFileAlt"
+      }
+    ]
+  },
+  {
     "type": "publication",
     "badge": "论文",
     "count": 1,
