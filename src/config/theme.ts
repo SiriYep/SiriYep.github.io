@@ -13,31 +13,31 @@ import type { ProjectItem } from '../types'
  * Template users: customise these to match your own brand.
  */
 
-/* ── Nord-inspired terminal palette (single source of truth) ──── */
+/* ── LaST-HD-inspired terminal palette (single source of truth) ── */
 export const terminalPalette = {
-  /** 7-color rainbow bar palette */
-  rainbow: ['#bf616a', '#d08770', '#ebcb8b', '#a3be8c', '#88c0d0', '#5e81ac', '#b48ead'] as const,
+  /** 7-color rainbow bar palette — orange → magenta → purple → blue signature ramp */
+  rainbow: ['#ee6a3a', '#f0854e', '#d76ad4', '#c44fbf', '#9b45c6', '#5c78e0', '#3a5fd9'] as const,
 
   /** All semantic terminal colors, dark/light variants */
   colors: (dk: boolean) => ({
-    bg:        dk ? '#101622' : '#fbfcfe',
-    text:      dk ? '#e2e8f2' : '#2b3648',
-    header:    dk ? '#171e2c' : '#edf1f7',
-    border:    dk ? '#28324a' : '#d6deea',
-    prompt:    dk ? '#a3be8c' : '#36805a',
-    command:   dk ? '#88c0d0' : '#2a769c',
-    param:     dk ? '#b48ead' : '#9a56a2',
-    info:      dk ? '#81a1c1' : '#5079ad',
-    highlight: dk ? '#ebcb8b' : '#c47d46',
-    error:     dk ? '#bf616a' : '#b91c1c',
-    success:   dk ? '#a3be8c' : '#34744e',
-    warning:   dk ? '#d08770' : '#b35a2e',
-    secondary: dk ? '#8b99ad' : '#556582',
-    muted:     dk ? '#5a6a84' : '#9bb0ca',
+    bg:        dk ? '#18171f' : '#fffefb',
+    text:      dk ? '#e9e7ef' : '#23252c',
+    header:    dk ? '#201e29' : '#f0ece3',
+    border:    dk ? '#34313f' : '#e7e3d9',
+    prompt:    dk ? '#f0925e' : '#be4519',
+    command:   dk ? '#8aa2f2' : '#2542a6',
+    param:     dk ? '#b877dd' : '#8a3bb0',
+    info:      dk ? '#9aa8e8' : '#3f5bb5',
+    highlight: dk ? '#e8b96a' : '#a3721f',
+    error:     dk ? '#e56b6b' : '#b0302f',
+    success:   dk ? '#8ab87a' : '#37795c',
+    warning:   dk ? '#f0854e' : '#a8541f',
+    secondary: dk ? '#a09eae' : '#565d68',
+    muted:     dk ? '#6c6a78' : '#a9a495',
     /** Touch bar background */
-    touchBar:  dk ? '#0d121c' : '#e7ecf4',
+    touchBar:  dk ? '#121118' : '#ece8dc',
     /** Tab bar background */
-    tabBar:    dk ? '#141b28' : '#eaeff6',
+    tabBar:    dk ? '#1c1a24' : '#eeeade',
   }),
 } as const
 

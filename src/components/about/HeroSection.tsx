@@ -48,8 +48,8 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
   const bg = useColorModeValue('gray.50', 'gray.900')
   const socialIconColor = useColorModeValue('gray.400', 'gray.500')
   const nameGradient = useColorModeValue(
-    'linear(to-r, #1f7a99, #7a5299)',
-    'linear(to-r, #9fd8e5, #c7a9ce)',
+    'linear(112deg, #ef6a38, #c44fbf, #3a5fd9)',
+    'linear(112deg, #f0854e, #d76ad4, #8aa2f2)',
   )
   const emailLinks = [
     siteOwner.contact.academicEmail && {

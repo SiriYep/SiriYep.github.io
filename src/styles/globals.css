@@ -1,41 +1,41 @@
 /*
- * Design tokens — single source of truth for the refined terminal aesthetic.
- * Dark: deep blue-black layers with Nord frost accents.
- * Light: cool paper-white with the same structure.
+ * Design tokens — single source of truth, LaST-HD-inspired.
+ * Light: warm cream paper, robot-blue accent, orange/purple companions.
+ * Dark: warm ink with a violet cast, periwinkle accent, same tri-color system.
  */
 
 :root {
   /* Surfaces */
-  --bg-color: #f6f8fb;
+  --bg-color: #f6f4ef;
   --card-bg: #ffffff;
   --elevated-bg: #ffffff;
-  --header-bg: #edf1f7;
-  --hover-color: rgba(31, 122, 153, 0.06);
+  --header-bg: #f0ece3;
+  --hover-color: rgba(58, 95, 217, 0.05);
 
   /* Text */
-  --text-color: #1f2a44;
-  --secondary-text: #5b6b84;
-  --muted-text: #94a3b8;
+  --text-color: #181a1f;
+  --secondary-text: #565d68;
+  --muted-text: #9b9789;
 
   /* Accent */
-  --accent-color: #1f7a99;
-  --accent-strong: #16637e;
-  --accent-light: rgba(31, 122, 153, 0.09);
+  --accent-color: #3a5fd9;
+  --accent-strong: #2542a6;
+  --accent-light: rgba(58, 95, 217, 0.09);
 
   /* Lines */
-  --border-color: rgba(15, 23, 42, 0.09);
-  --border-strong: rgba(15, 23, 42, 0.16);
+  --border-color: rgba(76, 66, 43, 0.14);
+  --border-strong: rgba(76, 66, 43, 0.24);
 
   /* Depth */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
-  --shadow-lift: 0 2px 4px rgba(15, 23, 42, 0.05), 0 16px 40px -16px rgba(15, 23, 42, 0.18);
-  --glow-accent: 0 0 0 1px rgba(31, 122, 153, 0.18), 0 8px 28px -10px rgba(31, 122, 153, 0.25);
+  --shadow-sm: 0 1px 2px rgba(24, 26, 31, 0.04), 0 5px 14px -6px rgba(24, 26, 31, 0.08);
+  --shadow-card: 0 1px 2px rgba(24, 26, 31, 0.04), 0 12px 34px -14px rgba(28, 34, 64, 0.16);
+  --shadow-lift: 0 2px 4px rgba(24, 26, 31, 0.05), 0 24px 60px -24px rgba(30, 38, 80, 0.3);
+  --glow-accent: 0 0 0 1px rgba(58, 95, 217, 0.18), 0 8px 28px -10px rgba(58, 95, 217, 0.28);
 
   /* Shape */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
 
   /* Type */
   --font-sans: 'Inter Variable', 'Noto Sans SC', ui-sans-serif, system-ui, -apple-system,
@@ -46,31 +46,31 @@
 
 [data-theme='dark'] {
   /* Surfaces */
-  --bg-color: #0b0e14;
-  --card-bg: #121826;
-  --elevated-bg: #182233;
-  --header-bg: #151d2b;
-  --hover-color: rgba(136, 192, 208, 0.07);
+  --bg-color: #131217;
+  --card-bg: #1a1920;
+  --elevated-bg: #211f2a;
+  --header-bg: #1d1b24;
+  --hover-color: rgba(138, 162, 242, 0.07);
 
   /* Text */
-  --text-color: #e6ebf4;
-  --secondary-text: #9aa8bf;
-  --muted-text: #64748b;
+  --text-color: #eceaf2;
+  --secondary-text: #a09eae;
+  --muted-text: #6c6a78;
 
   /* Accent */
-  --accent-color: #88c0d0;
-  --accent-strong: #a5d8e6;
-  --accent-light: rgba(136, 192, 208, 0.12);
+  --accent-color: #8aa2f2;
+  --accent-strong: #a8bbf7;
+  --accent-light: rgba(138, 162, 242, 0.13);
 
   /* Lines */
-  --border-color: rgba(148, 163, 184, 0.14);
-  --border-strong: rgba(148, 163, 184, 0.28);
+  --border-color: rgba(160, 158, 180, 0.15);
+  --border-strong: rgba(160, 158, 180, 0.3);
 
   /* Depth */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 30px -12px rgba(0, 0, 0, 0.55);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.4), 0 18px 48px -16px rgba(0, 0, 0, 0.65);
-  --glow-accent: 0 0 0 1px rgba(136, 192, 208, 0.22), 0 8px 32px -8px rgba(136, 192, 208, 0.22);
+  --glow-accent: 0 0 0 1px rgba(138, 162, 242, 0.22), 0 8px 32px -8px rgba(138, 162, 242, 0.24);
 }
 
 * {
@@ -92,7 +92,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Ambient backdrop — soft frost glow up top, barely-there violet at the far corner */
+/* Ambient backdrop — LaST-HD tri-color wash: orange left, blue right, purple below */
 body::before {
   content: '';
   position: fixed;
@@ -100,24 +100,26 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(31, 122, 153, 0.09), transparent 60%),
-    radial-gradient(ellipse 45% 35% at 92% 100%, rgba(122, 68, 192, 0.05), transparent 70%);
+    radial-gradient(ellipse 55% 40% at 12% -8%, rgba(238, 106, 58, 0.07), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 88% -8%, rgba(58, 95, 217, 0.07), transparent 60%),
+    radial-gradient(ellipse 45% 30% at 50% 105%, rgba(155, 69, 198, 0.05), transparent 70%);
 }
 
 [data-theme='dark'] body::before {
   background:
-    radial-gradient(ellipse 90% 55% at 50% -12%, rgba(136, 192, 208, 0.1), transparent 60%),
-    radial-gradient(ellipse 45% 35% at 92% 100%, rgba(180, 142, 173, 0.065), transparent 70%);
+    radial-gradient(ellipse 55% 40% at 12% -8%, rgba(240, 133, 78, 0.08), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 88% -8%, rgba(138, 162, 242, 0.1), transparent 60%),
+    radial-gradient(ellipse 45% 30% at 50% 105%, rgba(184, 119, 221, 0.06), transparent 70%);
 }
 
 ::selection {
-  background: var(--accent-light);
-  color: var(--accent-strong);
+  background: rgba(58, 95, 217, 0.16);
+  color: #2542a6;
 }
 
 [data-theme='dark'] ::selection {
-  background: rgba(136, 192, 208, 0.28);
-  color: #eaf6fa;
+  background: rgba(138, 162, 242, 0.3);
+  color: #eef1fd;
 }
 
 /* Thin, quiet scrollbars */
