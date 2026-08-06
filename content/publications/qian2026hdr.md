@@ -1,9 +1,10 @@
 ---
 id: qian2026hdr
-title: 'Hierarchical Denoising For Multi-Step Visual Reasoning'
+title: 'HDR: Hierarchical Denoising for Multi-Step Visual Reasoning and Robotic World Action Modeling'
 authors:
   - Zezhong Qian
   - Xiaowei Chi
+  - Kevin Zhang
   - Chak-Wing Mak
   - Tianze Zhou
   - Ruibin Yuan
@@ -12,8 +13,10 @@ authors:
   - Zhuoqun Wu
   - Yuming Li
   - Siyuan Qian
-  - Sirui Han
+  - Wei Xue
+  - Yike Guo
   - Shanghang Zhang
+  - Sirui Han
 venue: RSS 2026 Embodied4Arts Workshop
 venueType: workshop
 year: 2026
