@@ -1,4 +1,4 @@
-import { Box, VStack, Flex, Heading, Badge, Container, useColorModeValue } from '@chakra-ui/react'
+import { Box, VStack, Flex, Heading, Badge, Container, Text } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
@@ -9,7 +9,6 @@ import type { SlotName } from '@/templates/slots'
 function About() {
   const { t } = useTranslation()
   const { research, experience, news, siteConfig, institutionLogos } = useLocalizedData()
-  const lineColor = useColorModeValue('gray.200', 'gray.700')
 
   const cfg = siteConfig as Record<string, unknown>
   const sectionOrder = (cfg.sections as string[] | undefined) ?? DEFAULT_SECTIONS
@@ -55,11 +54,21 @@ function About() {
         return (
           <Box key={key} w="full">
             <Container maxW={["full", "full", "7xl"]} px={[2, 4, 8]}>
-              <Flex align="center" gap={3} mb={4}>
-                <Box h="2px" w="20px" bg="cyan.400" borderRadius="full" flexShrink={0} />
-                <Heading size="md" fontWeight="semibold">{t('about.recentUpdates')}</Heading>
-                <Badge colorScheme="green" variant="subtle" fontSize="2xs" fontFamily="mono">{t('about.news')}</Badge>
-                <Box flex="1" h="1px" bg={lineColor} />
+              <Flex align="center" gap={3} mb={5}>
+                <Text as="span" fontFamily="mono" fontWeight="700" color="prompt" fontSize="lg" lineHeight="1">$</Text>
+                <Heading as="h2" size="md" fontFamily="mono" letterSpacing="-0.01em">{t('about.recentUpdates')}</Heading>
+                <Badge
+                  colorScheme="green"
+                  variant="subtle"
+                  fontSize="2xs"
+                  fontFamily="mono"
+                  letterSpacing="wide"
+                  borderRadius="6px"
+                  px={1.5}
+                >
+                  {t('about.news')}
+                </Badge>
+                <Box flex="1" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
               </Flex>
               <NewsDisplay news={sortedNews} showHeader={false} />
             </Container>

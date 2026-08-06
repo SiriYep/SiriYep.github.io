@@ -10,6 +10,10 @@ import { cvEntries } from '@/generated/cv-manifest'
 const MotionBox = motion(Box)
 const MotionText = motion(Text)
 
+// Fixed row height for the rotating-subtitle ticker (constant across breakpoints
+// so the animated y offsets always line up with the visible window).
+const TICKER_ROW_PX = 22
+
 interface ResearchItem {
   lab: string
   emoji: string
@@ -42,14 +46,11 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
   const headingColor = useColorModeValue('gray.800', 'white')
   const textColor = useColorModeValue('gray.600', 'gray.400')
   const bg = useColorModeValue('gray.50', 'gray.900')
-  const accentBg = useColorModeValue('blue.50', 'blue.900')
-  const itemHoverBg = useColorModeValue('gray.100', 'gray.700')
-  const logoShellBg = useColorModeValue('white', 'gray.800')
-  const logoShellBorder = useColorModeValue('gray.200', 'gray.700')
   const socialIconColor = useColorModeValue('gray.400', 'gray.500')
-  const cvOptionBg = useColorModeValue('gray.100', 'gray.800')
-  const cvOptionText = useColorModeValue('gray.700', 'gray.300')
-  const cvOptionBorder = useColorModeValue('gray.200', 'gray.700')
+  const nameGradient = useColorModeValue(
+    'linear(to-r, #1f7a99, #7a5299)',
+    'linear(to-r, #9fd8e5, #c7a9ce)',
+  )
   const emailLinks = [
     siteOwner.contact.academicEmail && {
       icon: 'FaGraduationCap',
@@ -82,12 +83,22 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
     )
   }
 
+  // Ticker keyframes derived from the actual subtitle count: step through each
+  // row, then loop back to the top. Times stay evenly spaced with a short hold.
+  const rotatingSubtitles = siteOwner.rotatingSubtitles
+  const tickerCount = Math.max(rotatingSubtitles.length, 1)
+  const tickerY = [...rotatingSubtitles.map((_, i) => -TICKER_ROW_PX * i), 0]
+  const tickerTimes = tickerY.map((_, i) => (i / tickerCount) * 0.9)
+  const tickerDuration = (tickerCount * 4) / 3
+
   return (
     <Box
       w="full"
       bg={bg}
-      py={[3, 4, 6]}
+      py={[4, 5, 10]}
       mt={[2, 3, 4]}
+      borderBottom="1px solid"
+      borderColor="var(--border-color)"
     >
       <Container maxW={["full", "full", "7xl"]} px={[2, 4, 8]}>
         <Stack
@@ -104,6 +115,8 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
               as="h1"
               fontSize={["lg", "xl", "3xl"]}
               fontWeight="bold"
+              fontFamily="mono"
+              letterSpacing="-0.01em"
               color={headingColor}
               lineHeight="shorter"
               mb={[1, 2, 3]}
@@ -119,7 +132,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
             >
               <MotionText
                 as="span"
-                color="yellow.400"
+                color="prompt"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -142,7 +155,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.2, delay: 0.6 }}
-                color="cyan.400"
+                color="accent"
                 fontFamily="mono"
                 display="flex"
                 alignItems="center"
@@ -155,9 +168,25 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                   transition={{ duration: 0.3, delay: 0.7 }}
                   overflow="hidden"
                   whiteSpace="nowrap"
+                  bgGradient={nameGradient}
+                  bgClip="text"
                 >
                   {siteOwner.name.display}
                 </MotionText>
+                <Text
+                  as="span"
+                  aria-hidden="true"
+                  color="accent"
+                  sx={{
+                    '@keyframes heroCursorBlink': {
+                      '0%, 100%': { opacity: 1 },
+                      '50%': { opacity: 0 },
+                    },
+                    animation: 'heroCursorBlink 1.1s step-end infinite',
+                  }}
+                >
+                  ▋
+                </Text>
               </MotionText>
             </MotionText>
 
@@ -168,24 +197,25 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
               flexWrap="wrap"
               w="full"
             >
-              <Text color="yellow.400" fontSize={["xs", "sm"]}>$</Text>
-              <Text fontSize={["xs", "sm"]} color={useColorModeValue('gray.600', 'gray.400')}>{t('hero.sometimesI')}</Text>
-              <Box h={["18px", "20px", "24px"]} overflow="hidden">
+              <Text color="prompt" fontFamily="mono" fontWeight="700" fontSize={["xs", "sm"]}>$</Text>
+              <Text fontSize={["xs", "sm"]} color={textColor}>{t('hero.sometimesI')}</Text>
+              <Box h={`${TICKER_ROW_PX}px`} overflow="hidden">
                 <MotionBox
-                  animate={{ y: [0, -18, -36, -54, -72, -90, 0] }}
+                  animate={{ y: tickerY }}
                   transition={{
-                    duration: 8,
-                    times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9],
+                    duration: tickerDuration,
+                    times: tickerTimes,
                     repeat: Infinity,
                     ease: "linear"
                   }}
                 >
-                  {siteOwner.rotatingSubtitles.map((text, index) => (
+                  {rotatingSubtitles.map((text, index) => (
                     <Text
                       key={index}
-                      h={["18px", "20px", "24px"]}
-                      color="cyan.400"
-                      fontWeight="bold"
+                      h={`${TICKER_ROW_PX}px`}
+                      lineHeight={`${TICKER_ROW_PX}px`}
+                      color="accent"
+                      fontWeight="semibold"
                       fontSize={["xs", "sm"]}
                       fontFamily="mono"
                     >
@@ -197,29 +227,42 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
             </HStack>
 
 
-            <Box w="full" borderTop="1px dashed" borderColor={useColorModeValue('gray.200', 'gray.700')} />
+            <Box w="full" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
 
             {/* Research & Education compact section */}
             {(research.length > 0 || education.length > 0) && (
               <SimpleGrid columns={[1, 1, 2]} spacing={[3, 3, 4]} w="full">
                 {research.length > 0 && (
                   <VStack align="start" spacing={2}>
-                    <Heading size="xs" color={textColor} textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                      {t('about.researchExperience', 'Research & Internships')}
-                    </Heading>
+                    <HStack spacing={2} align="center">
+                      <Box w="3px" h="12px" bg="accent" borderRadius="full" flexShrink={0} />
+                      <Heading size="xs" fontFamily="mono" color="textMuted" textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
+                        {t('about.researchExperience', 'Research & Internships')}
+                      </Heading>
+                    </HStack>
                     {research.map((item, index) => {
                       const logo = researchLogos[item.lab]
                       const cardHref = item.advisorUrl || item.link
                       return (
                         <Link key={index} href={cardHref} isExternal _hover={{ textDecoration: 'none' }} w="full">
-                          <HStack spacing={2.5} p={2} minH="46px" align="center" borderRadius="md" transition="all 0.2s" _hover={{ bg: itemHoverBg }}>
+                          <HStack
+                            spacing={2.5}
+                            p={2}
+                            minH="46px"
+                            align="center"
+                            borderRadius="10px"
+                            border="1px solid"
+                            borderColor="transparent"
+                            transition="background 0.2s ease, border-color 0.2s ease"
+                            _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-color)' }}
+                          >
                             <Flex
                               w="32px"
                               h="32px"
-                              borderRadius="md"
-                              bg={logo ? logoShellBg : accentBg}
+                              borderRadius="8px"
+                              bg="var(--elevated-bg)"
                               border="1px solid"
-                              borderColor={logo ? logoShellBorder : 'transparent'}
+                              borderColor="var(--border-color)"
                               align="center"
                               justify="center"
                               flexShrink={0}
@@ -236,7 +279,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                                 {item.advisor ? (
                                   <>
                                     <Text as="span" color={textColor}>{t('hero.advisorPrefix', 'Advisor: ')}</Text>
-                                    <Text as="span" color="cyan.400" fontWeight="semibold">{item.advisor}</Text>
+                                    <Text as="span" color="accent" fontWeight="semibold">{item.advisor}</Text>
                                   </>
                                 ) : item.focus}
                               </Text>
@@ -249,20 +292,35 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 )}
                 {education.length > 0 && (
                   <VStack align="start" spacing={2}>
-                    <Heading size="xs" color={textColor} textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                      {t('about.educationJourney', 'Education')}
-                    </Heading>
+                    <HStack spacing={2} align="center">
+                      <Box w="3px" h="12px" bg="accent" borderRadius="full" flexShrink={0} />
+                      <Heading size="xs" fontFamily="mono" color="textMuted" textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
+                        {t('about.educationJourney', 'Education')}
+                      </Heading>
+                    </HStack>
                     {education.map((item, index) => {
                       const logo = educationLogos[item.institution]
                       return (
-                        <HStack key={index} spacing={2.5} p={2} minH="46px" align="center" borderRadius="md" w="full">
+                        <HStack
+                          key={index}
+                          spacing={2.5}
+                          p={2}
+                          minH="46px"
+                          align="center"
+                          borderRadius="10px"
+                          border="1px solid"
+                          borderColor="transparent"
+                          transition="background 0.2s ease, border-color 0.2s ease"
+                          _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-color)' }}
+                          w="full"
+                        >
                           <Flex
                             w="32px"
                             h="32px"
-                            borderRadius="md"
-                            bg={logo ? logoShellBg : accentBg}
+                            borderRadius="8px"
+                            bg="var(--elevated-bg)"
                             border="1px solid"
-                            borderColor={logo ? logoShellBorder : 'transparent'}
+                            borderColor="var(--border-color)"
                             align="center"
                             justify="center"
                             flexShrink={0}
@@ -270,7 +328,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                             {logo ? (
                               <Image src={withBase(logo)} alt={item.institution} maxW="26px" maxH="26px" objectFit="contain" />
                             ) : (
-                              <Text fontSize="sm" fontWeight="bold" color="blue.500">{item.institution.charAt(0)}</Text>
+                              <Text fontSize="sm" fontWeight="bold" color="accent">{item.institution.charAt(0)}</Text>
                             )}
                           </Flex>
                           <VStack align="start" spacing={0} flex={1} minW={0}>
@@ -285,20 +343,39 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
               </SimpleGrid>
             )}
 
-            <Box w="full" borderTop="1px dashed" borderColor={useColorModeValue('gray.200', 'gray.700')} />
+            <Box w="full" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
 
             {/* Welcome + contact */}
             <Flex w="full" direction={['column', 'column', 'row']} align={['center', 'center', 'center']} gap={[2, 2, 4]}>
-              <Text fontSize="xs" color={textColor} lineHeight="tall" textAlign={['center', 'center', 'left']} flex={1} fontStyle="italic">
+              <Text
+                fontSize="sm"
+                color="var(--secondary-text)"
+                lineHeight="tall"
+                textAlign="left"
+                flex={1}
+                borderLeft="2px solid"
+                borderColor="accent"
+                pl={3}
+              >
                 {siteConfig.tagline ?? ''}
               </Text>
-              <VStack spacing={1} align={['center', 'center', 'flex-start']} flexShrink={0}>
+              <VStack spacing={1.5} align={['center', 'center', 'flex-start']} flexShrink={0}>
                 {emailLinks.map((email) => (
                   <Tooltip key={email.label} label={`${email.label}: mailto:${email.value}`} fontSize="xs" hasArrow placement="top" openDelay={200} fontFamily="mono">
                     <Link href={`mailto:${email.value}`} isExternal _hover={{ textDecoration: 'none' }}>
-                      <HStack spacing={1.5} color={textColor} transition="all 0.15s" _hover={{ color: 'cyan.400' }}>
+                      <HStack
+                        spacing={1.5}
+                        px={2.5}
+                        py={1}
+                        border="1px solid"
+                        borderColor="var(--border-color)"
+                        borderRadius="8px"
+                        color="var(--secondary-text)"
+                        transition="border-color 0.15s ease, color 0.15s ease"
+                        _hover={{ borderColor: 'accent', color: 'accent' }}
+                      >
                         <DynamicIcon name={email.icon} boxSize={3.5} />
-                        <Text fontSize="2xs" color="cyan.400" fontFamily="mono" fontWeight="bold" textTransform="uppercase">
+                        <Text as="span" fontSize="2xs" fontFamily="mono" fontWeight="bold" textTransform="uppercase" letterSpacing="wide">
                           {email.label}
                         </Text>
                         <Text fontSize="xs" fontFamily="mono" maxW={["170px", "220px", "260px"]} isTruncated>
@@ -309,15 +386,22 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                   </Tooltip>
                 ))}
                 {siteOwner.social.linkedin && (
-                  <>
-                    <Text color={textColor} opacity={0.2}>/</Text>
-                    <Link href={siteOwner.social.linkedin} isExternal _hover={{ textDecoration: 'none' }}>
-                      <HStack spacing={1.5} color={textColor} transition="all 0.15s" _hover={{ color: 'cyan.400' }}>
-                        <DynamicIcon name="FaLinkedin" boxSize={3.5} />
-                        <Text fontSize="xs" fontFamily="mono">linkedin</Text>
-                      </HStack>
-                    </Link>
-                  </>
+                  <Link href={siteOwner.social.linkedin} isExternal _hover={{ textDecoration: 'none' }}>
+                    <HStack
+                      spacing={1.5}
+                      px={2.5}
+                      py={1}
+                      border="1px solid"
+                      borderColor="var(--border-color)"
+                      borderRadius="8px"
+                      color="var(--secondary-text)"
+                      transition="border-color 0.15s ease, color 0.15s ease"
+                      _hover={{ borderColor: 'accent', color: 'accent' }}
+                    >
+                      <DynamicIcon name="FaLinkedin" boxSize={3.5} />
+                      <Text fontSize="xs" fontFamily="mono">linkedin</Text>
+                    </HStack>
+                  </Link>
                 )}
               </VStack>
             </Flex>
@@ -328,17 +412,38 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
             transition={{ duration: 0.5 }}
           >
             <VStack spacing={[2, 3]}>
-              <Image
-                src={withBase(`images/${avatar}`)}
-                alt={title}
-                borderRadius="xl"
-                w={["150px", "180px", "220px"]}
-                h={["200px", "240px", "293px"]}
-                objectFit="contain"
-                bg={useColorModeValue('white', 'gray.800')}
-                border="1px solid"
-                borderColor={useColorModeValue('gray.200', 'gray.700')}
-              />
+              <Box
+                position="relative"
+                transition="transform 0.25s ease"
+                _hover={{ transform: 'translateY(-3px)' }}
+              >
+                <Box
+                  aria-hidden="true"
+                  position="absolute"
+                  top="10px"
+                  left="10px"
+                  right="-10px"
+                  bottom="-10px"
+                  borderRadius="16px"
+                  border="1px solid"
+                  borderColor="var(--accent-color)"
+                  opacity={0.35}
+                  pointerEvents="none"
+                />
+                <Image
+                  src={withBase(`images/${avatar}`)}
+                  alt={title}
+                  position="relative"
+                  borderRadius="16px"
+                  w={["150px", "180px", "220px"]}
+                  h={["200px", "240px", "293px"]}
+                  objectFit="contain"
+                  bg="var(--card-bg)"
+                  border="1px solid"
+                  borderColor="var(--border-color)"
+                  boxShadow="var(--shadow-card)"
+                />
+              </Box>
               <Box position="relative" w="full" display="flex" justifyContent="center">
                 {/* Social icons row below avatar */}
                 <HStack spacing={[1, 1.5]} justify="center">
@@ -404,15 +509,16 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                         gap={1.5}
                         px={2.5}
                         py={1}
-                        bg={cvOptionBg}
-                        color={cvOptionText}
+                        bg="var(--elevated-bg)"
+                        color="var(--secondary-text)"
                         border="1px solid"
-                        borderColor={cvOptionBorder}
-                        borderRadius="sm"
+                        borderColor="var(--border-color)"
+                        borderRadius="8px"
+                        boxShadow="var(--shadow-sm)"
                         fontFamily="mono"
                         fontSize="2xs"
-                        _hover={{ color: 'cyan.400', borderColor: 'cyan.400', textDecoration: 'none' }}
-                        transition="all 0.15s"
+                        _hover={{ color: 'accent', borderColor: 'accent', textDecoration: 'none' }}
+                        transition="border-color 0.15s ease, color 0.15s ease"
                       >
                         <DynamicIcon name="FaFileAlt" boxSize={2.5} />
                         <Text as="span">{getCvLabel(entry.lang)}</Text>

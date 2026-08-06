@@ -1,4 +1,4 @@
-import { Box, Container, VStack, HStack, Text, Heading, Flex, Link, useColorModeValue } from '@chakra-ui/react'
+import { Box, Container, VStack, HStack, Text, Heading, Flex, Link } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import type { JourneyPhase } from '@/types'
@@ -17,15 +17,6 @@ const renderBoldText = (text: string, color: string, boldColor: string) => {
 const JourneySection: React.FC = () => {
   const { t } = useTranslation()
   const { about } = useLocalizedData()
-  const textColor = useColorModeValue('gray.500', 'gray.400')
-  const boldColor = useColorModeValue('gray.700', 'gray.200')
-  const headingColor = useColorModeValue('gray.800', 'gray.100')
-  const lineColor = useColorModeValue('gray.200', 'gray.700')
-  const dotBorder = useColorModeValue('gray.300', 'gray.600')
-  const dotBg = useColorModeValue('white', 'gray.800')
-  const tagBg = useColorModeValue('gray.100', 'gray.800')
-  const dividerTextColor = useColorModeValue('gray.400', 'gray.600')
-  const orgTextColor = useColorModeValue('gray.400', 'gray.500')
 
   if (!about.journeyPhases || about.journeyPhases.length === 0) return null
 
@@ -45,36 +36,61 @@ const JourneySection: React.FC = () => {
 
   const renderTimeline = (phases: JourneyPhase[], showViewAll: boolean) => (
     <Box w="full" position="relative">
-      <Box position="absolute" left={["7px", "7px", "7px"]} top="12px" bottom="12px" w="1px" bg={lineColor} />
+      <Box position="absolute" left="5px" top="15px" bottom="15px" w="1px" bg="var(--border-color)" />
 
-      <VStack spacing={0} align="stretch">
+      <VStack spacing={3} align="stretch">
         {phases.map((phase) => {
           const isOngoing = /present|至今/i.test(phase.period)
           return (
-          <Flex key={`${phase.period}-${phase.title}`} gap={[3, 4]} align="start" py={3} position="relative">
-            <Box flexShrink={0} mt="6px">
+          <Flex key={`${phase.period}-${phase.title}`} gap={[3, 4]} align="start" position="relative">
+            <Box flexShrink={0} mt="15px">
               <Box
-                w="14px" h="14px" borderRadius="full" border="2px solid"
-                borderColor={isOngoing ? 'cyan.400' : dotBorder}
-                bg={isOngoing ? 'cyan.400' : dotBg}
+                w="11px" h="11px" borderRadius="full" border="2px solid"
+                borderColor="accent"
+                bg={isOngoing ? 'accent' : 'var(--bg-color)'}
+                boxShadow={isOngoing ? 'var(--glow-accent)' : undefined}
               />
             </Box>
-            <Box flex={1} pb={2}>
+            <Box
+              flex={1}
+              minW={0}
+              bg="var(--card-bg)"
+              border="1px solid"
+              borderColor="var(--border-color)"
+              borderRadius="12px"
+              boxShadow="var(--shadow-sm)"
+              px={[3.5, 4]}
+              py={[3, 3.5]}
+              transition="border-color .2s ease, box-shadow .2s ease"
+              _hover={{ borderColor: 'var(--border-strong)', boxShadow: 'var(--shadow-card)' }}
+            >
               <HStack spacing={2} mb={1} flexWrap="wrap">
-                <Text fontSize="2xs" fontFamily="mono" color="cyan.400" fontWeight="semibold" textTransform="uppercase" letterSpacing="wide">
+                <Text fontSize="xs" fontFamily="mono" color="textMuted" letterSpacing="wide">
                   {phase.period}
                 </Text>
-                <Text fontSize="2xs" color={dividerTextColor}>/</Text>
-                <Text fontSize="2xs" fontFamily="mono" color={orgTextColor}>{phase.org}</Text>
+                <Text fontSize="xs" fontFamily="mono" color="textMuted">·</Text>
+                <Text fontSize="xs" fontFamily="mono" color="textMuted">{phase.org}</Text>
               </HStack>
-              <Text fontSize="sm" fontWeight="semibold" color={headingColor} mb={1}>{phase.title}</Text>
-              <Text fontSize="xs" lineHeight="tall" mb={2}>
-                {renderBoldText(phase.description, textColor, boldColor)}
+              <Text fontSize="sm" fontWeight="semibold" color="textPrimary" mb={1}>{phase.title}</Text>
+              <Text fontSize="sm" lineHeight="tall" mb={phase.tags ? 2.5 : 0}>
+                {renderBoldText(phase.description, 'textSecondary', 'textPrimary')}
               </Text>
               {phase.tags && (
                 <HStack spacing={1.5} flexWrap="wrap">
                   {phase.tags.map((tag) => (
-                    <Text key={tag} fontSize="2xs" fontFamily="mono" color={textColor} px={1.5} py={0.5} bg={tagBg} borderRadius="sm">
+                    <Text
+                      key={tag}
+                      fontSize="2xs"
+                      fontFamily="mono"
+                      letterSpacing="wide"
+                      color="textSecondary"
+                      px={2}
+                      py={0.5}
+                      bg="var(--hover-color)"
+                      border="1px solid"
+                      borderColor="var(--border-color)"
+                      borderRadius="6px"
+                    >
                       {tag}
                     </Text>
                   ))}
@@ -85,23 +101,23 @@ const JourneySection: React.FC = () => {
           )
         })}
         {showViewAll && (
-          <Flex gap={[3, 4]} align="start" py={3} position="relative">
-            <Box flexShrink={0} mt="6px">
-              <Box w="14px" h="14px" borderRadius="full" border="2px dashed" borderColor={dotBorder} position="relative">
+          <Flex gap={[3, 4]} align="center" position="relative">
+            <Box flexShrink={0}>
+              <Box w="11px" h="11px" borderRadius="full" border="1px dashed" borderColor="var(--border-strong)" position="relative" bg="var(--bg-color)">
                 <Box
                   position="absolute"
                   top="50%"
                   left="50%"
                   transform="translate(-50%, -50%)"
-                  w="6px"
-                  h="6px"
+                  w="4px"
+                  h="4px"
                   borderRadius="full"
-                  bg={dotBorder}
+                  bg="var(--border-strong)"
                 />
               </Box>
             </Box>
             <Link href="/experience" _hover={{ textDecoration: 'none' }}>
-              <HStack spacing={2} color={textColor} fontSize="xs" fontFamily="mono" transition="all 0.15s" _hover={{ color: 'cyan.400' }} mt="3px">
+              <HStack spacing={2} color="textMuted" fontSize="xs" fontFamily="mono" transition="color 0.15s ease" _hover={{ color: 'accent' }}>
                 <Text>{t('about.viewAllExperience')}</Text>
                 <Text>→</Text>
               </HStack>
@@ -115,13 +131,13 @@ const JourneySection: React.FC = () => {
   return (
     <Box w="full">
       <Container maxW={["full", "full", "7xl"]} px={[2, 4, 8]}>
-        <VStack spacing={8} align="stretch">
+        <VStack spacing={10} align="stretch">
           {groups.map((group, index) => (
             <Box key={group.title} w="full">
-              <Flex align="center" gap={3} w="full" mb={4}>
-                <Box h="2px" w="20px" bg="cyan.400" borderRadius="full" flexShrink={0} />
-                <Heading size={["sm", "md"]} fontWeight="semibold">{group.title}</Heading>
-                <Box flex="1" h="1px" bg={lineColor} />
+              <Flex align="center" gap={3} w="full" mb={5}>
+                <Text as="span" fontFamily="mono" fontWeight="700" color="prompt" fontSize="lg" lineHeight="1">$</Text>
+                <Heading as="h2" size="md" fontFamily="mono" letterSpacing="-0.01em">{group.title}</Heading>
+                <Box flex="1" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
               </Flex>
               {renderTimeline(group.phases, index === groups.length - 1)}
             </Box>

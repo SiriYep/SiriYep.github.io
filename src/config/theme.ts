@@ -20,10 +20,10 @@ export const terminalPalette = {
 
   /** All semantic terminal colors, dark/light variants */
   colors: (dk: boolean) => ({
-    bg:        dk ? '#2e3440' : '#f8f9fc',
-    text:      dk ? '#eceff4' : '#2b3648',
-    header:    dk ? '#3b4252' : '#eaeef6',
-    border:    dk ? '#4c566a' : '#cbd5e1',
+    bg:        dk ? '#101622' : '#fbfcfe',
+    text:      dk ? '#e2e8f2' : '#2b3648',
+    header:    dk ? '#171e2c' : '#edf1f7',
+    border:    dk ? '#28324a' : '#d6deea',
     prompt:    dk ? '#a3be8c' : '#36805a',
     command:   dk ? '#88c0d0' : '#2a769c',
     param:     dk ? '#b48ead' : '#9a56a2',
@@ -32,12 +32,12 @@ export const terminalPalette = {
     error:     dk ? '#bf616a' : '#b91c1c',
     success:   dk ? '#a3be8c' : '#34744e',
     warning:   dk ? '#d08770' : '#b35a2e',
-    secondary: dk ? '#9099ab' : '#556582',
-    muted:     dk ? '#627089' : '#9bb0ca',
+    secondary: dk ? '#8b99ad' : '#556582',
+    muted:     dk ? '#5a6a84' : '#9bb0ca',
     /** Touch bar background */
-    touchBar:  dk ? '#252b35' : '#e2e6ee',
+    touchBar:  dk ? '#0d121c' : '#e7ecf4',
     /** Tab bar background */
-    tabBar:    dk ? '#333a47' : '#e4e9f2',
+    tabBar:    dk ? '#141b28' : '#eaeff6',
   }),
 } as const
 

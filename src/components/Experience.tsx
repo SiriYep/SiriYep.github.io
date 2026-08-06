@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import {
-  Box, Collapse, Flex, HStack, Icon, Input, Text, VStack,
-  Image, Link, useColorMode, useBreakpointValue,
+  Box, Collapse, Flex, Heading, HStack, Icon, Input, Text, VStack,
+  Image, Link, useColorMode,
 } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
 import { FaChevronDown } from 'react-icons/fa'
@@ -59,7 +59,6 @@ const fmtDateFn = (v: string | undefined, presentLabel: string, lang: string) =>
 const Experience: React.FC = () => {
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
-  const isMobile = useBreakpointValue({ base: true, md: false })
   const { t, i18n } = useTranslation()
   const { experienceTimeline, experience: experienceData, institutionLogos, siteOwner } = useLocalizedData()
   const fmtDate = (v?: string) => fmtDateFn(v, t('experience.present'), i18n.language)
@@ -181,26 +180,50 @@ const Experience: React.FC = () => {
   const termWarning = tc.warning
 
   return (
-    <Box w="full" minH="100vh" bg={bg} py={8}>
-      <VStack spacing={6} maxW="1400px" mx="auto" px={[2, 4, 6]}>
+    <Box w="full" minH="100vh" bg={bg} py={[8, 10, 12]}>
+      <VStack spacing={5} maxW="1400px" mx="auto" px={[3, 4, 6]}>
+
+        {/* ── Section header ────────────────────────────────── */}
+        <Flex w="full" align="center" gap={3}>
+          <Text as="span" fontFamily="mono" fontWeight="700" color="prompt" fontSize="lg" lineHeight="1">$</Text>
+          <Heading as="h2" size="md" fontFamily="mono" letterSpacing="-0.01em">
+            {t('nav.experience')}
+          </Heading>
+          <Text
+            as="span"
+            fontFamily="mono"
+            fontSize="2xs"
+            fontWeight="600"
+            px={2} py={0.5}
+            borderRadius="full"
+            bg="accentSubtle"
+            color="accent"
+            letterSpacing="0.05em"
+          >
+            {stats.total}
+          </Text>
+          <Box flex="1" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
+        </Flex>
 
         {/* ── Terminal container ────────────────────────────── */}
         <Box
           w="full"
-          borderRadius="md"
+          borderRadius="12px"
           fontFamily="mono"
-          boxShadow={`0 0 0 1px ${termBorder}, 0 4px 16px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`}
+          border="1px solid"
+          borderColor={termBorder}
+          boxShadow="var(--shadow-card)"
           overflow="hidden"
         >
-          {/* ═══ Pixel RGB light bar ═══ */}
-          <Flex h="3px" w="full" overflow="hidden" borderTopRadius="md">
+          {/* ═══ Pixel RGB light bar (thin & quiet) ═══ */}
+          <Flex h="2px" w="full" overflow="hidden">
             {(() => {
               const total = 28
               const tick = Math.floor(Date.now() / 200)
               return Array.from({ length: total }, (_, i) => {
                 const colorIdx = (i + tick) % terminalPalette.rainbow.length
                 const brightness = 0.6 + 0.4 * Math.abs(Math.sin((i + tick * 0.5) * 0.3))
-                return <Box key={i} flex={1} h="full" bg={terminalPalette.rainbow[colorIdx]} opacity={brightness} />
+                return <Box key={i} flex={1} h="full" bg={terminalPalette.rainbow[colorIdx]} opacity={brightness * 0.75} />
               })
             })()}
           </Flex>
@@ -214,9 +237,9 @@ const Experience: React.FC = () => {
           >
             <HStack spacing={3}>
               <HStack spacing={1.5}>
-                <Box w="10px" h="10px" borderRadius="full" bg="#bf616a" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#ebcb8b" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#a3be8c" />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ff5f56" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ffbd2e" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#27c93f" opacity={0.9} />
               </HStack>
               <Text>
                 <Box as="span" color={termParam}>const </Box>
@@ -229,7 +252,7 @@ const Experience: React.FC = () => {
                 <Box as="span" color={termSecondary}>)</Box>
               </Text>
             </HStack>
-            <Text color={termHighlight}>
+            <Text color={termSecondary} fontSize="2xs">
               {new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </Text>
           </Flex>
@@ -244,11 +267,11 @@ const Experience: React.FC = () => {
           >
             <Text color={termSecondary} isTruncated>
               <Text as="span" color={termPrompt} fontWeight="bold">{siteOwner.terminalUsername}</Text>
-              <Text as="span" color={tc.border}> · </Text>
+              <Text as="span" color={tc.muted}> · </Text>
               <Text as="span" color={termHighlight}>{stats.total}</Text>
               <Text as="span"> {t('experience.rolesAcross')} </Text>
               <Text as="span" color={termSuccess}>{stats.current} {t('experience.currentlyActive')}</Text>
-              <Text as="span" color={tc.border}> · </Text>
+              <Text as="span" color={tc.muted}> · </Text>
               <Text as="span" color={termParam}>{stats.academic} {t('experience.research')}</Text>
               <Text as="span">, </Text>
               <Text as="span" color={termWarning}>{stats.industry} {t('experience.industry')}</Text>
@@ -259,9 +282,9 @@ const Experience: React.FC = () => {
           {/* Education */}
           <Box px={[3, 5]} py={3} bg={termBg} borderBottom={`1px solid ${termBorder}`}>
             <Flex align="center" gap={2} mb={2.5}>
-              <Box w="14px" h="3px" borderRadius="full" bg={termCommand} />
+              <Box w="12px" h="2px" borderRadius="full" bg={termCommand} />
               <Text fontSize="xs" fontWeight="bold" color={termInfo} letterSpacing="0.06em">{t('experience.education')}</Text>
-              <Box flex="1" h="1px" bg={termBorder} />
+              <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
             </Flex>
             <VStack align="stretch" spacing={1.5} pl={1}>
               {education.map(edu => {
@@ -269,12 +292,12 @@ const Experience: React.FC = () => {
                 return (
                   <HStack key={edu.course} fontSize="xs" spacing={2} align="center" minH="24px">
                     <Flex
-                      w="20px"
-                      h="20px"
-                      borderRadius="sm"
-                      bg={logo ? (isDark ? 'rgba(255,255,255,0.04)' : 'white') : `${termCommand}20`}
+                      w="22px"
+                      h="22px"
+                      borderRadius="6px"
+                      bg="var(--elevated-bg)"
                       border="1px solid"
-                      borderColor={logo ? termBorder : 'transparent'}
+                      borderColor="var(--border-color)"
                       align="center"
                       justify="center"
                       flexShrink={0}
@@ -285,7 +308,7 @@ const Experience: React.FC = () => {
                     </Flex>
                     <Flex flex="1" minW={0} align="center" gap={2} flexWrap={['wrap', 'nowrap']}>
                       <Text color={termText} fontWeight="medium" minW={0}>{edu.course}</Text>
-                      <Text color={termSecondary} flexShrink={0}>·</Text>
+                      <Text color={tc.muted} flexShrink={0}>·</Text>
                       <Text color={termCommand} minW={0}>{edu.institution}</Text>
                     </Flex>
                     <Text color={termSecondary} flexShrink={0}>{edu.year}</Text>
@@ -312,14 +335,15 @@ const Experience: React.FC = () => {
                   as="button"
                   px={3} py={1}
                   fontSize="xs"
-                  fontWeight={active ? 'bold' : 'medium'}
+                  fontWeight={active ? '700' : '500'}
+                  letterSpacing="0.02em"
                   borderRadius="full"
-                  bg={active ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.07)') : 'transparent'}
-                  color={active ? termText : termSecondary}
+                  bg={active ? 'accentSubtle' : 'transparent'}
+                  color={active ? 'accent' : termSecondary}
                   onClick={() => setFilter(f)}
                   cursor="pointer"
-                  transition="all 0.15s"
-                  _hover={{ bg: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' }}
+                  transition="background 0.15s ease, color 0.15s ease"
+                  _hover={active ? {} : { bg: hoverBg, color: termText }}
                 >
                   {f === 'all' ? t('experience.filterAll') : f === 'academic' ? t('experience.filterAcademic') : t('experience.filterIndustry')} ({count})
                 </Text>
@@ -327,213 +351,240 @@ const Experience: React.FC = () => {
             })}
           </Flex>
 
-          {/* ── Experience list ───────────────────────────── */}
-          <Box bg={termBg} color={termText}>
-            {grouped.map(group => (
-              <Box key={group.year}>
-                {/* Year heading */}
-                <Flex
-                  px={[3, 5]} py={2}
-                  align="center" gap={2}
-                  bg={isDark ? 'rgba(0,0,0,0.12)' : 'rgba(0,0,0,0.03)'}
-                  borderBottom={`1px solid ${termBorder}`}
-                >
-                  <Box
-                    w="8px" h="8px"
-                    borderRadius="full"
-                    border="2px solid"
-                    borderColor={group.year === 'Present' ? termSuccess : termHighlight}
-                    bg={group.year === 'Present' ? termSuccess : 'transparent'}
-                  />
-                  <Text
-                    fontSize="xs" fontWeight="bold"
-                    color={group.year === 'Present' ? termSuccess : termHighlight}
-                    letterSpacing="0.04em"
-                  >
-                    {group.year === 'Present' ? t('experience.present').toUpperCase() : group.year}
-                  </Text>
-                  <Text fontSize="2xs" color={termSecondary}>
-                    {group.year === 'Present'
-                      ? `${group.items.length} ${t('experience.active')}`
-                      : `${group.items.length}`}
-                  </Text>
-                  <Box flex="1" h="1px" bg={termBorder} />
-                </Flex>
+          {/* ── Experience timeline ───────────────────────── */}
+          <Box bg={termBg} color={termText} px={[3, 5]} py={[4, 5]}>
+            <Box position="relative" pl="22px">
+              {/* Spine */}
+              {grouped.length > 0 && (
+                <Box
+                  position="absolute"
+                  left="5px"
+                  top="6px"
+                  bottom="10px"
+                  w="1px"
+                  bg="var(--border-color)"
+                />
+              )}
 
-                {/* Entries */}
-                {group.items.map(exp => {
-                  const id = `${exp.title}-${exp.company}-${exp.start}`
-                  const isExpanded = !!expandedItems[id]
-                  const rt: RoleType = exp.roleType ?? (categoryFilter[exp.category] === 'industry' ? 'sde' : 'research')
-                  const rtCfg = roleTypeConfig[rt]
-                  const rtColor = rtCfg.color(isDark)
-                  const icon = getIconUrl(exp.companyUrl, exp.company, institutionLogos)
-
-                  return (
+              {grouped.map(group => (
+                <Box key={group.year} mb={6} _last={{ mb: 0 }}>
+                  {/* Year node */}
+                  <Flex align="center" gap={2} mb={3} position="relative">
                     <Box
-                      key={id}
-                      borderBottom={`1px solid ${isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)'}`}
-                      _hover={{ bg: hoverBg }}
-                      transition="background 0.15s"
+                      position="absolute"
+                      left="-22px"
+                      top="50%"
+                      transform="translateY(-50%)"
+                      w="11px" h="11px"
+                      borderRadius="full"
+                      bg={termBg}
+                      border="2px solid"
+                      borderColor={group.year === 'Present' ? termSuccess : 'accent'}
+                    />
+                    <Text
+                      fontSize="xs" fontWeight="bold"
+                      color={group.year === 'Present' ? termSuccess : termSecondary}
+                      letterSpacing="0.08em"
                     >
-                      <Flex
-                        px={[3, 5]} py={3}
-                        gap={3}
-                        align="start"
-                        cursor="pointer"
-                        onClick={() => toggleExpanded(id)}
-                      >
-                        {/* Logo */}
-                        <Flex
-                          w="36px"
-                          h="36px"
-                          borderRadius="md"
-                          bg={icon ? (isDark ? 'rgba(255,255,255,0.04)' : 'white') : `${rtColor}18`}
-                          color={rtColor}
-                          border="1px solid"
-                          borderColor={icon ? termBorder : 'transparent'}
-                          align="center"
-                          justify="center"
-                          flexShrink={0}
-                        >
-                          {icon ? (
-                            <Image
-                              src={resolveIconSrc(icon)}
-                              alt=""
-                              maxW="30px"
-                              maxH="30px"
-                              objectFit="contain"
-                              fallback={
-                                <Flex
-                                  w="full" h="full"
-                                  align="center" justify="center"
-                                  fontSize="sm" fontWeight="bold"
-                                >
-                                  {exp.company.charAt(0)}
-                                </Flex>
-                              }
-                            />
-                          ) : (
-                            <Text fontSize="sm" fontWeight="bold">
-                              {exp.company.charAt(0)}
-                            </Text>
-                          )}
-                        </Flex>
+                      {group.year === 'Present' ? t('experience.present').toUpperCase() : group.year}
+                    </Text>
+                    <Text fontSize="2xs" color={tc.muted}>
+                      {group.year === 'Present'
+                        ? `${group.items.length} ${t('experience.active')}`
+                        : `${group.items.length}`}
+                    </Text>
+                    <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
+                  </Flex>
 
-                        {/* Content */}
-                        <Box flex="1" minW={0}>
-                          {/* Title + role badge */}
-                          <Flex align="center" gap={2} flexWrap="wrap" mb={0.5}>
-                            <Text fontSize="sm" fontWeight="semibold" color={termText}>
-                              {exp.title}
-                            </Text>
-                            <Text
-                              fontSize="2xs"
-                              fontWeight="bold"
-                              color={rtColor}
-                              letterSpacing="0.04em"
-                              textTransform="uppercase"
-                              px={1.5} py={0}
-                              borderRadius="sm"
-                              bg={`${rtColor}15`}
+                  {/* Entry cards */}
+                  <VStack align="stretch" spacing={3}>
+                    {group.items.map(exp => {
+                      const id = `${exp.title}-${exp.company}-${exp.start}`
+                      const isExpanded = !!expandedItems[id]
+                      const rt: RoleType = exp.roleType ?? (categoryFilter[exp.category] === 'industry' ? 'sde' : 'research')
+                      const rtCfg = roleTypeConfig[rt]
+                      const rtColor = rtCfg.color(isDark)
+                      const icon = getIconUrl(exp.companyUrl, exp.company, institutionLogos)
+
+                      return (
+                        <Box key={id} position="relative">
+                          {/* Node dot on the spine */}
+                          <Box
+                            position="absolute"
+                            left="-21px"
+                            top={['27px', '31px']}
+                            w="9px" h="9px"
+                            borderRadius="full"
+                            bg={termBg}
+                            border="2px solid"
+                            borderColor={exp.isCurrent ? termSuccess : 'var(--border-strong)'}
+                          />
+
+                          {/* Card */}
+                          <Box
+                            bg="var(--card-bg)"
+                            border="1px solid"
+                            borderColor="var(--border-color)"
+                            borderRadius="12px"
+                            boxShadow="var(--shadow-sm)"
+                            transition="transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease"
+                            _hover={{
+                              transform: 'translateY(-2px)',
+                              borderColor: 'var(--border-strong)',
+                              boxShadow: 'var(--shadow-lift)',
+                            }}
+                          >
+                            <Flex
+                              px={[3, 4]} py={[3, 4]}
+                              gap={3}
+                              align="start"
+                              cursor="pointer"
+                              onClick={() => toggleExpanded(id)}
                             >
-                              {t(rtCfg.labelKey)}
-                            </Text>
-                            {exp.isCurrent && (
-                              <Box w="6px" h="6px" borderRadius="full" bg={termSuccess} flexShrink={0} />
-                            )}
-                          </Flex>
-
-                          {/* Company + location */}
-                          <Flex align="center" gap={1} flexWrap="wrap" fontSize="xs">
-                            {exp.companyUrl ? (
-                              <Link
-                                href={exp.companyUrl} isExternal
-                                color={termCommand} fontSize="xs"
-                                onClick={e => e.stopPropagation()}
-                                _hover={{ textDecoration: 'underline' }}
+                              {/* Logo shell */}
+                              <Flex
+                                w="40px"
+                                h="40px"
+                                borderRadius="10px"
+                                bg="var(--elevated-bg)"
+                                border="1px solid"
+                                borderColor="var(--border-color)"
+                                align="center"
+                                justify="center"
+                                flexShrink={0}
+                                overflow="hidden"
                               >
-                                {exp.company}
-                              </Link>
-                            ) : (
-                              <Text color={termCommand}>{exp.company}</Text>
-                            )}
-                            {exp.location && (
-                              <Text color={termSecondary}>· {exp.location}</Text>
-                            )}
-                          </Flex>
+                                {icon ? (
+                                  <Image
+                                    src={resolveIconSrc(icon)}
+                                    alt=""
+                                    maxW="28px"
+                                    maxH="28px"
+                                    objectFit="contain"
+                                    fallback={
+                                      <Flex
+                                        w="full" h="full"
+                                        align="center" justify="center"
+                                        fontSize="sm" fontWeight="bold"
+                                        color={rtColor}
+                                      >
+                                        {exp.company.charAt(0)}
+                                      </Flex>
+                                    }
+                                  />
+                                ) : (
+                                  <Text fontSize="sm" fontWeight="bold" color={rtColor}>
+                                    {exp.company.charAt(0)}
+                                  </Text>
+                                )}
+                              </Flex>
 
-                          {/* Date on mobile */}
-                          {isMobile && (
-                            <Text fontSize="2xs" color={termSecondary} mt={0.5}>
-                              {fmtDate(exp.start)} – {fmtDate(exp.end)}
-                            </Text>
-                          )}
+                              {/* Content */}
+                              <Box flex="1" minW={0}>
+                                {/* Role title + type chip */}
+                                <Flex align="center" gap={2} flexWrap="wrap" mb={0.5}>
+                                  <Text fontFamily="body" fontSize="md" fontWeight="semibold" color={termText} lineHeight="1.35">
+                                    {exp.title}
+                                  </Text>
+                                  <Text
+                                    fontSize="2xs"
+                                    fontWeight="bold"
+                                    color={rtColor}
+                                    letterSpacing="0.06em"
+                                    textTransform="uppercase"
+                                    px={1.5} py={0.5}
+                                    lineHeight="1.2"
+                                    borderRadius="6px"
+                                    bg={`${rtColor}18`}
+                                  >
+                                    {t(rtCfg.labelKey)}
+                                  </Text>
+                                  {exp.isCurrent && (
+                                    <Box w="6px" h="6px" borderRadius="full" bg={termSuccess} flexShrink={0} />
+                                  )}
+                                </Flex>
+
+                                {/* Org name */}
+                                <Flex align="center" gap={1.5} flexWrap="wrap" fontSize="sm">
+                                  {exp.companyUrl ? (
+                                    <Link
+                                      href={exp.companyUrl} isExternal
+                                      color="accent" fontSize="sm" fontWeight="medium"
+                                      onClick={e => e.stopPropagation()}
+                                      _hover={{ textDecoration: 'underline', color: 'accentStrong' }}
+                                    >
+                                      {exp.company}
+                                    </Link>
+                                  ) : (
+                                    <Text color="accent" fontWeight="medium">{exp.company}</Text>
+                                  )}
+                                </Flex>
+
+                                {/* Period + location */}
+                                <Text fontFamily="mono" fontSize="xs" color="textMuted" mt={0.5}>
+                                  {fmtDate(exp.start)} – {fmtDate(exp.end)}
+                                  {exp.location ? ` · ${exp.location}` : ''}
+                                </Text>
+                              </Box>
+
+                              {/* Chevron */}
+                              <Icon
+                                as={FaChevronDown}
+                                boxSize="10px"
+                                color="textMuted"
+                                mt="8px"
+                                flexShrink={0}
+                                transition="transform 0.2s ease"
+                                transform={isExpanded ? 'rotate(180deg)' : 'rotate(0)'}
+                              />
+                            </Flex>
+
+                            {/* Expanded */}
+                            <Collapse in={isExpanded}>
+                              <Box pl={[3, '68px']} pr={[3, 4]} pb={[3, 4]}>
+                                <Box pl={3} borderLeft={`2px solid ${rtColor}`}>
+                                  {exp.summary && (
+                                    <Text fontFamily="body" fontSize="sm" color="textSecondary" mb={2} lineHeight="1.7">
+                                      {highlightData(exp.summary, hlc)}
+                                    </Text>
+                                  )}
+                                  <VStack align="stretch" spacing={1.5}>
+                                    {exp.highlights.map((line: string, i: number) => (
+                                      <HStack key={i} fontSize="sm" align="start" spacing={2}>
+                                        <Text color={rtColor} flexShrink={0} mt="1px">·</Text>
+                                        <Text fontFamily="body" fontSize="sm" color={termText} lineHeight="1.6">
+                                          {highlightData(line, hlc)}
+                                        </Text>
+                                      </HStack>
+                                    ))}
+                                  </VStack>
+                                </Box>
+                              </Box>
+                            </Collapse>
+                          </Box>
                         </Box>
+                      )
+                    })}
+                  </VStack>
+                </Box>
+              ))}
 
-                        {/* Period (desktop) */}
-                        {!isMobile && (
-                          <Text fontSize="xs" color={termSecondary} flexShrink={0} pt="2px" w="160px" textAlign="right">
-                            {fmtDate(exp.start)} – {fmtDate(exp.end)}
-                          </Text>
-                        )}
-
-                        {/* Chevron */}
-                        <Icon
-                          as={FaChevronDown}
-                          boxSize="10px"
-                          color={termSecondary}
-                          mt="6px"
-                          flexShrink={0}
-                          transition="transform 0.2s"
-                          transform={isExpanded ? 'rotate(180deg)' : 'rotate(0)'}
-                        />
-                      </Flex>
-
-                      {/* Expanded */}
-                      <Collapse in={isExpanded}>
-                        <Box
-                          mx={[3, 5]} mb={3}
-                          ml={[3, '69px']}
-                          pl={3}
-                          borderLeft={`2px solid ${rtColor}`}
-                        >
-                          {exp.summary && (
-                            <Text fontSize="xs" color={termHighlight} mb={2} lineHeight="1.6">
-                              {highlightData(exp.summary, hlc)}
-                            </Text>
-                          )}
-                          <VStack align="stretch" spacing={1}>
-                            {exp.highlights.map((line: string, i: number) => (
-                              <HStack key={i} fontSize="xs" align="start" spacing={2}>
-                                <Text color={rtColor} flexShrink={0} mt="1px">·</Text>
-                                <Text color={termText} lineHeight="1.5">{highlightData(line, hlc)}</Text>
-                              </HStack>
-                            ))}
-                          </VStack>
-                        </Box>
-                      </Collapse>
-                    </Box>
-                  )
-                })}
-              </Box>
-            ))}
-
-            {filtered.length === 0 && (
-              <Box px={5} py={8} textAlign="center">
-                <Text color={termSecondary} fontSize="sm">{t('experience.noPositions')}</Text>
-              </Box>
-            )}
+              {filtered.length === 0 && (
+                <Box py={8} textAlign="center">
+                  <Text color={termSecondary} fontSize="sm" fontFamily="body">{t('experience.noPositions')}</Text>
+                </Box>
+              )}
+            </Box>
           </Box>
 
           {/* Academic Reviewing */}
           {reviewingItems.length > 0 && (
             <Box px={[3, 5]} py={4} bg={termBg} borderTop={`1px solid ${termBorder}`}>
               <Flex align="center" gap={2} mb={3}>
-                <Box w="14px" h="3px" borderRadius="full" bg={tc.param} />
+                <Box w="12px" h="2px" borderRadius="full" bg={tc.param} />
                 <Text fontSize="xs" fontWeight="bold" color={termInfo} letterSpacing="0.06em">{t('experience.academicReviewing')}</Text>
-                <Text fontSize="2xs" color={termSecondary}>{reviewingItems.length}</Text>
-                <Box flex="1" h="1px" bg={termBorder} />
+                <Text fontSize="2xs" color={tc.muted}>{reviewingItems.length}</Text>
+                <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
               </Flex>
               <VStack align="stretch" spacing={2}>
                 {reviewingByYear.map(([year, items]) => (
@@ -546,11 +597,11 @@ const Experience: React.FC = () => {
                         <Text
                           key={`${item.venue}-${idx}`}
                           px={2} py={0.5}
-                          fontSize="xs"
+                          fontSize="2xs"
+                          letterSpacing="0.03em"
                           borderRadius="full"
-                          border="1px solid"
-                          borderColor={isDark ? 'whiteAlpha.150' : 'blackAlpha.100'}
-                          color={termCommand}
+                          bg="accentSubtle"
+                          color="accent"
                         >
                           {item.venue.replace(/\s*\d{4}\s*/, ' ').trim()}
                         </Text>

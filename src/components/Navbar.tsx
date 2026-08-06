@@ -32,12 +32,16 @@ const Navbar: React.FC = () => {
   return (
     <Box
       as="nav"
-      py={4}
+      py={3}
       borderBottom="1px solid"
       borderColor="var(--border-color)"
       position="sticky"
       top={0}
-      bg="var(--bg-color)"
+      bg="color-mix(in srgb, var(--bg-color) 78%, transparent)"
+      sx={{
+        backdropFilter: 'blur(12px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(140%)',
+      }}
       zIndex={1000}
       w="full"
     >
@@ -56,6 +60,7 @@ const Navbar: React.FC = () => {
             onClick={isOpen ? onClose : onOpen}
             variant="ghost"
             color="var(--text-color)"
+            _hover={{ bg: 'var(--hover-color)' }}
           />
         </Box>
 
@@ -70,22 +75,24 @@ const Navbar: React.FC = () => {
           h="44px"
           w="auto"
           gap={2}
-          pr={2}
+          px={2}
           borderRadius="md"
-          color="#facc15"
+          color="yellow.400"
           _hover={{
             bg: 'var(--hover-color)',
-            transform: 'translateY(-2px)',
+            transform: 'translateY(-1px)',
+            filter: 'drop-shadow(0 3px 10px color-mix(in srgb, currentColor 40%, transparent))',
           }}
-          transition="all 0.2s"
+          transition="transform 0.2s ease, background 0.2s ease, filter 0.2s ease"
         >
-          <Box as={LuBot} fontSize="2.6rem" flexShrink={0} />
+          <Box as={LuBot} fontSize="2.1rem" flexShrink={0} />
           <Box
             as="span"
             fontFamily="mono"
             fontSize="1rem"
             fontWeight={700}
             lineHeight="1"
+            letterSpacing="-0.01em"
           >
             SiriYep
           </Box>
@@ -93,7 +100,7 @@ const Navbar: React.FC = () => {
 
         {/* Desktop nav (right aligned) */}
         <HStack
-          spacing={8}
+          spacing={7}
           display={{ base: 'none', md: 'flex' }}
           ml="auto"
           mr={{ base: 0, md: 6 }}
@@ -102,41 +109,56 @@ const Navbar: React.FC = () => {
             const isActive = location.pathname === item.path
 
             return (
-              <Link
+              <ChakraLink
                 key={item.path}
+                as={Link}
                 to={item.path}
-                style={{
-                  color: 'var(--text-color)',
+                position="relative"
+                fontFamily="mono"
+                fontSize="sm"
+                fontWeight={isActive ? 600 : 500}
+                lineHeight="1.2"
+                py={1}
+                color={isActive ? 'accent' : 'var(--secondary-text)'}
+                _hover={{
                   textDecoration: 'none',
-                  borderBottom: isActive ? '2px solid var(--accent-color)' : 'none',
-                  paddingBottom: '2px',
-                  fontSize: '1rem',
-                  fontWeight: isActive ? '600' : '400',
-                  transition: 'all 0.2s'
+                  color: isActive ? 'accent' : 'var(--text-color)',
                 }}
+                transition="color 0.2s ease"
               >
                 {t(item.labelKey)}
-              </Link>
+                {isActive && (
+                  <Box
+                    position="absolute"
+                    bottom="-5px"
+                    left="0"
+                    right="0"
+                    h="2px"
+                    borderRadius="full"
+                    bg="accent"
+                    boxShadow="0 0 8px 1px var(--accent-light)"
+                  />
+                )}
+              </ChakraLink>
             )
           })}
         </HStack>
-        <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
+        <HStack spacing={3} display={{ base: 'none', md: 'flex' }}>
           {socialLinks.map((link) => (
             <ChakraLink
               key={link.label}
               href={link.href}
               isExternal
+              aria-label={link.label}
               color="var(--secondary-text)"
               p={1.5}
               borderRadius="md"
               _hover={{
                 color: 'var(--accent-color)',
                 transform: 'translateY(-2px)',
-                ...(link.label === 'LinkedIn' || link.label === 'Email'
-                  ? { bg: 'var(--hover-color)' }
-                  : {})
+                bg: 'var(--hover-color)',
               }}
-              transition="all 0.2s"
+              transition="color 0.2s ease, transform 0.2s ease, background 0.2s ease"
             >
               <Box
                 as={link.icon}
@@ -149,8 +171,10 @@ const Navbar: React.FC = () => {
             size="xs"
             variant="ghost"
             color="var(--text-color)"
-            fontWeight="medium"
+            fontFamily="mono"
+            fontWeight="600"
             fontSize="xs"
+            letterSpacing="0.02em"
             px={2}
             minW="auto"
             onClick={toggleLanguage}
@@ -159,7 +183,7 @@ const Navbar: React.FC = () => {
               bg: 'var(--hover-color)',
               transform: 'translateY(-2px)'
             }}
-            transition="all 0.2s"
+            transition="transform 0.2s ease, background 0.2s ease"
           >
             {i18n.language === 'zh' ? 'EN' : '中'}
           </Button>
@@ -173,7 +197,7 @@ const Navbar: React.FC = () => {
               bg: 'var(--hover-color)',
               transform: 'translateY(-2px)'
             }}
-            transition="all 0.2s"
+            transition="transform 0.2s ease, background 0.2s ease"
           />
         </HStack>
       </Flex>
@@ -181,9 +205,19 @@ const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
         <DrawerOverlay />
-        <DrawerContent bg="var(--bg-color)">
-          <DrawerHeader color="var(--text-color)">{t('nav.navigation')}</DrawerHeader>
-          <DrawerBody>
+        <DrawerContent bg="var(--bg-color)" borderRight="1px solid" borderColor="var(--border-color)">
+          <DrawerHeader
+            color="var(--text-color)"
+            fontFamily="mono"
+            fontSize="sm"
+            fontWeight="700"
+            letterSpacing="0.04em"
+            borderBottom="1px solid"
+            borderColor="var(--border-color)"
+          >
+            {t('nav.navigation')}
+          </DrawerHeader>
+          <DrawerBody pt={4}>
             <VStack align="stretch" spacing={3}>
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path
@@ -193,9 +227,16 @@ const Navbar: React.FC = () => {
                     as={Link}
                     to={item.path}
                     onClick={onClose}
-                    color={isActive ? 'var(--accent-color)' : 'var(--text-color)'}
-                    _hover={{ color: 'var(--accent-color)' }}
-                    fontWeight={isActive ? 600 : 400}
+                    fontFamily="mono"
+                    fontSize="sm"
+                    py={1}
+                    color={isActive ? 'accent' : 'var(--secondary-text)'}
+                    fontWeight={isActive ? 600 : 500}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: isActive ? 'accent' : 'var(--text-color)',
+                    }}
+                    transition="color 0.2s ease"
                   >
                     {t(item.labelKey)}
                   </ChakraLink>
@@ -210,8 +251,15 @@ const Navbar: React.FC = () => {
                     key={link.label}
                     href={link.href}
                     isExternal
+                    fontFamily="mono"
+                    fontSize="sm"
+                    py={1}
                     color="var(--secondary-text)"
-                    _hover={{ color: 'var(--accent-color)' }}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: 'var(--accent-color)',
+                    }}
+                    transition="color 0.2s ease"
                   >
                     <Box as={link.icon} mr={2} display="inline-block" /> {link.label}
                   </ChakraLink>
@@ -225,8 +273,13 @@ const Navbar: React.FC = () => {
                   size="sm"
                   variant="outline"
                   color="var(--text-color)"
+                  borderColor="var(--border-color)"
+                  fontFamily="mono"
+                  fontWeight="600"
                   onClick={toggleLanguage}
                   flex={1}
+                  _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-strong)' }}
+                  transition="background 0.2s ease, border-color 0.2s ease"
                 >
                   {i18n.language === 'zh' ? 'English' : '中文'}
                 </Button>
@@ -236,6 +289,9 @@ const Navbar: React.FC = () => {
                   onClick={toggleColorMode}
                   variant="outline"
                   color="var(--text-color)"
+                  borderColor="var(--border-color)"
+                  _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-strong)' }}
+                  transition="background 0.2s ease, border-color 0.2s ease"
                 />
               </HStack>
             </VStack>

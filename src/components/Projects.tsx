@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import {
-  Box, Collapse, Flex, HStack, Icon, Input, Link, Text, VStack,
-  Image, useColorMode, useColorModeValue,
+  Box, Collapse, Flex, Heading, HStack, Icon, Input, Link, Text, VStack,
+  Image, useColorMode,
   Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -87,9 +87,9 @@ const FlowNode: React.FC<{
   const role = roleConfig[item.role || 'independent']
   const liveStars = useGitHubStars(item.link)
   const isStarBadge = !!item.badge && /star/i.test(item.badge)
-  const badges: string[] = []
-  if (item.badge && !(isStarBadge && liveStars)) badges.push(item.badge)
-  if (liveStars) badges.push(`${liveStars} stars`)
+  const badges: { text: string; star: boolean }[] = []
+  if (item.badge && !(isStarBadge && liveStars)) badges.push({ text: item.badge, star: isStarBadge })
+  if (liveStars) badges.push({ text: `${liveStars} stars`, star: true })
   const hasImg = !!item.featuredImage
   const res: { label: string; url: string }[] = []
   if (item.link) res.push({ label: t('projects.source'), url: item.link })
@@ -113,19 +113,20 @@ const FlowNode: React.FC<{
       {/* Content */}
       <Box flex={1} minW={0}>
         {/* Category + Role + Date label line */}
-        <HStack spacing={2} mb={1} flexWrap="wrap" align="center">
-          <Box h="2px" w="16px" bg={ct.color} borderRadius="full" />
-          <HStack spacing={1} color={ct.color}>
-            <Icon as={ct.icon} boxSize="10px" />
+        <HStack spacing={2} mb={1.5} flexWrap="wrap" align="center">
+          <HStack spacing={1} px={1.5} py={0.5} borderRadius="6px"
+            bg={ct.glow} color={ct.color}>
+            <Icon as={ct.icon} boxSize="9px" />
             <Text fontSize="2xs" fontFamily="mono" fontWeight="semibold"
-              letterSpacing="wide" textTransform="uppercase">
+              letterSpacing="wide" textTransform="uppercase" lineHeight="1.4">
               {ct.label}
             </Text>
           </HStack>
-          <Text fontSize="2xs" color={termBorder}>/</Text>
+          <Text fontSize="2xs" fontFamily="mono" color={termMuted}>/</Text>
           <HStack spacing={1}>
             <Icon as={role.icon} boxSize="9px" color={role.color(isDark)} />
-            <Text fontSize="2xs" fontFamily="mono" color={role.color(isDark)} fontWeight="bold">
+            <Text fontSize="2xs" fontFamily="mono" color={role.color(isDark)} fontWeight="semibold"
+              letterSpacing="wide">
               {t(role.textKey)}
             </Text>
           </HStack>
@@ -135,10 +136,10 @@ const FlowNode: React.FC<{
         </HStack>
 
         {/* Title */}
-        <Text fontSize={['sm', 'md']} fontWeight="semibold" lineHeight="tall"
-          color={termText} mb={1}
+        <Text fontFamily="body" fontSize={['sm', 'md']} fontWeight="semibold" lineHeight="tall"
+          letterSpacing="-0.01em" color={termText} mb={1}
           cursor={hasExpandable ? 'pointer' : undefined}
-          transition="color 0.15s"
+          transition="color 0.15s ease"
           _hover={hasExpandable ? { color: ct.color } : undefined}
           onClick={hasExpandable ? () => setExpanded(p => !p) : undefined}>
           {item.title}
@@ -151,11 +152,15 @@ const FlowNode: React.FC<{
         {badges.length > 0 && (
           <HStack spacing={1.5} mb={2} flexWrap="wrap">
             {badges.map((b, i) => (
-              <Text key={i} fontSize="2xs" fontFamily="mono" px={2} py={0.5} borderRadius="sm"
-                border={`1px solid ${ct.border}`} color={ct.color}
-                bg={isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'}>
-                {b}
-              </Text>
+              <HStack key={i} spacing={1} px={2} py={0.5} borderRadius="6px"
+                border="1px solid" borderColor={ct.border} color={ct.color}
+                bg={isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'}
+                fontSize="2xs" fontFamily="mono" letterSpacing="wide"
+                transition="border-color 0.15s ease, color 0.15s ease"
+                _hover={b.star ? { borderColor: 'var(--accent-color)', color: 'var(--accent-color)' } : undefined}>
+                {b.star && <Text as="span" lineHeight="1">★</Text>}
+                <Text as="span">{b.text}</Text>
+              </HStack>
             ))}
           </HStack>
         )}
@@ -182,38 +187,38 @@ const FlowNode: React.FC<{
 
           <VStack align="start" spacing={2.5} flex={1} minW={0} justify="center">
             {/* Summary */}
-            <Text fontSize="xs" lineHeight="tall" color={termSecondary}>
+            <Text fontFamily="body" fontSize={['xs', 'sm']} lineHeight="tall" color={termSecondary}>
               {highlightData(item.summary, hlc)}
             </Text>
 
             {/* Divider */}
-            <Box w="full" h="1px" bg={termBorder} opacity={0.4} />
+            <Box w="full" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
 
             {/* Links + Expand button row */}
             <HStack spacing={1.5} flexWrap="wrap">
               {res.map(r => (
                 <Link key={r.url} href={r.url} isExternal
                   onClick={e => e.stopPropagation()} _hover={{ textDecoration: 'none' }}>
-                  <HStack spacing={1.5} px={2.5} py={1} borderRadius="sm"
+                  <HStack spacing={1.5} px={2.5} py={1} borderRadius="6px"
                     border="1px solid" borderColor={termBorder}
                     color={termSecondary} fontSize="xs" fontFamily="mono"
-                    transition="all 0.15s"
-                    _hover={{ borderColor: ct.color, color: ct.color }}>
+                    transition="border-color 0.15s ease, color 0.15s ease, transform 0.15s ease"
+                    _hover={{ borderColor: ct.color, color: ct.color, transform: 'translateY(-1px)' }}>
                     <Icon as={linkIcon(r.url)} boxSize="11px" />
                     <Text>{r.label}</Text>
                   </HStack>
                 </Link>
               ))}
               {hasExpandable && (
-                <HStack as="button" spacing={1.5} px={2.5} py={1} borderRadius="sm"
+                <HStack as="button" spacing={1.5} px={2.5} py={1} borderRadius="6px"
                   border="1px solid" fontSize="xs" fontFamily="mono"
                   borderColor={expanded ? ct.color : termBorder}
                   color={expanded ? ct.color : termSecondary}
-                  transition="all 0.15s"
+                  transition="border-color 0.15s ease, color 0.15s ease"
                   _hover={{ borderColor: ct.color, color: ct.color }}
                   onClick={() => setExpanded(p => !p)}>
                   <Icon as={FaChevronDown} boxSize="8px"
-                    transition="transform 0.15s"
+                    transition="transform 0.15s ease"
                     transform={expanded ? 'rotate(180deg)' : undefined} />
                   <Text>{expanded ? t('projects.less') : t('projects.details')}</Text>
                 </HStack>
@@ -224,10 +229,10 @@ const FlowNode: React.FC<{
             {item.tags.length > 0 && (
               <HStack spacing={1.5} flexWrap="wrap">
                 {item.tags.map(t => (
-                  <Text key={t} fontSize="2xs" fontFamily="mono"
-                    color={termMuted} px={1.5} py={0.5}
+                  <Text key={t} fontSize="2xs" fontFamily="mono" letterSpacing="wide"
+                    color={termMuted} px={2} py={0.5}
                     bg={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}
-                    borderRadius="sm">
+                    borderRadius="full">
                     {t}
                   </Text>
                 ))}
@@ -242,8 +247,8 @@ const FlowNode: React.FC<{
             {item.highlights && item.highlights.length > 0 && (
               <Box>
                 {item.highlights.map((h, i) => (
-                  <Text key={i} fontSize="xs" color={termSecondary} lineHeight="1.8">
-                    <Text as="span" color={ct.color} mr={1.5}>▸</Text>{highlightData(h, hlc)}
+                  <Text key={i} fontFamily="body" fontSize="xs" color={termSecondary} lineHeight="1.8">
+                    <Text as="span" fontFamily="mono" color={ct.color} mr={1.5}>▸</Text>{highlightData(h, hlc)}
                   </Text>
                 ))}
               </Box>
@@ -251,8 +256,8 @@ const FlowNode: React.FC<{
 
             {item.story && (
               <Box p={3} bg={isDark ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.02)'}
-                borderRadius="md" borderLeft="2px solid" borderLeftColor={ct.color}>
-                <Text fontSize={['xs', 'xs']} lineHeight="tall" color={termMuted} fontStyle="italic">
+                borderRadius="8px" borderLeft="2px solid" borderLeftColor={ct.color}>
+                <Text fontFamily="body" fontSize={['xs', 'xs']} lineHeight="tall" color={termSecondary} fontStyle="italic">
                   "{highlightData(item.story, hlc)}"
                 </Text>
               </Box>
@@ -306,10 +311,13 @@ const Projects: React.FC = () => {
     projects.forEach(p => { cnt[p.category] = (cnt[p.category] || 0) + 1 })
     const cats: ProjectItem['category'][] = ['robotics', 'nlp', 'web-app', 'data', 'tooling', 'healthcare', 'resources', 'agent']
     return [
-      { key: 'all' as TabKey, icon: FaFolderOpen, label: t('projects.all'), color: termInfo, count: cnt.all },
+      {
+        key: 'all' as TabKey, icon: FaFolderOpen, label: t('projects.all'),
+        color: termInfo, activeBg: 'var(--accent-light)', count: cnt.all,
+      },
       ...cats.filter(k => cnt[k] > 0).map(k => ({
         key: k as TabKey, icon: themes[k].icon, label: t(`category.${k}`),
-        color: themes[k].color, count: cnt[k],
+        color: themes[k].color, activeBg: themes[k].glow, count: cnt[k],
       })),
     ]
   }, [projects, themes, termInfo])
@@ -354,21 +362,35 @@ const Projects: React.FC = () => {
   const promptPath = activeTab === 'all' ? '~' : `~/${activeTab}`
 
   return (
-    <Box w="full" minH="100vh" bg={useColorModeValue('gray.50', 'gray.900')} py={8}>
-      <VStack maxW="1400px" mx="auto" spacing={4} px={[2, 4, 8]}>
+    <Box w="full" minH="100vh" py={[8, 10, 12]}>
+      <VStack maxW="1400px" mx="auto" spacing={5} px={[2, 4, 8]}>
+        {/* ═══ Section header ═══ */}
+        <Flex w="full" align="center" gap={3}>
+          <Text as="span" fontFamily="mono" fontWeight="700" color="prompt" fontSize="lg" lineHeight="1">$</Text>
+          <Heading as="h2" size="md" fontFamily="mono" letterSpacing="-0.01em">
+            {t('nav.projects')}
+          </Heading>
+          <Text as="span" fontFamily="mono" fontSize="2xs" fontWeight="600" letterSpacing="wide"
+            px={2} py={0.5} borderRadius="full" bg="accentSubtle" color="accent">
+            {projects.length}
+          </Text>
+          <Box flex="1" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
+        </Flex>
+
         <Box
-          w="full" borderRadius="md" fontFamily="mono" overflow="hidden"
-          boxShadow={`0 0 0 1px ${termBorder}, 0 4px 16px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`}
+          w="full" borderRadius="12px" fontFamily="mono" overflow="hidden"
+          border="1px solid" borderColor={termBorder}
+          boxShadow="var(--shadow-card)"
         >
           {/* ═══ Pixel RGB light bar ═══ */}
-          <Flex h="3px" w="full" overflow="hidden" borderTopRadius="md">
+          <Flex h="2px" w="full" overflow="hidden">
             {(() => {
-              const palette = ['#bf616a','#d08770','#ebcb8b','#a3be8c','#88c0d0','#5e81ac','#b48ead'];
+              const palette = terminalPalette.rainbow;
               const total = 28;
               const tick = Math.floor(Date.now() / 200);
               return Array.from({ length: total }, (_, i) => {
                 const colorIdx = (i + tick) % palette.length;
-                const brightness = 0.6 + 0.4 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
+                const brightness = 0.45 + 0.35 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
                 return <Box key={i} flex={1} h="full" bg={palette[colorIdx]} opacity={brightness} />;
               });
             })()}
@@ -378,9 +400,9 @@ const Projects: React.FC = () => {
           <Flex bg={termHeader} px={4} py={2} align="center" justify="space-between" fontSize="xs" color={termText}>
             <HStack spacing={3}>
               <HStack spacing={1.5}>
-                <Box w="10px" h="10px" borderRadius="full" bg="#bf616a" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#ebcb8b" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#a3be8c" />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ff5f56" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ffbd2e" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#27c93f" opacity={0.9} />
               </HStack>
               <Text>
                 <Box as="span" color={tc.param}>const </Box>
@@ -393,7 +415,7 @@ const Projects: React.FC = () => {
                 <Box as="span" color={termMuted}>)</Box>
               </Text>
             </HStack>
-            <Text color={termHighlight} fontSize="xs">
+            <Text color={termMuted} fontSize="xs">
               {new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </Text>
           </Flex>
@@ -419,9 +441,10 @@ const Projects: React.FC = () => {
             <Text color={termInfo} flexShrink={0}>~/projects/{promptPath === '~' ? 'all' : activeTab}</Text>
           </Flex>
 
-          {/* ═══ TAB BAR ═══ */}
+          {/* ═══ TAB BAR — filter chips ═══ */}
           <Flex
             bg={termTabBar} overflowX="auto" borderBottom={`1px solid ${termBorder}`}
+            px={3} py={2} gap={1.5} align="center"
             sx={{ '&::-webkit-scrollbar': { height: '0' } }}
           >
             {tabs.map(tab => {
@@ -429,15 +452,16 @@ const Projects: React.FC = () => {
               return (
                 <Flex
                   key={tab.key} as="button" align="center" gap={1.5}
-                  px={4} py={2} fontSize="xs" fontFamily="mono"
-                  color={active ? tab.color : termMuted}
-                  bg={active ? termBg : 'transparent'}
-                  borderBottom={active ? `2px solid ${tab.color}` : '2px solid transparent'}
-                  fontWeight={active ? 'bold' : 'normal'}
-                  transition="all 0.15s"
+                  px={2.5} py={1} fontSize="xs" fontFamily="mono"
+                  borderRadius="full" border="1px solid"
+                  borderColor={active ? tab.color : 'transparent'}
+                  color={active ? tab.color : termSecondary}
+                  bg={active ? tab.activeBg : 'transparent'}
+                  fontWeight={active ? 'semibold' : 'normal'}
+                  transition="color 0.15s ease, border-color 0.15s ease, background 0.15s ease"
                   _hover={{
                     color: tab.color,
-                    bg: active ? termBg : (isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
+                    borderColor: active ? tab.color : termBorder,
                   }}
                   onClick={() => setActiveTab(tab.key)}
                   flexShrink={0} whiteSpace="nowrap"
@@ -445,10 +469,10 @@ const Projects: React.FC = () => {
                   <Box sx={active && tab.key !== 'all'
                     ? { animation: themes[tab.key as ProjectItem['category']].anim }
                     : undefined}>
-                    <Icon as={tab.icon} boxSize="12px" />
+                    <Icon as={tab.icon} boxSize="11px" display="block" />
                   </Box>
                   {tab.label}
-                  <Text as="span" opacity={0.7}>({tab.count})</Text>
+                  <Text as="span" opacity={0.65}>({tab.count})</Text>
                 </Flex>
               )
             })}
@@ -464,7 +488,7 @@ const Projects: React.FC = () => {
               placeholder="grep -i '...'"
               value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
               size="xs" variant="unstyled" color={termText} fontFamily="mono"
-              flex="1" minW="120px" _placeholder={{ color: termSecondary }}
+              flex="1" minW="120px" _placeholder={{ color: termMuted }}
             />
           </Flex>
 
@@ -487,7 +511,7 @@ const Projects: React.FC = () => {
                       fontWeight="semibold" letterSpacing="wide">
                       {group.year}
                     </Text>
-                    <Box flex="1" h="1px" bg={termBorder} opacity={0.3} />
+                    <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
                     <Text fontSize="2xs" fontFamily="mono" color={termMuted}>
                       {group.items.length} {t('projects.projects')}
                     </Text>

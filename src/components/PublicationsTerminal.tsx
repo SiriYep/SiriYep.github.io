@@ -5,7 +5,6 @@ import {
   HStack,
   Text,
   Link,
-  useColorModeValue,
   Flex,
   Badge,
   useColorMode,
@@ -97,6 +96,20 @@ const PublicationsTerminal: React.FC = () => {
   const venueColors = Object.fromEntries(
     Object.entries(publicationVenueColors).map(([k, v]) => [k, { bg: v.bg(isDark), fg: v.fg(isDark), label: v.label }])
   ) as Record<string, { bg: string; fg: string; label: string }>
+
+  // Mono link-chip styling shared by resource links
+  const linkChip = {
+    bg: 'transparent',
+    border: '1px solid',
+    borderColor: termBorder,
+    color: termSecondary,
+    borderRadius: '8px',
+    px: 2.5,
+    py: 0.5,
+    fontSize: '2xs',
+    transition: 'border-color 0.15s ease, color 0.15s ease, transform 0.15s ease',
+    _hover: { borderColor: termCommand, color: termCommand, transform: 'translateY(-1px)' },
+  }
   
   // Update time every second
   useEffect(() => {
@@ -205,25 +218,27 @@ const PublicationsTerminal: React.FC = () => {
   }, [openImageModal])
   
   return (
-    <Box w="full" minH="100vh" bg={useColorModeValue('gray.50', 'gray.900')} py={8}>
+    <Box w="full" minH="100vh" bg="var(--bg-color)" py={[8, 10, 12]}>
       <VStack spacing={6} maxW="1400px" mx="auto" px={[2, 4, 6]}>
         {/* Terminal Container */}
         <Box
           w="full"
-          borderRadius="md"
+          borderRadius="12px"
           fontFamily="mono"
-          boxShadow={`0 0 0 1px ${termBorder}, 0 4px 16px ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`}
+          border="1px solid"
+          borderColor={termBorder}
+          boxShadow="var(--shadow-card)"
           overflow="hidden"
         >
           {/* ═══ Pixel RGB light bar ═══ */}
-          <Flex h="3px" w="full" overflow="hidden">
+          <Flex h="2px" w="full" overflow="hidden">
             {(() => {
-              const palette = ['#bf616a','#d08770','#ebcb8b','#a3be8c','#88c0d0','#5e81ac','#b48ead'];
+              const palette = terminalPalette.rainbow;
               const total = 28;
               const tick = Math.floor(currentTime.getTime() / 200);
               return Array.from({ length: total }, (_, i) => {
                 const colorIdx = (i + tick) % palette.length;
-                const brightness = 0.6 + 0.4 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
+                const brightness = 0.45 + 0.35 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
                 return <Box key={i} flex={1} h="full" bg={palette[colorIdx]} opacity={brightness} />;
               });
             })()}
@@ -243,9 +258,9 @@ const PublicationsTerminal: React.FC = () => {
           >
             <HStack spacing={3}>
               <HStack spacing={1.5}>
-                <Box w="10px" h="10px" borderRadius="full" bg="#bf616a" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#ebcb8b" />
-                <Box w="10px" h="10px" borderRadius="full" bg="#a3be8c" />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ff5f56" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#ffbd2e" opacity={0.9} />
+                <Box w="10px" h="10px" borderRadius="full" bg="#27c93f" opacity={0.9} />
               </HStack>
               <Text>
                 <Box as="span" color={termParam}>const </Box>
@@ -293,6 +308,11 @@ const PublicationsTerminal: React.FC = () => {
               py={3}
               bg={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.03)'}
               borderBottom={`1px solid ${termBorder}`}
+              sx={{
+                '.chakra-stat__label': { fontSize: '2xs', letterSpacing: '0.08em', textTransform: 'uppercase' },
+                '.chakra-stat__number': { fontSize: 'xl', fontFamily: 'var(--font-mono)' },
+                '.chakra-stat__help-text': { fontSize: '2xs', color: tc.muted, mb: 0 },
+              }}
             >
               <SimpleGrid columns={[2, 3, 6]} spacing={4}>
                 <Stat size="sm">
@@ -346,8 +366,9 @@ const PublicationsTerminal: React.FC = () => {
                 minW="200px"
                 bg={isDark ? 'rgba(0,0,0,0.2)' : 'white'}
                 border={`1px solid ${termBorder}`}
+                borderRadius="8px"
                 color={termText}
-                _placeholder={{ color: termSecondary }}
+                _placeholder={{ color: tc.muted }}
                 fontFamily="mono"
               />
               
@@ -358,6 +379,7 @@ const PublicationsTerminal: React.FC = () => {
                 w="120px"
                 bg={isDark ? 'rgba(0,0,0,0.2)' : 'white'}
                 border={`1px solid ${termBorder}`}
+                borderRadius="8px"
                 color={termText}
                 fontFamily="mono"
               >
@@ -374,6 +396,7 @@ const PublicationsTerminal: React.FC = () => {
                 w="140px"
                 bg={isDark ? 'rgba(0,0,0,0.2)' : 'white'}
                 border={`1px solid ${termBorder}`}
+                borderRadius="8px"
                 color={termText}
                 fontFamily="mono"
               >
@@ -389,8 +412,9 @@ const PublicationsTerminal: React.FC = () => {
                 aria-label="Toggle stats"
                 icon={<FaChartBar />}
                 size="sm"
+                borderRadius="8px"
                 onClick={() => setShowStats(!showStats)}
-                colorScheme={showStats ? "blue" : "gray"}
+                colorScheme={showStats ? "cyan" : "gray"}
                 variant={showStats ? "solid" : "outline"}
               />
             </Flex>
@@ -418,9 +442,10 @@ const PublicationsTerminal: React.FC = () => {
               px={4}
               py={2}
               borderBottom={`1px solid ${termBorder}`}
-              fontSize="xs"
-              fontWeight="bold"
-              color={termInfo}
+              fontSize="2xs"
+              fontWeight="600"
+              letterSpacing="0.08em"
+              color={termSecondary}
             >
               {!isMobile && <Text w="320px" mr={6}>PREVIEW</Text>}
               <Text flex="1">PUBLICATION</Text>
@@ -432,7 +457,7 @@ const PublicationsTerminal: React.FC = () => {
             {filteredPublications.map((pub) => (
               <Box
                 key={pub.id}
-                borderBottom={`1px dotted ${termBorder}`}
+                borderBottom={`1px solid ${termBorder}`}
                 _hover={{
                   bg: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
                 }}
@@ -494,7 +519,7 @@ const PublicationsTerminal: React.FC = () => {
                       {pub.emoji && emojiIconMap[pub.emoji] && (
                         <Icon as={emojiIconMap[pub.emoji]} boxSize="14px" color={venueColors[pub.venueType].fg} mr={1} flexShrink={0} />
                       )}
-                      <Text fontWeight="medium" flex="1">
+                      <Text fontFamily="body" fontWeight="600" fontSize="md" lineHeight="1.5" flex="1">
                         {pub.title}
                       </Text>
                     </HStack>
@@ -504,10 +529,11 @@ const PublicationsTerminal: React.FC = () => {
                       <Badge
                         bg={venueColors[pub.venueType].bg}
                         color={venueColors[pub.venueType].fg}
-                        fontSize="xs"
+                        fontSize="2xs"
                         px={2}
                         py={0.5}
-                        fontWeight="bold"
+                        fontWeight="700"
+                        letterSpacing="0.05em"
                       >
                         {pub.venue && String(pub.year) && pub.venue.includes(String(pub.year))
                           ? pub.venue
@@ -532,28 +558,42 @@ const PublicationsTerminal: React.FC = () => {
                       
                       {/* Special Badges */}
                       {pub.specialBadges && pub.specialBadges.map((badge, i) => (
-                        <Badge
-                          key={i}
-                          colorScheme={
-                            badge === 'Best Paper' ? 'red' :
-                            badge === 'Oral' ? 'orange' :
-                            badge === 'Spotlight' ? 'yellow' :
-                            badge === 'Main Track' ? 'blue' :
-                            badge === 'First Author' ? 'green' :
-                            badge === 'Corresponding' ? 'purple' :
-                            badge === 'Demo' ? 'teal' :
-                            badge === 'Co-First' ? 'cyan' :
-                            'gray'
-                          }
-                          fontSize="2xs"
-                          px={1}
-                          py={0}
-                        >
-                          {badge === 'Best Paper' ? `🏆 ${badge}` : badge}
-                        </Badge>
+                        badge === 'Best Paper' ? (
+                          <Badge
+                            key={i}
+                            bg={isDark ? 'rgba(235, 203, 139, 0.14)' : 'rgba(163, 123, 44, 0.1)'}
+                            color="warm"
+                            border="1px solid"
+                            borderColor={isDark ? 'rgba(235, 203, 139, 0.35)' : 'rgba(163, 123, 44, 0.3)'}
+                            fontSize="2xs"
+                            px={1.5}
+                            py={0}
+                          >
+                            {`🏆 ${badge}`}
+                          </Badge>
+                        ) : (
+                          <Badge
+                            key={i}
+                            colorScheme={
+                              badge === 'Oral' ? 'orange' :
+                              badge === 'Spotlight' ? 'yellow' :
+                              badge === 'Main Track' ? 'blue' :
+                              badge === 'First Author' ? 'green' :
+                              badge === 'Corresponding' ? 'purple' :
+                              badge === 'Demo' ? 'teal' :
+                              badge === 'Co-First' ? 'cyan' :
+                              'gray'
+                            }
+                            fontSize="2xs"
+                            px={1.5}
+                            py={0}
+                          >
+                            {badge}
+                          </Badge>
+                        )
                       ))}
                     </HStack>
-                    <Text fontSize="xs" color={termSecondary}>
+                    <Text fontFamily="body" fontSize="sm" color={termSecondary}>
                       {pub.authors.map((author, i) => {
                         const cleanAuthor = author.replace('*', '')
                         const hasAsterisk = author.includes('*')
@@ -563,7 +603,7 @@ const PublicationsTerminal: React.FC = () => {
                         return (
                           <Text as="span" key={i}>
                             {isOwner ? (
-                              <Text as="span" color={termSuccess} fontWeight="bold">
+                              <Text as="span" color="accent" fontWeight="600">
                                 {cleanAuthor}
                                 {(hasAsterisk || isCoFirstAuthor) && <Text as="sup" color={termWarning}>*</Text>}
                                 {pub.isFirstAuthor && i === 0 && !hasAsterisk && !isCoFirstAuthor && " (1st)"}
@@ -590,30 +630,30 @@ const PublicationsTerminal: React.FC = () => {
                   
                   {/* Resources */}
                   {!isMobile && (
-                    <HStack w="150px" spacing={1}>
+                    <HStack w="150px" spacing={1} flexWrap="wrap" rowGap={1}>
                       {pub.links.paper && (
                         <Tooltip label="Paper">
                           <Link href={pub.links.paper} isExternal onClick={(e) => e.stopPropagation()}>
-                            <Badge colorScheme="blue" fontSize="2xs">PDF</Badge>
+                            <Badge {...linkChip}>PDF</Badge>
                           </Link>
                         </Tooltip>
                       )}
                       {pub.links.code && (
                         <Tooltip label="Code">
                           <Link href={pub.links.code} isExternal onClick={(e) => e.stopPropagation()}>
-                            <Badge colorScheme="green" fontSize="2xs">CODE</Badge>
+                            <Badge {...linkChip}>CODE</Badge>
                           </Link>
                         </Tooltip>
                       )}
                       {pub.links.projectPage && (
                         <Tooltip label="Project">
                           <Link href={pub.links.projectPage} isExternal onClick={(e) => e.stopPropagation()}>
-                            <Badge colorScheme="purple" fontSize="2xs">PROJ</Badge>
+                            <Badge {...linkChip}>PROJ</Badge>
                           </Link>
                         </Tooltip>
                       )}
                       {Object.keys(pub.links).length > 3 && (
-                        <Badge colorScheme="gray" fontSize="2xs">+{Object.keys(pub.links).length - 3}</Badge>
+                        <Badge bg="transparent" border="1px solid" borderColor={termBorder} color={tc.muted} borderRadius="8px" px={2} fontSize="2xs">+{Object.keys(pub.links).length - 3}</Badge>
                       )}
                     </HStack>
                   )}
@@ -635,7 +675,7 @@ const PublicationsTerminal: React.FC = () => {
                     px={8}
                     py={4}
                     bg={isDark ? 'rgba(76, 86, 106, 0.15)' : 'rgba(203, 213, 225, 0.15)'}
-                    borderLeft={`3px solid ${venueColors[pub.venueType].fg}`}
+                    borderLeft={`2px solid ${venueColors[pub.venueType].fg}`}
                   >
                     <Flex gap={4} flexDirection={isMobile ? 'column' : 'row'}>
                       {/* Left side - Text content */}
@@ -646,7 +686,7 @@ const PublicationsTerminal: React.FC = () => {
                             <Text fontSize="xs" color={termInfo} mb={1}>
                               ── ABSTRACT ─────────────
                             </Text>
-                            <Text fontSize="sm" color={termText} lineHeight="tall">
+                            <Text fontFamily="body" fontSize="sm" color={termText} lineHeight="tall">
                               {highlightData(pub.abstract, { num: termHighlight, kw: termCommand, str: termSuccess })}
                             </Text>
                           </Box>
@@ -677,16 +717,9 @@ const PublicationsTerminal: React.FC = () => {
                             {Object.entries(pub.links).map(([key, url]) => url && (
                               <Link key={key} href={url} isExternal>
                                 <Badge
-                                  colorScheme={
-                                    key === 'code' ? 'green' :
-                                    key === 'paper' || key === 'arxiv' ? 'blue' :
-                                    key === 'projectPage' ? 'purple' :
-                                    key === 'demo' ? 'orange' :
-                                    key === 'dataset' ? 'teal' :
-                                    'gray'
-                                  }
+                                  {...linkChip}
                                   fontSize="xs"
-                                  px={2}
+                                  px={2.5}
                                   py={1}
                                   textTransform="capitalize"
                                 >
@@ -821,8 +854,9 @@ const PublicationsTerminal: React.FC = () => {
           px={4}
           py={2}
           bg={termHeader}
-          borderRadius="md"
+          borderRadius="12px"
           border={`1px solid ${termBorder}`}
+          boxShadow="var(--shadow-sm)"
           justify="space-between"
           fontSize="xs"
           fontFamily="mono"

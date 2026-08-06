@@ -8,6 +8,10 @@ interface NewsCardProps {
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
+  const colorFamily = news.iconColor.split('.')[0]
+  const iconBg = useColorModeValue(`${colorFamily}.50`, `${colorFamily}.900`)
+  const iconFg = useColorModeValue(`${colorFamily}.500`, `${colorFamily}.200`)
+
   // Get appropriate icon based on news type
   const getIconName = () => {
     switch (news.type) {
@@ -17,53 +21,54 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
       default: return news.icon || 'FaCode';
     }
   };
-  
+
   return (
-    <Box 
+    <Box
       p={0}
-      bg={useColorModeValue('white', 'gray.800')} 
-      borderRadius="lg" 
-      shadow="sm"
-      transition="all 0.3s"
-      _hover={{ transform: 'translateY(-4px)', shadow: 'md' }}
+      bg="var(--card-bg)"
+      border="1px solid"
+      borderColor="var(--border-color)"
+      borderRadius="12px"
+      boxShadow="var(--shadow-sm)"
+      transition="transform .2s ease, box-shadow .2s ease, border-color .2s ease"
+      _hover={{ transform: 'translateY(-2px)', borderColor: 'var(--border-strong)', boxShadow: 'var(--shadow-lift)' }}
       position="relative"
       overflow="hidden"
       role="article"
       aria-labelledby={`news-title-${news.title.replace(/\s+/g, '-').toLowerCase()}`}
-      borderWidth="1px"
-      borderColor={useColorModeValue('gray.100', 'gray.700')}
     >
-      {/* Top color bar */}
-      <Box 
-        h="4px" 
-        bg={news.iconColor} 
-        w="full" 
+      {/* Top accent strip */}
+      <Box
+        h="2px"
+        bg={news.iconColor}
+        w="full"
+        opacity={0.85}
       />
-      
+
       {/* Date Badge - Top Right Absolute Position */}
       {news.date && (
-        <Badge 
+        <Badge
           position="absolute"
           top={2}
           right={2}
-          colorScheme={news.iconColor.split('.')[0]}
-          bg={useColorModeValue(`${news.iconColor.split('.')[0]}.500`, `${news.iconColor.split('.')[0]}.600`)}
-          color={useColorModeValue('white', 'white')}
+          variant="subtle"
+          colorScheme={colorFamily}
           px={2}
-          py={1}
-          borderRadius="md"
-          fontSize="xs"
+          py={0.5}
+          borderRadius="6px"
+          fontSize="2xs"
+          fontFamily="mono"
+          letterSpacing="wide"
+          fontWeight="medium"
           display="flex"
           alignItems="center"
-          fontWeight="medium"
-          boxShadow={useColorModeValue('0 2px 5px rgba(0,0,0,0.1)', '0 2px 5px rgba(0,0,0,0.3)')}
           zIndex={1}
         >
-          <DynamicIcon name="FaClock" boxSize={3} mr={1} />
+          <DynamicIcon name="FaClock" boxSize={2.5} mr={1} />
           {news.date}
         </Badge>
       )}
-      
+
       {/* Content area */}
       <Box p={4}>
         {/* Title area and badges */}
@@ -71,10 +76,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
           <Box
             mr={3}
             fontSize="xl"
-            bg={useColorModeValue(`${news.iconColor.split('.')[0]}.50`, `${news.iconColor.split('.')[0]}.900`)}
-            color={useColorModeValue(`${news.iconColor.split('.')[0]}.500`, `${news.iconColor.split('.')[0]}.200`)}
+            bg={iconBg}
+            color={iconFg}
             p={2}
-            borderRadius="md"
+            borderRadius="8px"
             lineHeight="1"
             aria-hidden="true"
             display="flex"
@@ -86,17 +91,22 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             <DynamicIcon name={getIconName()} boxSize={4} />
           </Box>
           <VStack align="start" spacing={1} width="100%" pr={12}>
-            <Heading 
-              size="xs" 
+            <Heading
+              size="xs"
+              fontFamily="mono"
+              letterSpacing="-0.01em"
               id={`news-title-${news.title.replace(/\s+/g, '-').toLowerCase()}`}
             >
               {news.title}
             </Heading>
-            
+
             {news.badge && (
-              <Badge 
-                colorScheme={news.iconColor.split('.')[0]} 
+              <Badge
+                colorScheme={colorFamily}
+                variant="subtle"
                 fontSize="2xs"
+                fontFamily="mono"
+                letterSpacing="wide"
                 borderRadius="full"
                 px={2}
                 py={0.5}
@@ -106,32 +116,36 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
             )}
           </VStack>
         </Flex>
-        
+
         {/* Description text */}
-        <Text 
-          fontSize="sm" 
-          color={useColorModeValue('gray.600', 'gray.400')}
+        <Text
+          fontSize="sm"
+          color="textSecondary"
           mb={3}
-          lineHeight="taller"
+          lineHeight="1.7"
         >
           {news.description}
         </Text>
-        
+
         {/* Button link area */}
         <HStack spacing={2} flexWrap="wrap" gap={2} mt={2}>
           {news.links.map((link, index) => {
             const LinkIcon = link.icon ? <DynamicIcon name={link.icon} fontSize="xs" /> : undefined
             return (
-              <Link 
-                key={index} 
-                href={link.url} 
-                isExternal 
+              <Link
+                key={index}
+                href={link.url}
+                isExternal
                 aria-label={`${link.text} for ${news.title}`}
               >
-                <Button 
-                  size="xs" 
+                <Button
+                  size="xs"
                   variant="outline"
-                  colorScheme={news.iconColor.split('.')[0]}
+                  colorScheme={colorFamily}
+                  fontFamily="mono"
+                  borderRadius="6px"
+                  transition="all 0.15s ease"
+                  _hover={{ transform: 'translateY(-1px)' }}
                   leftIcon={LinkIcon && <Box aria-hidden="true">{LinkIcon}</Box>}
                 >
                   {link.text}
@@ -145,4 +159,4 @@ const NewsCard: React.FC<NewsCardProps> = ({ news }) => {
   )
 }
 
-export default NewsCard 
+export default NewsCard

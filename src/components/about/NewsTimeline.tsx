@@ -335,19 +335,20 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
     <Box
       w="full"
       overflow="hidden"
-      borderRadius="md"
+      borderRadius="12px"
+      border="1px solid"
+      borderColor={termBorder}
       fontFamily="mono"
-      boxShadow={`0 0 0 1px ${termBorder}, 0 2px 8px ${isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}`}
+      boxShadow="var(--shadow-card)"
       letterSpacing="tight"
       display="flex"
       flexDirection="column"
     >
       {/* ═══ Pixel RGB light bar (dynamic chase) ═══ */}
       <Flex
-        h="4px"
+        h="2px"
         w="full"
         flexShrink={0}
-        borderTopRadius="md"
         overflow="hidden"
       >
         {(() => {
@@ -355,7 +356,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           const tick = Math.floor(currentTime.getTime() / 200);
           return Array.from({ length: total }, (_, i) => {
             const colorIdx = (i + tick) % terminalPalette.rainbow.length;
-            const brightness = 0.6 + 0.4 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
+            const brightness = 0.45 + 0.3 * Math.abs(Math.sin((i + tick * 0.5) * 0.3));
             return (
               <Box
                 key={i}
@@ -387,9 +388,9 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
         {/* Left: traffic lights + syntax-highlighted title */}
         <Flex align="center" gap={1} flex={["1 1 100%", "1 1 auto"]}>
           <HStack spacing={1.5} mr={2}>
-            <Box w="10px" h="10px" borderRadius="full" bg="#bf616a" />
-            <Box w="10px" h="10px" borderRadius="full" bg="#ebcb8b" />
-            <Box w="10px" h="10px" borderRadius="full" bg="#a3be8c" />
+            <Box w="10px" h="10px" borderRadius="full" bg="#ff5f56" opacity={0.9} />
+            <Box w="10px" h="10px" borderRadius="full" bg="#ffbd2e" opacity={0.9} />
+            <Box w="10px" h="10px" borderRadius="full" bg="#27c93f" opacity={0.9} />
           </HStack>
           <DynamicIcon name="FaTerminal" boxSize={[2.5, 3]} color={termCommand} />
           <Text isTruncated>
@@ -408,26 +409,27 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
         <Flex align="center">
           <Box
             px={1.5}
-            bg={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)'}
-            borderRadius="sm"
+            bg={isDark ? 'rgba(0,0,0,0.25)' : 'rgba(15,23,42,0.04)'}
+            borderRadius="4px"
             flexShrink={0}
           >
-            <Text color={researchColor}>
+            <Text color={researchColor} opacity={0.95}>
               {currentResearch.label} {currentResearch.suffix}
             </Text>
           </Box>
         </Flex>
 
         {/* Right: time + interaction tier */}
-        <Flex align="center" gap={[1, 2]}>
-          <Text color={termHighlight} display={["none", "inline"]}>{formattedTime}</Text>
+        <Flex align="center" gap={2} fontSize={["3xs", "2xs"]}>
+          <Text color={tc.muted} display={["none", "inline"]}>{formattedTime}</Text>
           <Flex
             align="center"
             gap={1}
             color={interactionTier.color}
+            opacity={0.9}
             {...(interactionTier.isRainbow ? { sx: { animation: `${rainbow} 3s linear infinite` } } : {})}
           >
-            <Box as="span" animation={`${pulse} 2s infinite ease-in-out`} display="inline-block">◉</Box>
+            <Box as="span" animation={`${pulse} 2.5s infinite ease-in-out`} display="inline-block" fontSize="0.85em" lineHeight="1">◉</Box>
             <Text>{interactionTier.label}</Text>
           </Flex>
         </Flex>
@@ -521,7 +523,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           py={[0.5, 1]}
           fontSize={["3xs", "2xs"]}
           color={termInfo}
-          borderBottom={`1px dotted ${termBorder}`}
+          borderBottom={`1px solid ${termBorder}`}
           display={isVerySmallScreen ? "none" : "block"}
         >
           <Flex align="center" gap={[1, 2]}>
@@ -546,7 +548,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           <Flex
             borderBottom={`1px solid ${termBorder}`}
             py={[0.5, 1]}
-            fontSize={["3xs", "2xs", "xs"]}
+            fontSize={["2xs", "xs", "13px"]}
             fontWeight="bold"
           >
             <Text w={dateColumnWidth} color={termHighlight} isTruncated>{isVerySmallScreen ? t('newsTimeline.time') : t('newsTimeline.timestamp')}</Text>
@@ -564,7 +566,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           {news.map((item, index) => (
             <Box
               key={index}
-              borderBottom={`1px dotted ${termBorder}`}
+              borderBottom={`1px solid ${termBorder}`}
               role="group"
               onMouseEnter={() => setHoveredItem(index)}
               onMouseLeave={() => setHoveredItem(null)}
@@ -572,14 +574,15 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
               <Flex
                 py={[0.5, 1, 1.5]}
                 px={[0, 0.5]}
-                fontSize={["3xs", "2xs", "xs"]}
+                fontSize={["2xs", "xs", "13px"]}
                 align="center"
                 cursor="pointer"
                 onClick={() => toggleExpanded(index)}
-                _hover={{ bg: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}
+                transition="background 0.15s ease"
+                _hover={{ bg: 'var(--hover-color)' }}
                 bg={expandedItems[index] ? (isDark ? 'rgba(76,86,106,0.2)' : 'rgba(203,213,225,0.3)') : 'transparent'}
               >
-                <Text w={dateColumnWidth} color={termHighlight} fontWeight="medium" isTruncated>
+                <Text w={dateColumnWidth} color={termSecondary} isTruncated>
                   {formatDate(item.date || item.sortDate, i18n.language)}
                 </Text>
                 <Box w={typeColumnWidth}>
@@ -590,7 +593,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                     px={[0.5, 1, 1.5]}
                     bg={typeColors[item.type.toLowerCase()]?.bg || typeColors.default.bg}
                     color={typeColors[item.type.toLowerCase()]?.fg || typeColors.default.fg}
-                    borderRadius="sm"
+                    borderRadius="6px"
                     fontSize={["4xs", "3xs", "2xs"]}
                     fontWeight="bold"
                     textTransform="uppercase"
@@ -608,12 +611,12 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                 </Box>
                 <Box flex="1">
                   <Flex align="center" gap={1}>
-                    <Text fontWeight="medium" color={termText} isTruncated fontSize={["2xs", "xs"]}>
+                    <Text fontWeight="medium" color={termText} isTruncated fontSize={["xs", "13px"]} fontFamily="body">
                       {isNarrowScreen ? truncateText(item.title, 60) : item.title}
                     </Text>
                   </Flex>
                   {showDescription && (
-                    <Text color={termSecondary} fontSize={["3xs", "2xs"]} isTruncated mt={0.5}>
+                    <Text color={termSecondary} fontSize={["2xs", "xs"]} fontFamily="body" isTruncated mt={0.5}>
                       {getDescriptionLength(item.description)}
                     </Text>
                   )}
@@ -622,7 +625,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                   {item.links.length > 0 ? (
                     <HStack spacing={1}>
                       {item.links.slice(0, isSmallScreen ? 2 : 3).map((link, i) => (
-                        <Link key={i} href={link.url} isExternal color={termCommand} _hover={{ color: termHighlight }} onClick={(e) => e.stopPropagation()}>
+                        <Link key={i} href={link.url} isExternal color={termCommand} transition="color 0.15s ease" _hover={{ color: 'var(--accent-strong)' }} onClick={(e) => e.stopPropagation()}>
                           <Box>[<DynamicIcon name={link.icon || 'FaExternalLinkAlt'} boxSize={[2, 2.5, 3]} />]</Box>
                         </Link>
                       ))}
@@ -636,10 +639,11 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                   <Box
                     color={expandedItems[index] ? termInfo : termCommand}
                     fontWeight="bold"
-                    borderRadius="sm"
+                    borderRadius="4px"
                     px={[0.5, 1]}
                     py={0.5}
-                    _hover={{ bg: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }}
+                    transition="background 0.15s ease"
+                    _hover={{ bg: 'var(--hover-color)' }}
                     minW={["20px", "26px"]}
                     textAlign="center"
                   >
@@ -675,7 +679,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                       />
                     </Box>
                     <Box flex={1} minW={0}>
-                      <Text fontSize={["2xs", "xs"]} fontWeight="bold" color={termText} mb={0.5}>
+                      <Text fontSize={["xs", "13px"]} fontWeight="bold" color={termText} fontFamily="body" mb={0.5}>
                         {item.title}
                       </Text>
                       <Flex fontSize={["3xs", "2xs"]} gap={[1, 2]} flexWrap="wrap" align="center">
@@ -699,6 +703,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                     <Text
                       fontSize={["2xs", "xs"]}
                       color={tc.secondary}
+                      fontFamily="body"
                       mb={2}
                       whiteSpace="pre-line"
                       lineHeight="1.6"
@@ -721,14 +726,14 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
                             gap={1}
                             px={[1.5, 2]}
                             py={[0.5, 1]}
-                            bg={isDark ? 'rgba(136,192,208,0.08)' : 'rgba(42,118,156,0.06)'}
-                            borderRadius="md"
+                            bg="var(--accent-light)"
+                            borderRadius="6px"
                             border="1px solid"
                             borderColor={isDark ? 'rgba(136,192,208,0.2)' : 'rgba(42,118,156,0.15)'}
                             color={termCommand}
                             fontSize={["3xs", "2xs"]}
-                            transition="all 0.15s"
-                            _hover={{ bg: isDark ? 'rgba(136,192,208,0.15)' : 'rgba(42,118,156,0.1)', borderColor: termCommand }}
+                            transition="all 0.15s ease"
+                            _hover={{ bg: isDark ? 'rgba(136,192,208,0.15)' : 'rgba(42,118,156,0.1)', borderColor: termCommand, transform: 'translateY(-1px)' }}
                           >
                             <DynamicIcon name={link.icon || 'FaExternalLinkAlt'} boxSize={[2, 2.5]} />
                             <Text>{getResponsiveTextLength(link.text, isVerySmallScreen, isMobile, isSmallScreen)}</Text>
