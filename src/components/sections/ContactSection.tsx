@@ -92,9 +92,27 @@ const ContactSection: React.FC = () => {
                 <Text as="span" fontFamily="mono" fontSize="xs" color="prompt" whiteSpace="nowrap">
                   {item.label.toLowerCase()}:
                 </Text>
-                <Text as="span" fontSize="sm" color={isCopied ? 'prompt' : 'textPrimary'} fontFamily={isCopied ? 'mono' : undefined} whiteSpace="nowrap">
-                  {isCopied ? `${t('contact.copied', 'copied')} ✓` : item.value}
-                </Text>
+                {/* Value keeps its width while "copied ✓" overlays it, so the pill never resizes */}
+                <Box as="span" position="relative" display="inline-block">
+                  <Text as="span" fontSize="sm" color="textPrimary" whiteSpace="nowrap" visibility={isCopied ? 'hidden' : 'visible'}>
+                    {item.value}
+                  </Text>
+                  {isCopied && (
+                    <Flex
+                      as="span"
+                      position="absolute"
+                      inset={0}
+                      align="center"
+                      justify="center"
+                      fontSize="sm"
+                      fontFamily="mono"
+                      color="prompt"
+                      whiteSpace="nowrap"
+                    >
+                      {t('contact.copied', 'copied')} ✓
+                    </Flex>
+                  )}
+                </Box>
               </HStack>
             )
 
