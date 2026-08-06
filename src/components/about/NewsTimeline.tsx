@@ -543,9 +543,13 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           </Flex>
         </Box>
 
-        {/* Table header — syntax highlighted */}
+        {/* Table header — syntax highlighted, frozen while rows scroll */}
         <Box p={[0.5, 1, 2]}>
           <Flex
+            position="sticky"
+            top={0}
+            zIndex={2}
+            bg={termBg}
             borderBottom={`1px solid ${termBorder}`}
             py={[0.5, 1]}
             fontSize={["2xs", "xs", "13px"]}

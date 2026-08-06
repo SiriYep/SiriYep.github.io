@@ -16,6 +16,9 @@ const Navbar: React.FC = () => {
   const location = useLocation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { t, i18n } = useTranslation()
+  const logoGradient = colorMode === 'dark'
+    ? 'linear(112deg, #f0854e, #d76ad4, #8aa2f2)'
+    : 'linear(112deg, #ef6a38, #c44fbf, #3a5fd9)'
 
   const toggleLanguage = () => {
     i18n.changeLanguage(i18n.language === 'zh' ? 'en' : 'zh')
@@ -77,7 +80,7 @@ const Navbar: React.FC = () => {
           gap={2}
           px={2}
           borderRadius="md"
-          color="yellow.400"
+          color="prompt"
           _hover={{
             bg: 'var(--hover-color)',
             transform: 'translateY(-1px)',
@@ -93,6 +96,8 @@ const Navbar: React.FC = () => {
             fontWeight={700}
             lineHeight="1"
             letterSpacing="-0.01em"
+            bgGradient={logoGradient}
+            bgClip="text"
           >
             SiriYep
           </Box>
