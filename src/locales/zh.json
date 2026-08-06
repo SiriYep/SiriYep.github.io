@@ -101,7 +101,9 @@
     "github": "GitHub：",
     "medium": "Medium：",
     "googleScholar": "谷歌学术：",
-    "viewProfile": "查看主页"
+    "viewProfile": "查看主页",
+    "clickToCopy": "点击复制",
+    "copied": "已复制"
   },
   "news": {
     "title": "动态",

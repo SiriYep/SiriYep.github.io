@@ -1,24 +1,79 @@
-import { Box, Container, HStack, Text, Heading, Flex, Link } from '@chakra-ui/react'
+import { Box, Container, HStack, Text, Heading, Flex, Link, Tooltip } from '@chakra-ui/react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import DynamicIcon from '../DynamicIcon'
 
 const githubHandle = (url: string) => url.replace(/https?:\/\/(www\.)?github\.com\//, '').replace(/\/$/, '')
 
+const copyText = async (text: string) => {
+  try {
+    await navigator.clipboard.writeText(text)
+  } catch {
+    // Clipboard API unavailable (non-secure context) — legacy fallback
+    const ta = document.createElement('textarea')
+    ta.value = text
+    ta.style.position = 'fixed'
+    ta.style.opacity = '0'
+    document.body.appendChild(ta)
+    ta.select()
+    document.execCommand('copy')
+    document.body.removeChild(ta)
+  }
+}
+
+interface ContactItem {
+  icon: string
+  label: string
+  value: string
+  href?: string
+  copyable?: boolean
+}
+
 const ContactSection: React.FC = () => {
   const { t } = useTranslation()
   const { siteOwner } = useLocalizedData()
+  const [copiedLabel, setCopiedLabel] = useState<string | null>(null)
+  const copyTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => () => clearTimeout(copyTimer.current), [])
+
+  const handleCopy = (item: ContactItem) => {
+    void copyText(item.value)
+    setCopiedLabel(item.label)
+    clearTimeout(copyTimer.current)
+    copyTimer.current = setTimeout(() => setCopiedLabel(null), 1600)
+  }
 
   const items = [
-    siteOwner.contact.academicEmail && { icon: 'FaGraduationCap', label: t('contact.academicEmailLabel', 'Academic'), value: siteOwner.contact.academicEmail, href: `mailto:${siteOwner.contact.academicEmail}` },
-    siteOwner.contact.personalEmail && { icon: 'FaEnvelope', label: t('contact.personalEmailLabel', 'Personal'), value: siteOwner.contact.personalEmail, href: `mailto:${siteOwner.contact.personalEmail}` },
+    siteOwner.contact.academicEmail && { icon: 'FaGraduationCap', label: t('contact.academicEmailLabel', 'Academic'), value: siteOwner.contact.academicEmail, copyable: true },
+    siteOwner.contact.personalEmail && { icon: 'FaEnvelope', label: t('contact.personalEmailLabel', 'Personal'), value: siteOwner.contact.personalEmail, copyable: true },
     siteOwner.contact.location && { icon: 'FaMapMarkerAlt', label: t('contact.location', 'Location'), value: siteOwner.contact.location },
     siteOwner.social.github && { icon: 'FaGithub', label: 'GitHub', value: githubHandle(siteOwner.social.github), href: siteOwner.social.github },
     siteOwner.social.linkedin && { icon: 'FaLinkedin', label: 'LinkedIn', value: 'in/profile', href: siteOwner.social.linkedin },
     siteOwner.social.googleScholar && { icon: 'SiGooglescholar', label: 'Scholar', value: 'Google Scholar', href: siteOwner.social.googleScholar },
-  ].filter(Boolean) as { icon: string; label: string; value: string; href?: string }[]
+  ].filter(Boolean) as ContactItem[]
 
   if (items.length === 0) return null
+
+  const pillProps = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    bg: 'var(--card-bg)',
+    border: '1px solid',
+    borderColor: 'var(--border-color)',
+    borderRadius: 'full',
+    boxShadow: 'var(--shadow-sm)',
+    px: 4,
+    py: 2,
+    transition: 'transform .18s ease, box-shadow .18s ease, border-color .18s ease',
+  } as const
+
+  const pillHover = {
+    transform: 'translateY(-1px)',
+    borderColor: 'var(--accent-color)',
+    boxShadow: 'var(--glow-accent)',
+  }
 
   return (
     <Box w="full">
@@ -30,30 +85,36 @@ const ContactSection: React.FC = () => {
         </Flex>
         <Flex wrap="wrap" gap={[2, 2.5]} align="center">
           {items.map((item) => {
+            const isCopied = copiedLabel === item.label
             const inner = (
               <HStack spacing={2} align="center">
-                <DynamicIcon name={item.icon} boxSize={3.5} color="accent" flexShrink={0} />
+                <DynamicIcon name={isCopied ? 'FaCheck' : item.icon} boxSize={3.5} color={isCopied ? 'prompt' : 'accent'} flexShrink={0} />
                 <Text as="span" fontFamily="mono" fontSize="xs" color="prompt" whiteSpace="nowrap">
                   {item.label.toLowerCase()}:
                 </Text>
-                <Text as="span" fontSize="sm" color="textPrimary" whiteSpace="nowrap">
-                  {item.value}
+                <Text as="span" fontSize="sm" color={isCopied ? 'prompt' : 'textPrimary'} fontFamily={isCopied ? 'mono' : undefined} whiteSpace="nowrap">
+                  {isCopied ? `${t('contact.copied', 'copied')} ✓` : item.value}
                 </Text>
               </HStack>
             )
 
-            const pillProps = {
-              display: 'inline-flex',
-              alignItems: 'center',
-              bg: 'var(--card-bg)',
-              border: '1px solid',
-              borderColor: 'var(--border-color)',
-              borderRadius: 'full',
-              boxShadow: 'var(--shadow-sm)',
-              px: 4,
-              py: 2,
-              transition: 'transform .18s ease, box-shadow .18s ease, border-color .18s ease',
-            } as const
+            if (item.copyable) {
+              return (
+                <Tooltip key={item.label} label={t('contact.clickToCopy', 'Click to copy')} placement="top" openDelay={150} hasArrow>
+                  <Box
+                    as="button"
+                    type="button"
+                    aria-label={`${t('contact.clickToCopy', 'Click to copy')}: ${item.value}`}
+                    onClick={() => handleCopy(item)}
+                    cursor="pointer"
+                    {...pillProps}
+                    _hover={pillHover}
+                  >
+                    {inner}
+                  </Box>
+                </Tooltip>
+              )
+            }
 
             if (item.href) {
               return (
@@ -62,7 +123,7 @@ const ContactSection: React.FC = () => {
                   href={item.href}
                   isExternal
                   {...pillProps}
-                  _hover={{ textDecoration: 'none', transform: 'translateY(-1px)', borderColor: 'var(--accent-color)', boxShadow: 'var(--glow-accent)' }}
+                  _hover={{ textDecoration: 'none', ...pillHover }}
                 >
                   {inner}
                 </Link>

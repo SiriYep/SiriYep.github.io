@@ -101,7 +101,9 @@
     "github": "GitHub:",
     "medium": "Medium:",
     "googleScholar": "Google Scholar:",
-    "viewProfile": "View Profile"
+    "viewProfile": "View Profile",
+    "clickToCopy": "Click to copy",
+    "copied": "copied"
   },
   "news": {
     "title": "News",
