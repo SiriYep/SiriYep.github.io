@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState, useCallback, useMemo } from 'react'
 import { Box, HStack, Text, Link, Flex, useColorMode, Collapse, useBreakpointValue } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +12,9 @@ interface NewsTimelineProps {
   news: NewsItem[]
   showHeader?: boolean
 }
+
+/** How many news rows are visible before the terminal body starts scrolling */
+const VISIBLE_ROWS = 6
 
 const blink = keyframes`
   0%, 100% { opacity: 1; }
@@ -122,6 +125,10 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
   const [currentTime, setCurrentTime] = useState(new Date());
   const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>({});
   const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const rowsWrapRef = useRef<HTMLDivElement>(null);
+  /** Height of the scroll viewport so exactly VISIBLE_ROWS rows show; null → no cap needed */
+  const [rowsViewportH, setRowsViewportH] = useState<number | null>(null);
   
   // Responsive check
   const isMobile = useBreakpointValue({ base: true, sm: false });
@@ -181,6 +188,33 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
     }, 8000);
     return () => clearInterval(interval);
   }, []);
+
+  // Size the scroll viewport to the top of row VISIBLE_ROWS+1, so exactly
+  // VISIBLE_ROWS rows are visible and the rest scroll. Row heights vary with
+  // breakpoint, locale, and expansion, so measure instead of hardcoding.
+  useLayoutEffect(() => {
+    const wrap = rowsWrapRef.current;
+    const scroller = scrollAreaRef.current;
+    if (!wrap || !scroller) return;
+
+    const compute = () => {
+      const rows = wrap.children;
+      if (rows.length <= VISIBLE_ROWS) {
+        setRowsViewportH(null);
+        return;
+      }
+      const boundary = rows[VISIBLE_ROWS] as HTMLElement;
+      const wrapTop = wrap.getBoundingClientRect().top;
+      const rowsHeight = boundary.getBoundingClientRect().top - wrapTop;
+      const wrapOffset = wrapTop - scroller.getBoundingClientRect().top + scroller.scrollTop;
+      setRowsViewportH(Math.ceil(rowsHeight + wrapOffset));
+    };
+
+    compute();
+    const observer = new ResizeObserver(compute);
+    observer.observe(wrap);
+    return () => observer.disconnect();
+  }, [news]);
   
   // Toggle expanded state for an item
   const toggleExpanded = (index: number) => {
@@ -552,19 +586,20 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
           </Flex>
         </Box>
 
-        {/* ═══ Scrollable rows area ═══ */}
+        {/* ═══ Scrollable rows area — sized to show VISIBLE_ROWS rows ═══ */}
         <Box
+          ref={scrollAreaRef}
           flex={1}
           bg={termBg}
           color={termText}
           overflowY="auto"
-          maxH={["350px", "450px", "550px"]}
+          maxH={rowsViewportH !== null ? `${rowsViewportH}px` : 'none'}
           sx={{
             '&::-webkit-scrollbar': { width: '6px', background: 'transparent' },
             '&::-webkit-scrollbar-thumb': { background: tc.border, borderRadius: '3px' },
           }}
         >
-          <Box px={[0.5, 1, 2]} pb={[0.5, 1, 2]}>
+          <Box ref={rowsWrapRef} px={[0.5, 1, 2]} pb={[0.5, 1, 2]}>
           {/* Table rows */}
           {news.map((item, index) => (
             <Box
