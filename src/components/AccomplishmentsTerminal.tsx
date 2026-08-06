@@ -112,7 +112,7 @@ const AwardRow = ({ award }: { award: Award }) => {
             <HStack spacing={2} mb={2}>
               <DynamicIcon name={iconFor(award)} boxSize={3} color="accent" />
               <Text fontSize="xs" fontFamily="mono" color="accent" fontWeight="semibold">
-                Easter Egg
+                {`// ${t('about.awardNote', 'detail')}`}
               </Text>
             </HStack>
             <Text fontSize="xs" color="textSecondary" lineHeight="tall">
@@ -179,7 +179,7 @@ const AccomplishmentsTerminal: React.FC = () => {
           <Text fontFamily="mono" fontSize="12px" color={pal.info} mt={1} mb={3}>
             {awards.length} {t('about.awardsSpanning')} {new Set(awards.map(a => a.kind)).size} {t('about.categories')}
           </Text>
-          <VStack spacing={0} align="stretch">
+          <VStack spacing={0} align="stretch" borderTopWidth="1px" borderTopStyle="solid" borderTopColor="var(--border-color)">
             {awards.map((a, i) => (
               <AwardRow key={i} award={a} />
             ))}

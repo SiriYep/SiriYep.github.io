@@ -32,7 +32,8 @@
     "dataset": "数据集",
     "awardsAndHonors": "获奖与荣誉",
     "awardsSpanning": "个奖项，涵盖",
-    "categories": "个类别"
+    "categories": "个类别",
+    "awardNote": "补充说明"
   },
   "hero": {
     "greeting": "你好，我是",

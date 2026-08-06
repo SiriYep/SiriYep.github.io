@@ -32,7 +32,8 @@
     "dataset": "Dataset",
     "awardsAndHonors": "Awards & Honors",
     "awardsSpanning": "awards spanning",
-    "categories": "categories"
+    "categories": "categories",
+    "awardNote": "detail"
   },
   "hero": {
     "greeting": "Hi there, I'm",
