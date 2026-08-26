@@ -1,28 +1,35 @@
 import React, { useState, useMemo } from 'react'
 import {
-  Box, Collapse, Flex, Heading, HStack, Icon, Input, Text, VStack,
-  Image, Link, useColorMode,
+  Box, Button, Collapse, Flex, Heading, HStack, IconButton, Input, Text, VStack,
+  Link, useColorMode,
 } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
-import { FaChevronDown } from 'react-icons/fa'
+import {
+  FaAngleDoubleDown,
+  FaAngleDoubleUp,
+  FaChevronDown,
+  FaSortAmountDown,
+  FaSortAmountUp,
+} from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
-import type { RoleType } from '../types'
-import { highlightData } from '../utils/highlightData'
+import type {
+  EngagementType,
+  ExperienceCategory,
+  ExperienceEntry,
+  ExperienceRolePhase,
+  PhasedExperienceEntry,
+  RoleType,
+} from '../types'
+import { highlightSemanticTerms } from '../utils/highlightData'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import { terminalPalette } from '@/config/theme'
 import { withBase } from '@/utils/asset'
+import InstitutionLogo from './InstitutionLogo'
 
 /* ── Keyframes ─────────────────────────────────────────────────── */
 const blink = keyframes`0%,100%{opacity:1}50%{opacity:0}`
 
 /* ── Types & config ────────────────────────────────────────────── */
-type FilterType = 'all' | 'academic' | 'industry'
-
-const categoryFilter: Record<string, FilterType> = {
-  academic: 'academic', research: 'academic',
-  industry: 'industry', leadership: 'academic',
-}
-
 const roleTypeConfig: Record<RoleType, { labelKey: string; color: (dk: boolean) => string }> = {
   research:   { labelKey: 'experience.roleResearch',   color: dk => dk ? '#b48ead' : '#9a56a2' },
   mle:        { labelKey: 'experience.roleMLE',        color: dk => dk ? '#88c0d0' : '#2a769c' },
@@ -55,6 +62,79 @@ const fmtDateFn = (v: string | undefined, presentLabel: string, lang: string) =>
   return d.toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', { month: 'short', year: 'numeric' })
 }
 
+const isOngoing = (end?: string) => !end || end.toLowerCase() === 'present'
+
+const hasRolePhases = (entry: ExperienceEntry): entry is PhasedExperienceEntry => (
+  Array.isArray(entry.roles) && entry.roles.length > 0
+)
+
+interface NormalizedExperience {
+  id: string
+  company: string
+  companyUrl?: string
+  location?: string
+  category: ExperienceCategory
+  summary?: string
+  highlights: string[]
+  emphasis: string[]
+  phases: ExperienceRolePhase[]
+  timelineAnchorPhase: ExperienceRolePhase
+  transitionPhase?: ExperienceRolePhase
+  currentPhase?: ExperienceRolePhase
+  isAnchorCurrent: boolean
+  isRelationshipCurrent: boolean
+  roleType: RoleType
+}
+
+type TimelineOrder = 'newest' | 'oldest'
+
+const normalizeExperience = (entry: ExperienceEntry): NormalizedExperience => {
+  const phases = (hasRolePhases(entry)
+    ? [...entry.roles]
+    : [{
+        id: 'primary-role',
+        title: entry.title,
+        engagementType: 'employment' as EngagementType,
+        start: entry.start,
+        end: entry.end,
+        roleType: entry.roleType,
+      }]
+  ).sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+
+  const timelineAnchorPhase = hasRolePhases(entry)
+    ? phases.find(phase => phase.id === entry.timelineAnchorRoleId)
+      ?? phases.find(phase => phase.engagementType === 'internship')
+      ?? phases[0]
+    : phases[0]
+  const transitionPhase = phases.find(phase => (
+    phase.engagementType === 'collaboration'
+    && new Date(phase.start).getTime() >= new Date(timelineAnchorPhase.start).getTime()
+  ))
+  const currentPhase = phases.find(phase => isOngoing(phase.end))
+  const roleType = currentPhase?.roleType
+    ?? phases.at(-1)?.roleType
+    ?? (!hasRolePhases(entry) ? entry.roleType : undefined)
+    ?? (entry.category === 'industry' ? 'sde' : 'research')
+
+  return {
+    id: entry.id,
+    company: entry.company,
+    companyUrl: entry.companyUrl,
+    location: entry.location,
+    category: entry.category,
+    summary: entry.summary,
+    highlights: entry.highlights ?? [],
+    emphasis: entry.emphasis ?? [],
+    phases,
+    timelineAnchorPhase,
+    transitionPhase,
+    currentPhase,
+    isAnchorCurrent: isOngoing(timelineAnchorPhase.end),
+    isRelationshipCurrent: Boolean(currentPhase),
+    roleType,
+  }
+}
+
 /* ── Component ─────────────────────────────────────────────────── */
 const Experience: React.FC = () => {
   const { colorMode } = useColorMode()
@@ -63,7 +143,7 @@ const Experience: React.FC = () => {
   const { experienceTimeline, experience: experienceData, institutionLogos, siteOwner } = useLocalizedData()
   const fmtDate = (v?: string) => fmtDateFn(v, t('experience.present'), i18n.language)
 
-  const [filter, setFilter] = useState<FilterType>('all')
+  const [timelineOrder, setTimelineOrder] = useState<TimelineOrder>('newest')
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
   const [command, setCommand] = useState('')
   const [cmdOutput, setCmdOutput] = useState<string[]>([])
@@ -81,53 +161,40 @@ const Experience: React.FC = () => {
   const termHighlight = tc.highlight
   const termSuccess = tc.success
   const termSecondary = tc.secondary
-  const hoverBg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'
-  const hlc = { num: termHighlight, kw: termCommand, str: termSuccess }
 
   /* ── Data ──────────────────────────────────────────────────── */
   const sorted = useMemo(() => {
-    return experienceTimeline
-      .map(e => ({ ...e, isCurrent: !e.end || e.end.toLowerCase() === 'present' }))
-      .sort((a, b) => {
-        if (a.isCurrent !== b.isCurrent) return a.isCurrent ? -1 : 1
-        return new Date(b.start).getTime() - new Date(a.start).getTime()
-      })
-  }, [experienceTimeline])
+    const chronological = experienceTimeline
+      .map(normalizeExperience)
+      .sort((a, b) => (
+        new Date(a.timelineAnchorPhase.start).getTime()
+        - new Date(b.timelineAnchorPhase.start).getTime()
+        || a.id.localeCompare(b.id)
+      ))
 
-  const filtered = useMemo(() => {
-    if (filter === 'all') return sorted
-    return sorted.filter(e => categoryFilter[e.category] === filter)
-  }, [sorted, filter])
-
-  const grouped = useMemo(() => {
-    const map = new Map<string, typeof filtered>()
-    for (const e of filtered) {
-      const key = e.isCurrent ? 'Present' : new Date(e.end!).getFullYear().toString()
-      const list = map.get(key) ?? []
-      list.push(e)
-      map.set(key, list)
-    }
-    return Array.from(map.entries())
-      .sort(([a], [b]) => {
-        if (a === 'Present') return -1
-        if (b === 'Present') return 1
-        return Number(b) - Number(a)
-      })
-      .map(([year, items]) => ({
-        year,
-        items: items.sort((a, b) => new Date(b.start).getTime() - new Date(a.start).getTime()),
-      }))
-  }, [filtered])
+    return timelineOrder === 'newest' ? chronological.reverse() : chronological
+  }, [experienceTimeline, timelineOrder])
 
   const stats = useMemo(() => {
-    const current = sorted.filter(e => e.isCurrent).length
-    const academic = sorted.filter(e => categoryFilter[e.category] === 'academic').length
-    const industry = sorted.filter(e => categoryFilter[e.category] === 'industry').length
-    return { total: sorted.length, current, academic, industry }
+    const organizations = new Set(sorted.map(e => e.company)).size
+    const currentInternships = sorted.filter(
+      entry => entry.currentPhase?.engagementType === 'internship',
+    ).length
+    const activeCollaborations = sorted.filter(
+      entry => entry.currentPhase?.engagementType === 'collaboration',
+    ).length
+    return { total: sorted.length, organizations, currentInternships, activeCollaborations }
   }, [sorted])
+  const usesEngagementTimeline = useMemo(
+    () => sorted.some(entry => entry.timelineAnchorPhase.engagementType !== 'internship'),
+    [sorted],
+  )
+  const summaryKey = stats.currentInternships === 0
+    ? 'experience.summaryWithoutCurrentInternships'
+    : 'experience.summary'
 
   const education = experienceData.education.courses
-  const reviewingItems = experienceData.reviewing ?? []
+  const reviewingItems = useMemo(() => experienceData.reviewing ?? [], [experienceData.reviewing])
   const reviewingByYear = useMemo(() => {
     const groups: Record<string, typeof reviewingItems> = {}
     for (const item of reviewingItems) {
@@ -139,8 +206,25 @@ const Experience: React.FC = () => {
     return Object.entries(groups).sort(([a], [b]) => Number(b) - Number(a))
   }, [reviewingItems])
 
+  const detailIds = useMemo(
+    () => sorted
+      .filter(entry => Boolean(entry.summary?.trim() || entry.highlights.length))
+      .map(entry => entry.id),
+    [sorted],
+  )
+  const allDetailsExpanded = detailIds.length > 0
+    && detailIds.every(id => expandedItems[id] ?? true)
+
   const toggleExpanded = (id: string) =>
-    setExpandedItems(prev => ({ ...prev, [id]: !prev[id] }))
+    setExpandedItems(prev => ({ ...prev, [id]: !(prev[id] ?? true) }))
+
+  const toggleAllDetails = () => {
+    const nextExpanded = !allDetailsExpanded
+    setExpandedItems(prev => ({
+      ...prev,
+      ...Object.fromEntries(detailIds.map(id => [id, nextExpanded])),
+    }))
+  }
 
   /* ── Command handler ───────────────────────────────────────── */
   const handleCommand = (cmd: string) => {
@@ -149,15 +233,10 @@ const Experience: React.FC = () => {
     const parts = raw.toLowerCase().split(' ')
     const out = (lines: string[]) => setCmdOutput(lines)
     switch (parts[0]) {
-      case 'filter':
-        if (parts[1] === 'academic' || parts[1] === 'industry') {
-          setFilter(parts[1]); out([`filter: ${parts[1]}`])
-        } else { setFilter('all'); out(['filter: all']) }
-        break
-      case 'clear': setFilter('all'); setCmdOutput([]); break
+      case 'clear': setCmdOutput([]); break
       case 'whoami': out([siteOwner.name.full, 'researcher · ml engineer · builder']); break
       case 'help': out([
-        'filter [all|academic|industry]  clear  whoami',
+        'clear  whoami',
         'sudo hire-me  cat skills',
       ]); break
       case 'sudo':
@@ -177,7 +256,6 @@ const Experience: React.FC = () => {
   }
 
   const termParam = tc.param
-  const termWarning = tc.warning
 
   return (
     <Box w="full" minH="100vh" bg={bg} py={[8, 10, 12]}>
@@ -187,7 +265,7 @@ const Experience: React.FC = () => {
         <Flex w="full" align="center" gap={3}>
           <Text as="span" fontFamily="mono" fontWeight="700" color="prompt" fontSize="lg" lineHeight="1">$</Text>
           <Heading as="h2" size="md" fontFamily="mono" letterSpacing="-0.01em">
-            {t('nav.experience')}
+            {t('experience.pageTitle')}
           </Heading>
           <Text
             as="span"
@@ -268,13 +346,9 @@ const Experience: React.FC = () => {
             <Text color={termSecondary} isTruncated>
               <Text as="span" color={termPrompt} fontWeight="bold">{siteOwner.terminalUsername}</Text>
               <Text as="span" color={tc.muted}> · </Text>
-              <Text as="span" color={termHighlight}>{stats.total}</Text>
-              <Text as="span"> {t('experience.rolesAcross')} </Text>
-              <Text as="span" color={termSuccess}>{stats.current} {t('experience.currentlyActive')}</Text>
-              <Text as="span" color={tc.muted}> · </Text>
-              <Text as="span" color={termParam}>{stats.academic} {t('experience.research')}</Text>
-              <Text as="span">, </Text>
-              <Text as="span" color={termWarning}>{stats.industry} {t('experience.industry')}</Text>
+              <Text as="span" color={termHighlight}>
+                {t(summaryKey, stats)}
+              </Text>
             </Text>
             <Text color={termCommand} flexShrink={0}>~/career</Text>
           </Flex>
@@ -291,21 +365,12 @@ const Experience: React.FC = () => {
                 const logo = institutionLogos[edu.institution]
                 return (
                   <HStack key={edu.course} fontSize="xs" spacing={2} align="center" minH="24px">
-                    <Flex
-                      w="22px"
-                      h="22px"
-                      borderRadius="6px"
-                      bg="var(--elevated-bg)"
-                      border="1px solid"
-                      borderColor="var(--border-color)"
-                      align="center"
-                      justify="center"
-                      flexShrink={0}
-                    >
-                      {logo && (
-                        <Image src={withBase(logo)} alt="" maxW="16px" maxH="16px" objectFit="contain" />
-                      )}
-                    </Flex>
+                    <InstitutionLogo
+                      src={logo ? withBase(logo) : undefined}
+                      label={edu.institution}
+                      fallback={edu.institution.charAt(0)}
+                      size="xs"
+                    />
                     <Flex flex="1" minW={0} align="center" gap={2} flexWrap={['wrap', 'nowrap']}>
                       <Text color={termText} fontWeight="medium" minW={0}>{edu.course}</Text>
                       <Text color={tc.muted} flexShrink={0}>·</Text>
@@ -318,258 +383,397 @@ const Experience: React.FC = () => {
             </VStack>
           </Box>
 
-          {/* Filter bar */}
-          <Flex
+          {/* Unified experience timeline label */}
+          <Box
             px={[3, 5]} py={2}
             bg={termBg}
             borderBottom={`1px solid ${termBorder}`}
-            gap={1.5}
-            align="center"
           >
-            {(['all', 'academic', 'industry'] as FilterType[]).map(f => {
-              const active = filter === f
-              const count = f === 'all' ? stats.total : f === 'academic' ? stats.academic : stats.industry
-              return (
-                <Text
-                  key={f}
-                  as="button"
-                  px={3} py={1}
-                  fontSize="xs"
-                  fontWeight={active ? '700' : '500'}
-                  letterSpacing="0.02em"
-                  borderRadius="full"
-                  bg={active ? 'accentSubtle' : 'transparent'}
-                  color={active ? 'accent' : termSecondary}
-                  onClick={() => setFilter(f)}
-                  cursor="pointer"
-                  transition="background 0.15s ease, color 0.15s ease"
-                  _hover={active ? {} : { bg: hoverBg, color: termText }}
-                >
-                  {f === 'all' ? t('experience.filterAll') : f === 'academic' ? t('experience.filterAcademic') : t('experience.filterIndustry')} ({count})
+            <Flex align="center" gap={2} flexWrap="wrap">
+              <Flex align="center" gap={2} flex="1" minW={['100%', '180px']}>
+                <Box w="12px" h="2px" borderRadius="full" bg={termHighlight} flexShrink={0} />
+                <Text fontSize="xs" fontWeight="bold" color={termInfo} letterSpacing="0.06em" flexShrink={0}>
+                  {t(usesEngagementTimeline ? 'experience.engagementTimeline' : 'experience.timeline')}
                 </Text>
-              )
-            })}
-          </Flex>
+                <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
+              </Flex>
+              <HStack spacing={1} flexShrink={0} ml="auto">
+                <Button
+                  size="xs"
+                  variant="ghost"
+                  color={termSecondary}
+                  fontFamily="mono"
+                  fontSize="2xs"
+                  fontWeight="semibold"
+                  leftIcon={timelineOrder === 'newest' ? <FaSortAmountDown /> : <FaSortAmountUp />}
+                  onClick={() => setTimelineOrder(current => current === 'newest' ? 'oldest' : 'newest')}
+                  aria-controls="internship-timeline"
+                  aria-label={t(timelineOrder === 'newest'
+                    ? 'experience.orderNewestAria'
+                    : 'experience.orderOldestAria')}
+                  _hover={{ color: termText, bg: 'var(--hover-color)' }}
+                >
+                  {t(timelineOrder === 'newest' ? 'experience.newestFirst' : 'experience.oldestFirst')}
+                </Button>
+                {detailIds.length > 0 && (
+                  <Button
+                    size="xs"
+                    variant="ghost"
+                    color={termSecondary}
+                    fontFamily="mono"
+                    fontSize="2xs"
+                    fontWeight="semibold"
+                    leftIcon={allDetailsExpanded ? <FaAngleDoubleUp /> : <FaAngleDoubleDown />}
+                    onClick={toggleAllDetails}
+                    aria-expanded={allDetailsExpanded}
+                    aria-controls={detailIds.map(id => `experience-details-${id}`).join(' ')}
+                    _hover={{ color: termText, bg: 'var(--hover-color)' }}
+                  >
+                    {t(allDetailsExpanded ? 'experience.collapseAll' : 'experience.expandAll')}
+                  </Button>
+                )}
+              </HStack>
+            </Flex>
+          </Box>
 
-          {/* ── Experience timeline ───────────────────────── */}
+          {/* ── Internship timeline ───────────────────────── */}
           <Box bg={termBg} color={termText} px={[3, 5]} py={[4, 5]}>
-            <Box position="relative" pl="22px">
-              {/* Spine */}
-              {grouped.length > 0 && (
-                <Box
-                  position="absolute"
-                  left="5px"
-                  top="6px"
-                  bottom="10px"
-                  w="1px"
-                  bg="var(--border-color)"
-                />
-              )}
+            <Box
+              as="ol"
+              id="internship-timeline"
+              listStyleType="none"
+              m={0}
+              p={0}
+              aria-label={t(usesEngagementTimeline
+                ? (timelineOrder === 'newest'
+                    ? 'experience.engagementTimelineNewestAria'
+                    : 'experience.engagementTimelineOldestAria')
+                : (timelineOrder === 'newest'
+                    ? 'experience.internshipTimelineNewestAria'
+                    : 'experience.internshipTimelineOldestAria'))}
+            >
+              {sorted.map((exp, entryIndex) => {
+                const id = exp.id
+                const detailsId = `experience-details-${exp.id}`
+                const isExpanded = expandedItems[id] ?? true
+                const hasDetails = Boolean(exp.summary?.trim() || exp.highlights.length)
+                const rtCfg = roleTypeConfig[exp.roleType]
+                const rtColor = rtCfg.color(isDark)
+                const icon = getIconUrl(exp.companyUrl, exp.company, institutionLogos)
+                // The outer rail highlights the configured anchor relationship. A diamond
+                // marks a later collaboration phase when the relationship changes form.
+                const axisEnd = exp.timelineAnchorPhase.end
+                const hasTransition = Boolean(exp.transitionPhase)
+                const isNewestFirst = timelineOrder === 'newest'
+                const endTextColor = hasTransition
+                  ? termCommand
+                  : exp.isAnchorCurrent
+                    ? termSuccess
+                    : termSecondary
+                const endNodeColor = hasTransition
+                  ? termCommand
+                  : exp.isAnchorCurrent
+                    ? termSuccess
+                    : 'var(--border-strong)'
+                const topDate = isNewestFirst ? axisEnd : exp.timelineAnchorPhase.start
+                const bottomDate = isNewestFirst ? exp.timelineAnchorPhase.start : axisEnd
+                const isLast = entryIndex === sorted.length - 1
+                const currentStatusKey = exp.currentPhase?.engagementType === 'internship'
+                  ? 'experience.currentInternship'
+                  : exp.currentPhase?.engagementType === 'collaboration'
+                    ? 'experience.activeCollaboration'
+                    : null
+                const railLabel = hasTransition
+                  ? t('experience.timelineTransitionAria', {
+                      organization: exp.company,
+                      start: fmtDate(exp.timelineAnchorPhase.start),
+                      internshipEnd: fmtDate(exp.timelineAnchorPhase.end),
+                      transitionStart: fmtDate(exp.transitionPhase?.start),
+                    })
+                  : exp.timelineAnchorPhase.engagementType === 'collaboration'
+                    ? t(exp.isAnchorCurrent
+                        ? 'experience.timelineCurrentCollaborationAria'
+                        : 'experience.timelineCompletedCollaborationAria', {
+                        organization: exp.company,
+                        start: fmtDate(exp.timelineAnchorPhase.start),
+                        end: fmtDate(exp.timelineAnchorPhase.end),
+                      })
+                    : exp.isAnchorCurrent
+                      ? t('experience.timelineCurrentAria', {
+                          organization: exp.company,
+                          start: fmtDate(exp.timelineAnchorPhase.start),
+                        })
+                      : t('experience.timelineCompletedAria', {
+                          organization: exp.company,
+                          start: fmtDate(exp.timelineAnchorPhase.start),
+                          end: fmtDate(exp.timelineAnchorPhase.end),
+                        })
 
-              {grouped.map(group => (
-                <Box key={group.year} mb={6} _last={{ mb: 0 }}>
-                  {/* Year node */}
-                  <Flex align="center" gap={2} mb={3} position="relative">
+                return (
+                  <Box
+                    as="li"
+                    key={id}
+                    data-experience-id={id}
+                    data-axis-direction={timelineOrder}
+                    display="grid"
+                    gridTemplateColumns={['18px minmax(0, 1fr)', '18px minmax(0, 1fr)', '82px 20px minmax(0, 1fr)']}
+                    columnGap={[2, 3, 3]}
+                    position="relative"
+                    mb={4}
+                    _last={{ mb: 0 }}
+                  >
+                    {/* Exact dates; the rail is deliberately not proportional to duration. */}
+                    <Box display={['none', 'none', 'block']} position="relative" minH="116px" aria-hidden="true">
+                      <Text
+                        data-axis-date={isNewestFirst ? 'end' : 'start'}
+                        position="absolute"
+                        top="9px"
+                        right={0}
+                        fontSize="2xs"
+                        fontWeight={isNewestFirst && (hasTransition || exp.isAnchorCurrent) ? 'bold' : 'normal'}
+                        color={isNewestFirst ? endTextColor : termSecondary}
+                        whiteSpace="nowrap"
+                      >
+                        {fmtDate(topDate)}
+                      </Text>
+                      <Text
+                        data-axis-date={isNewestFirst ? 'start' : 'end'}
+                        position="absolute"
+                        top="91px"
+                        right={0}
+                        fontSize="2xs"
+                        fontWeight={!isNewestFirst && (hasTransition || exp.isAnchorCurrent) ? 'bold' : 'normal'}
+                        color={isNewestFirst ? termSecondary : endTextColor}
+                        whiteSpace="nowrap"
+                      >
+                        {fmtDate(bottomDate)}
+                      </Text>
+                    </Box>
+
+                    {/* Solid segment = internship; dashed segment = list sequence only. */}
+                    <Box position="relative" minH="116px" role="img" aria-label={railLabel}>
+                      <Box
+                        data-axis-line="internship"
+                        aria-hidden="true"
+                        position="absolute"
+                        left="50%"
+                        top="21px"
+                        h="80px"
+                        w="2px"
+                        transform="translateX(-50%)"
+                        bgGradient={`linear(to-b, ${isNewestFirst ? endTextColor : termHighlight}, ${isNewestFirst ? termHighlight : endTextColor})`}
+                        opacity={0.7}
+                      />
+                      <Box
+                        data-axis-point={isNewestFirst ? (hasTransition ? 'transition' : 'end') : 'start'}
+                        aria-hidden="true"
+                        position="absolute"
+                        left="50%"
+                        top="15px"
+                        w="12px"
+                        h="12px"
+                        transform={isNewestFirst && hasTransition ? 'translateX(-50%) rotate(45deg)' : 'translateX(-50%)'}
+                        borderRadius={isNewestFirst && hasTransition ? '2px' : 'full'}
+                        bg={termBg}
+                        border="2px solid"
+                        borderColor={isNewestFirst ? endNodeColor : termHighlight}
+                        boxShadow={isNewestFirst && exp.isAnchorCurrent ? `0 0 0 3px ${termSuccess}18` : 'none'}
+                      />
+                      <Box
+                        data-axis-point={isNewestFirst ? 'start' : (hasTransition ? 'transition' : 'end')}
+                        aria-hidden="true"
+                        position="absolute"
+                        left="50%"
+                        top="95px"
+                        w="12px"
+                        h="12px"
+                        transform={!isNewestFirst && hasTransition ? 'translateX(-50%) rotate(45deg)' : 'translateX(-50%)'}
+                        borderRadius={!isNewestFirst && hasTransition ? '2px' : 'full'}
+                        bg={termBg}
+                        border="2px solid"
+                        borderColor={isNewestFirst ? termHighlight : endNodeColor}
+                        boxShadow={!isNewestFirst && exp.isAnchorCurrent ? `0 0 0 3px ${termSuccess}18` : 'none'}
+                      />
+                      {!isLast && (
+                        <Box
+                          aria-hidden="true"
+                          position="absolute"
+                          left="50%"
+                          top="111px"
+                          bottom="-20px"
+                          transform="translateX(-50%)"
+                          borderLeft="1px dashed"
+                          borderColor="var(--border-color)"
+                          opacity={0.65}
+                        />
+                      )}
+                    </Box>
+
+                    {/* One card per organization. */}
                     <Box
-                      position="absolute"
-                      left="-22px"
-                      top="50%"
-                      transform="translateY(-50%)"
-                      w="11px" h="11px"
-                      borderRadius="full"
-                      bg={termBg}
-                      border="2px solid"
-                      borderColor={group.year === 'Present' ? termSuccess : 'accent'}
-                    />
-                    <Text
-                      fontSize="xs" fontWeight="bold"
-                      color={group.year === 'Present' ? termSuccess : termSecondary}
-                      letterSpacing="0.08em"
+                      bg="var(--card-bg)"
+                      border="1px solid"
+                      borderColor="var(--border-color)"
+                      borderRadius="12px"
+                      boxShadow="var(--shadow-sm)"
+                      transition="transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease"
+                      _hover={{
+                        transform: 'translateY(-2px)',
+                        borderColor: 'var(--border-strong)',
+                        boxShadow: 'var(--shadow-lift)',
+                      }}
                     >
-                      {group.year === 'Present' ? t('experience.present').toUpperCase() : group.year}
-                    </Text>
-                    <Text fontSize="2xs" color={tc.muted}>
-                      {group.year === 'Present'
-                        ? `${group.items.length} ${t('experience.active')}`
-                        : `${group.items.length}`}
-                    </Text>
-                    <Box flex="1" h="1px" bgGradient={`linear(to-r, ${termBorder}, transparent)`} />
-                  </Flex>
+                      <Flex px={[3, 4]} py={[3, 4]} gap={3} align="start">
+                        <InstitutionLogo
+                          src={icon ? resolveIconSrc(icon) : undefined}
+                          label={exp.company}
+                          fallback={exp.company.charAt(0)}
+                          size="md"
+                        />
 
-                  {/* Entry cards */}
-                  <VStack align="stretch" spacing={3}>
-                    {group.items.map(exp => {
-                      const id = `${exp.title}-${exp.company}-${exp.start}`
-                      const isExpanded = !!expandedItems[id]
-                      const rt: RoleType = exp.roleType ?? (categoryFilter[exp.category] === 'industry' ? 'sde' : 'research')
-                      const rtCfg = roleTypeConfig[rt]
-                      const rtColor = rtCfg.color(isDark)
-                      const icon = getIconUrl(exp.companyUrl, exp.company, institutionLogos)
-
-                      return (
-                        <Box key={id} position="relative">
-                          {/* Node dot on the spine */}
-                          <Box
-                            position="absolute"
-                            left="-21px"
-                            top={['27px', '31px']}
-                            w="9px" h="9px"
-                            borderRadius="full"
-                            bg={termBg}
-                            border="2px solid"
-                            borderColor={exp.isCurrent ? termSuccess : 'var(--border-strong)'}
-                          />
-
-                          {/* Card */}
-                          <Box
-                            bg="var(--card-bg)"
-                            border="1px solid"
-                            borderColor="var(--border-color)"
-                            borderRadius="12px"
-                            boxShadow="var(--shadow-sm)"
-                            transition="transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease"
-                            _hover={{
-                              transform: 'translateY(-2px)',
-                              borderColor: 'var(--border-strong)',
-                              boxShadow: 'var(--shadow-lift)',
-                            }}
+                        <Box flex="1" minW={0}>
+                          <Text
+                            display={['block', 'block', 'none']}
+                            fontFamily="mono"
+                            fontSize="2xs"
+                            color={termSecondary}
+                            mb={1}
                           >
-                            <Flex
-                              px={[3, 4]} py={[3, 4]}
-                              gap={3}
-                              align="start"
-                              cursor="pointer"
-                              onClick={() => toggleExpanded(id)}
-                            >
-                              {/* Logo shell */}
-                              <Flex
-                                w="40px"
-                                h="40px"
-                                borderRadius="10px"
-                                bg="var(--elevated-bg)"
-                                border="1px solid"
-                                borderColor="var(--border-color)"
-                                align="center"
-                                justify="center"
-                                flexShrink={0}
-                                overflow="hidden"
+                            {t(exp.timelineAnchorPhase.engagementType === 'collaboration'
+                              ? 'experience.collaborationLabel'
+                              : 'experience.internshipLabel')} · {fmtDate(exp.timelineAnchorPhase.start)} – {fmtDate(exp.timelineAnchorPhase.end)}
+                          </Text>
+
+                          <Flex align="center" gap={2} flexWrap="wrap" mb={0.5}>
+                            {exp.companyUrl ? (
+                              <Link
+                                href={exp.companyUrl}
+                                isExternal
+                                fontFamily="body"
+                                fontSize="md"
+                                fontWeight="semibold"
+                                color={termText}
+                                lineHeight="1.35"
+                                _hover={{ textDecoration: 'underline', color: 'accentStrong' }}
                               >
-                                {icon ? (
-                                  <Image
-                                    src={resolveIconSrc(icon)}
-                                    alt=""
-                                    maxW="28px"
-                                    maxH="28px"
-                                    objectFit="contain"
-                                    fallback={
-                                      <Flex
-                                        w="full" h="full"
-                                        align="center" justify="center"
-                                        fontSize="sm" fontWeight="bold"
-                                        color={rtColor}
-                                      >
-                                        {exp.company.charAt(0)}
-                                      </Flex>
-                                    }
-                                  />
-                                ) : (
-                                  <Text fontSize="sm" fontWeight="bold" color={rtColor}>
-                                    {exp.company.charAt(0)}
-                                  </Text>
-                                )}
-                              </Flex>
-
-                              {/* Content */}
-                              <Box flex="1" minW={0}>
-                                {/* Role title + type chip */}
-                                <Flex align="center" gap={2} flexWrap="wrap" mb={0.5}>
-                                  <Text fontFamily="body" fontSize="md" fontWeight="semibold" color={termText} lineHeight="1.35">
-                                    {exp.title}
-                                  </Text>
-                                  <Text
-                                    fontSize="2xs"
-                                    fontWeight="bold"
-                                    color={rtColor}
-                                    letterSpacing="0.06em"
-                                    textTransform="uppercase"
-                                    px={1.5} py={0.5}
-                                    lineHeight="1.2"
-                                    borderRadius="6px"
-                                    bg={`${rtColor}18`}
-                                  >
-                                    {t(rtCfg.labelKey)}
-                                  </Text>
-                                  {exp.isCurrent && (
-                                    <Box w="6px" h="6px" borderRadius="full" bg={termSuccess} flexShrink={0} />
-                                  )}
-                                </Flex>
-
-                                {/* Org name */}
-                                <Flex align="center" gap={1.5} flexWrap="wrap" fontSize="sm">
-                                  {exp.companyUrl ? (
-                                    <Link
-                                      href={exp.companyUrl} isExternal
-                                      color="accent" fontSize="sm" fontWeight="medium"
-                                      onClick={e => e.stopPropagation()}
-                                      _hover={{ textDecoration: 'underline', color: 'accentStrong' }}
-                                    >
-                                      {exp.company}
-                                    </Link>
-                                  ) : (
-                                    <Text color="accent" fontWeight="medium">{exp.company}</Text>
-                                  )}
-                                </Flex>
-
-                                {/* Period + location */}
-                                <Text fontFamily="mono" fontSize="xs" color="textMuted" mt={0.5}>
-                                  {fmtDate(exp.start)} – {fmtDate(exp.end)}
-                                  {exp.location ? ` · ${exp.location}` : ''}
+                                {exp.company}
+                              </Link>
+                            ) : (
+                              <Text as="h3" fontFamily="body" fontSize="md" fontWeight="semibold" color={termText} lineHeight="1.35">
+                                {exp.company}
+                              </Text>
+                            )}
+                            <Text
+                              fontSize="2xs"
+                              fontWeight="bold"
+                              color={rtColor}
+                              letterSpacing="0.06em"
+                              textTransform="uppercase"
+                              px={1.5} py={0.5}
+                              lineHeight="1.2"
+                              borderRadius="6px"
+                              bg={`${rtColor}18`}
+                            >
+                              {t(rtCfg.labelKey)}
+                            </Text>
+                            {currentStatusKey && exp.isRelationshipCurrent && (
+                              <HStack spacing={1}>
+                                <Box w="6px" h="6px" borderRadius="full" bg={termSuccess} flexShrink={0} />
+                                <Text fontSize="2xs" color={termSuccess} fontWeight="semibold">
+                                  {t(currentStatusKey)}
                                 </Text>
-                              </Box>
+                              </HStack>
+                            )}
+                          </Flex>
 
-                              {/* Chevron */}
-                              <Icon
-                                as={FaChevronDown}
-                                boxSize="10px"
-                                color="textMuted"
-                                mt="8px"
-                                flexShrink={0}
-                                transition="transform 0.2s ease"
-                                transform={isExpanded ? 'rotate(180deg)' : 'rotate(0)'}
-                              />
-                            </Flex>
-
-                            {/* Expanded */}
-                            <Collapse in={isExpanded}>
-                              <Box pl={[3, '68px']} pr={[3, 4]} pb={[3, 4]}>
-                                <Box pl={3} borderLeft={`2px solid ${rtColor}`}>
-                                  {exp.summary && (
-                                    <Text fontFamily="body" fontSize="sm" color="textSecondary" mb={2} lineHeight="1.7">
-                                      {highlightData(exp.summary, hlc)}
+                          {/* Role history stays inside the organization card. */}
+                          <Box as="ol" listStyleType="none" m={0} p={0} mt={2} aria-label={t('experience.roleHistoryAria', { organization: exp.company })}>
+                            {exp.phases.map((phase, phaseIndex) => (
+                              <React.Fragment key={phase.id}>
+                                {phaseIndex > 0 && phase.engagementType === 'collaboration' && (
+                                  <HStack spacing={1.5} pl={2} py={1} color={termSecondary} aria-hidden="true">
+                                    <Text fontSize="xs">↳</Text>
+                                    <Text fontFamily="mono" fontSize="2xs" letterSpacing="0.04em">
+                                      {t('experience.continuedAs')}
                                     </Text>
-                                  )}
-                                  <VStack align="stretch" spacing={1.5}>
-                                    {exp.highlights.map((line: string, i: number) => (
-                                      <HStack key={i} fontSize="sm" align="start" spacing={2}>
-                                        <Text color={rtColor} flexShrink={0} mt="1px">·</Text>
-                                        <Text fontFamily="body" fontSize="sm" color={termText} lineHeight="1.6">
-                                          {highlightData(line, hlc)}
-                                        </Text>
-                                      </HStack>
-                                    ))}
-                                  </VStack>
-                                </Box>
-                              </Box>
-                            </Collapse>
+                                  </HStack>
+                                )}
+                                <Flex
+                                  as="li"
+                                  align={['start', 'center']}
+                                  justify="space-between"
+                                  gap={[1, 3]}
+                                  direction={['column', 'row']}
+                                >
+                                  <HStack spacing={1.5} minW={0}>
+                                    {isOngoing(phase.end) && (
+                                      <Box w="5px" h="5px" borderRadius="full" bg={termSuccess} flexShrink={0} />
+                                    )}
+                                    <Text as="h4" fontFamily="body" fontSize="sm" color="accent" fontWeight="medium">
+                                      {phase.title}
+                                    </Text>
+                                  </HStack>
+                                  <Text fontFamily="mono" fontSize="xs" color="textMuted" flexShrink={0}>
+                                    {fmtDate(phase.start)} – {fmtDate(phase.end)}
+                                  </Text>
+                                </Flex>
+                              </React.Fragment>
+                            ))}
                           </Box>
-                        </Box>
-                      )
-                    })}
-                  </VStack>
-                </Box>
-              ))}
 
-              {filtered.length === 0 && (
+                          {exp.location && (
+                            <Text fontFamily="mono" fontSize="xs" color="textMuted" mt={1.5}>
+                              {exp.location}
+                            </Text>
+                          )}
+                        </Box>
+
+                        {hasDetails && (
+                          <IconButton
+                            aria-label={t(isExpanded ? 'experience.collapseDetails' : 'experience.expandDetails', { organization: exp.company })}
+                            aria-expanded={isExpanded}
+                            aria-controls={detailsId}
+                            icon={<FaChevronDown />}
+                            size="xs"
+                            variant="ghost"
+                            color="textMuted"
+                            flexShrink={0}
+                            onClick={() => toggleExpanded(id)}
+                            transform={isExpanded ? 'rotate(180deg)' : 'rotate(0)'}
+                            transition="transform 0.2s ease"
+                          />
+                        )}
+                      </Flex>
+
+                      {hasDetails && (
+                        <Collapse in={isExpanded}>
+                          <Box id={detailsId} pl={[3, '68px']} pr={[3, 4]} pb={[3, 4]}>
+                            <Box pl={3} borderLeft={`2px solid ${rtColor}`}>
+                              {exp.summary && (
+                                <Text fontFamily="body" fontSize="sm" color="textSecondary" mb={2} lineHeight="1.7">
+                                  {highlightSemanticTerms(exp.summary, exp.emphasis, termCommand)}
+                                </Text>
+                              )}
+                              <VStack align="stretch" spacing={1.5}>
+                                {exp.highlights.map((line: string, i: number) => (
+                                  <HStack key={i} fontSize="sm" align="start" spacing={2}>
+                                    <Text color={rtColor} flexShrink={0} mt="1px">·</Text>
+                                    <Text fontFamily="body" fontSize="sm" color={termText} lineHeight="1.6">
+                                      {highlightSemanticTerms(line, exp.emphasis, termCommand)}
+                                    </Text>
+                                  </HStack>
+                                ))}
+                              </VStack>
+                            </Box>
+                          </Box>
+                        </Collapse>
+                      )}
+                    </Box>
+                  </Box>
+                )
+              })}
+
+              {sorted.length === 0 && (
                 <Box py={8} textAlign="center">
                   <Text color={termSecondary} fontSize="sm" fontFamily="body">{t('experience.noPositions')}</Text>
                 </Box>
@@ -615,7 +819,12 @@ const Experience: React.FC = () => {
 
           {/* Command output */}
           {cmdOutput.length > 0 && (
-            <Box px={[3, 5]} py={2} bg={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.03)'} borderTop={`1px solid ${termBorder}`}>
+            <Box
+              px={[3, 5]} py={2}
+              bg={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.03)'}
+              borderTop={`1px solid ${termBorder}`}
+              aria-live="polite"
+            >
               {cmdOutput.map((line, i) => (
                 <Text key={i} fontSize="xs" fontFamily="mono" color={termText} whiteSpace="pre-wrap">{line}</Text>
               ))}
@@ -633,8 +842,9 @@ const Experience: React.FC = () => {
             <Input
               value={command}
               onChange={e => setCommand(e.target.value)}
-              onKeyPress={e => { if (e.key === 'Enter') handleCommand(command) }}
+              onKeyDown={e => { if (e.key === 'Enter') handleCommand(command) }}
               placeholder={t('experience.typeHelp')}
+              aria-label={t('experience.commandInputLabel')}
               size="xs"
               variant="unstyled"
               color={termText}
@@ -643,6 +853,7 @@ const Experience: React.FC = () => {
             />
             <Box
               h="12px" w="6px" bg={termPrompt} ml={1}
+              aria-hidden="true"
               sx={{ animation: `${blink} 1s step-end infinite` }}
             />
           </Flex>

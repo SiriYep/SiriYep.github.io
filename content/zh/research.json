@@ -7,19 +7,33 @@
       "advisorUrl": "https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao",
       "focus": "面向真实机器人场景的具身智能、VLA、世界模型与 VLM",
       "link": "https://idm.pku.edu.cn/",
-      "institution": "北京大学"
+      "institution": "北京大学",
+      "statusKind": "academic",
+      "role": "博士生"
+    },
+    {
+      "lab": "米哈游",
+      "emoji": "🎮",
+      "focus": "游戏 AI 研究",
+      "link": "https://www.mihoyo.com/",
+      "statusKind": "collaboration",
+      "role": "游戏 AI 科研合作"
     },
     {
       "lab": "北京人形机器人创新中心",
       "emoji": "🧠",
       "focus": "具身世界模型、记忆系统与 World Action Model",
-      "link": "https://www.x-humanoid.com/"
+      "link": "https://www.x-humanoid.com/",
+      "statusKind": "collaboration",
+      "role": "科研合作"
     },
     {
       "lab": "至简动力",
       "emoji": "🧪",
       "focus": "面向真实移动操作场景的 VLA 部署与机器人系统研究",
-      "link": "https://www.simplexity.ai/"
+      "link": "https://www.simplexityrobotics.com/",
+      "statusKind": "collaboration",
+      "role": "科研合作"
     }
   ]
 }

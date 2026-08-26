@@ -1,6 +1,7 @@
 ---
 id: chen2026lastr1
-title: 'LaST-R1: Reinforcing Action via Adaptive Physical Latent Reasoning for VLA Models'
+representativeRank: 5
+title: 'LaST-R1: Reinforcing Robotic Manipulation via Adaptive Physical Latent Reasoning'
 authors:
   - Hao Chen
   - Jiaming Liu
@@ -13,7 +14,6 @@ authors:
   - Siyuan Qian
   - Yinxi Wang
   - Peng Jia
-  - Chi-Wing Fu
   - Shanghang Zhang
   - Pheng-Ann Heng
 venue: arXiv Technical Report
@@ -25,6 +25,7 @@ links:
   paper: https://arxiv.org/pdf/2604.28192
   arxiv: https://arxiv.org/abs/2604.28192
   projectPage: https://siriyep.github.io/last-r1/
+  code: https://github.com/CHEN-H01/LaST-R1
   demo: https://siriyep.github.io/last-r1/#real-world
 specialBadges:
   - Technical Report
@@ -33,4 +34,4 @@ isCorrespondingAuthor: false
 featuredImage: /images/publications/last_r1.png
 ---
 
-We present LaST-R1, a unified vision-language-action framework that integrates adaptive latent Chain-of-Thought reasoning over physical dynamics with online reinforcement learning. Through Latent-to-Action Policy Optimization (LAPO), LaST-R1 jointly optimizes latent reasoning and action generation, achieving a 99.8% average success rate on the LIBERO benchmark with one-shot supervised warm-up and up to a 44% improvement over the warm-up policy in real-world single-arm and dual-arm manipulation tasks.
+We present LaST-R1, a reinforcement-learning post-training framework for latent reasoning-before-acting VLA policies. Its Latent-to-Action Policy Optimization jointly optimizes adaptive latent Chain-of-Thought reasoning and action generation, reaching a 99.9% average success rate on LIBERO with one-shot supervised warm-up and improving over supervised fine-tuning by up to 22.5% across four real-world single- and dual-arm tasks.

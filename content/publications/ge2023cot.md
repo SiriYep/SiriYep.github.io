@@ -1,5 +1,6 @@
 ---
 id: ge2023cot
+representativeRank: 7
 title: Chain of Thought Prompt Tuning in Vision Language Models
 authors:
   - Jiaxin Ge

@@ -9,7 +9,7 @@ import { keyframes } from '@emotion/react'
 import { IconType } from 'react-icons'
 import {
   FaFolderOpen, FaUser, FaCrown, FaCog, FaSync, FaPuzzlePiece, FaChevronDown,
-  FaGithub, FaMedium, FaYoutube, FaExternalLinkAlt,
+  FaGithub, FaMedium, FaYoutube, FaExternalLinkAlt, FaBookOpen, FaCodeBranch, FaLightbulb,
 } from 'react-icons/fa'
 import { SiZhihu, SiCsdn } from 'react-icons/si'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,8 @@ const bob = keyframes`0%,100%{transform:translateY(0)}50%{transform:translateY(-
 
 /* ── Types ─────────────────────────────────────────────────────── */
 type TP = ProjectItem & { id: string }
-type TabKey = 'all' | ProjectItem['category']
+type TopicKey = 'all' | ProjectItem['category']
+type ProjectTypeKey = 'all' | ProjectItem['projectType']
 
 type CatThemeWithAnim = CatTheme & { anim: string }
 
@@ -35,7 +36,7 @@ const buildThemes = (dk: boolean): Record<ProjectItem['category'], CatThemeWithA
   const base = buildCategoryThemes(dk)
   const b = bob
   const durations: Record<ProjectItem['category'], number> = {
-    robotics: 2.2, nlp: 1.8, 'web-app': 2.0, data: 2.4, tooling: 2.6, healthcare: 1.6, resources: 2.0, agent: 2.2,
+    robotics: 2.2, nlp: 1.8, 'web-app': 2.0, data: 2.4, tooling: 2.6, healthcare: 1.6, 'ai-for-science': 2.1, resources: 2.0, agent: 2.2,
   }
   const result = {} as Record<ProjectItem['category'], CatThemeWithAnim>
   for (const [k, v] of Object.entries(base) as [ProjectItem['category'], CatTheme][]) {
@@ -51,6 +52,27 @@ const roleConfig: Record<string, { textKey: string; icon: IconType; color: (d: b
   'tech-lead': { textKey: 'projects.techLead',    icon: FaCog,         color: d => d ? '#88c0d0' : '#2a769c' },
   maintainer:  { textKey: 'projects.maintainer',  icon: FaSync,        color: d => d ? '#a3be8c' : '#36805a' },
   contributor: { textKey: 'projects.contributor', icon: FaPuzzlePiece, color: d => d ? '#b48ead' : '#7d4f8c' },
+  coauthor:    { textKey: 'projects.coauthor',    icon: FaUser,        color: d => d ? '#d8a7e8' : '#824c98' },
+}
+
+const projectTypeConfig: Record<ProjectItem['projectType'], {
+  textKey: string; icon: IconType; color: (d: boolean) => string; bg: (d: boolean) => string
+}> = {
+  paper: {
+    textKey: 'projects.paperProject', icon: FaBookOpen,
+    color: d => d ? '#d8a7e8' : '#824c98',
+    bg: d => d ? 'rgba(216,167,232,0.12)' : 'rgba(130,76,152,0.08)',
+  },
+  original: {
+    textKey: 'projects.originalProject', icon: FaLightbulb,
+    color: d => d ? '#8ab87a' : '#37795c',
+    bg: d => d ? 'rgba(138,184,122,0.12)' : 'rgba(55,121,92,0.08)',
+  },
+  community: {
+    textKey: 'projects.communityContribution', icon: FaCodeBranch,
+    color: d => d ? '#88c0d0' : '#2a769c',
+    bg: d => d ? 'rgba(136,192,208,0.12)' : 'rgba(42,118,156,0.08)',
+  },
 }
 
 /* ── Helpers ────────────────────────────────────────────────────── */
@@ -76,20 +98,21 @@ const getYear = (v?: string) => {
 
 /* ── Flow Node (About-page design language) ──────────────────── */
 const FlowNode: React.FC<{
-  item: TP; ct: CatTheme; isDark: boolean; isLast: boolean
-  termText: string
+  item: TP; ct: CatTheme; isDark: boolean
+  termBg: string; termText: string
   termSecondary: string; termMuted: string; termBorder: string
   hlc: { num: string; kw: string; str: string }
   onImageClick: (src: string, alt: string) => void
-}> = ({ item, ct, isDark, isLast: _isLast, termText, termSecondary, termMuted, termBorder, hlc, onImageClick }) => {
+}> = ({ item, ct, isDark, termBg, termText, termSecondary, termMuted, termBorder, hlc, onImageClick }) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
   const role = roleConfig[item.role || 'independent']
+  const projectType = projectTypeConfig[item.projectType]
   const liveStars = useGitHubStars(item.link)
-  const isStarBadge = !!item.badge && /star/i.test(item.badge)
+  const starCount = liveStars ?? item.starsFallback
   const badges: { text: string; star: boolean }[] = []
-  if (item.badge && !(isStarBadge && liveStars)) badges.push({ text: item.badge, star: isStarBadge })
-  if (liveStars) badges.push({ text: `${liveStars} stars`, star: true })
+  if (item.badge) badges.push({ text: item.badge, star: false })
+  if (starCount) badges.push({ text: starCount + ' stars', star: true })
   const hasImg = !!item.featuredImage
   const res: { label: string; url: string }[] = []
   if (item.link) res.push({ label: t('projects.source'), url: item.link })
@@ -98,22 +121,32 @@ const FlowNode: React.FC<{
 
   return (
     <Flex gap={[3, 3, 4]} align="start" py={3} position="relative">
-      {/* Dot — hollow ring, filled for featured/last */}
-      <Box flexShrink={0} mt="6px">
+      {/* Solid category dot; the background halo cleanly interrupts the timeline. */}
+      <Box flexShrink={0} mt="6px" w="14px" h="14px" display="flex" alignItems="center" justifyContent="center">
         <Box
-          w="14px" h="14px" borderRadius="full"
-          border="2px solid"
-          borderColor={item.featured ? ct.color : termBorder}
-          bg={item.featured ? ct.color : 'transparent'}
-          boxShadow={item.featured ? `0 0 8px ${ct.glow}` : undefined}
+          w="8px" h="8px" borderRadius="full"
+          bg={ct.color}
+          boxShadow={item.featured
+            ? `0 0 0 3px ${termBg}, 0 0 8px ${ct.glow}`
+            : `0 0 0 3px ${termBg}`}
           transition="all 0.2s"
         />
       </Box>
 
       {/* Content */}
       <Box flex={1} minW={0}>
-        {/* Category + Role + Date label line */}
+        {/* Project origin + category + role + date label line */}
         <HStack spacing={2} mb={1.5} flexWrap="wrap" align="center">
+          <HStack spacing={1} px={1.5} py={0.5} borderRadius="6px"
+            border="1px solid" borderColor={projectType.color(isDark)}
+            bg={projectType.bg(isDark)} color={projectType.color(isDark)}>
+            <Icon as={projectType.icon} boxSize="9px" />
+            <Text fontSize="2xs" fontFamily="mono" fontWeight="semibold"
+              letterSpacing="wide" textTransform="uppercase" lineHeight="1.4">
+              {t(projectType.textKey)}
+            </Text>
+          </HStack>
+          <Text fontSize="2xs" fontFamily="mono" color={termMuted}>/</Text>
           <HStack spacing={1} px={1.5} py={0.5} borderRadius="6px"
             bg={ct.glow} color={ct.color}>
             <Icon as={ct.icon} boxSize="9px" />
@@ -144,7 +177,7 @@ const FlowNode: React.FC<{
           onClick={hasExpandable ? () => setExpanded(p => !p) : undefined}>
           {item.title}
           {item.featured && (
-            <Text as="span" ml={2} fontSize="xs" color={hlc.num}>★</Text>
+            <Text as="span" ml={1.5} fontSize={['sm', 'md']} color={hlc.num}>★</Text>
           )}
         </Text>
 
@@ -205,7 +238,7 @@ const FlowNode: React.FC<{
                     transition="border-color 0.15s ease, color 0.15s ease, transform 0.15s ease"
                     _hover={{ borderColor: ct.color, color: ct.color, transform: 'translateY(-1px)' }}>
                     <Icon as={linkIcon(r.url)} boxSize="11px" />
-                    <Text>{r.label}</Text>
+                    <Text>{highlightData(r.label, hlc)}</Text>
                   </HStack>
                 </Link>
               ))}
@@ -278,7 +311,8 @@ const Projects: React.FC = () => {
   const { t } = useTranslation()
   const { projects: projectData, siteOwner } = useLocalizedData()
 
-  const [activeTab, setActiveTab] = useState<TabKey>('all')
+  const [activeProjectType, setActiveProjectType] = useState<ProjectTypeKey>('all')
+  const [activeTopic, setActiveTopic] = useState<TopicKey>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [imgPreview, setImgPreview] = useState<{ src: string; alt: string } | null>(null)
   const { isOpen: isImgOpen, onOpen: openImg, onClose: closeImg } = useDisclosure()
@@ -305,29 +339,60 @@ const Projects: React.FC = () => {
     projectData.map((p, i) => ({ ...p, id: `p-${i}` }))
   , [projectData])
 
-  /* ── Tabs ── */
-  const tabs = useMemo(() => {
-    const cnt: Record<string, number> = { all: projects.length }
-    projects.forEach(p => { cnt[p.category] = (cnt[p.category] || 0) + 1 })
-    const cats: ProjectItem['category'][] = ['robotics', 'nlp', 'web-app', 'data', 'tooling', 'healthcare', 'resources', 'agent']
+  /* ── Project origin + topic filters ── */
+  const projectTypeTabs = useMemo(() => {
+    const paperCount = projects.filter(p => p.projectType === 'paper').length
+    const originalCount = projects.filter(p => p.projectType === 'original').length
+    const communityCount = projects.filter(p => p.projectType === 'community').length
     return [
       {
-        key: 'all' as TabKey, icon: FaFolderOpen, label: t('projects.all'),
+        key: 'all' as ProjectTypeKey, icon: FaFolderOpen, label: t('projects.all'),
+        color: termInfo, activeBg: 'var(--accent-light)', count: projects.length,
+      },
+      {
+        key: 'paper' as ProjectTypeKey, icon: FaBookOpen, label: t('projects.paperProjects'),
+        color: projectTypeConfig.paper.color(isDark), activeBg: projectTypeConfig.paper.bg(isDark), count: paperCount,
+      },
+      {
+        key: 'original' as ProjectTypeKey, icon: FaLightbulb, label: t('projects.originalProjects'),
+        color: projectTypeConfig.original.color(isDark), activeBg: projectTypeConfig.original.bg(isDark), count: originalCount,
+      },
+      {
+        key: 'community' as ProjectTypeKey, icon: FaCodeBranch, label: t('projects.communityContributions'),
+        color: projectTypeConfig.community.color(isDark), activeBg: projectTypeConfig.community.bg(isDark), count: communityCount,
+      },
+    ]
+  }, [projects, t, termInfo, isDark])
+
+  const projectsInActiveType = useMemo(() =>
+    activeProjectType === 'all'
+      ? projects
+      : projects.filter(p => p.projectType === activeProjectType)
+  , [projects, activeProjectType])
+
+  const topicTabs = useMemo(() => {
+    const cnt: Record<string, number> = { all: projectsInActiveType.length }
+    projectsInActiveType.forEach(p => { cnt[p.category] = (cnt[p.category] || 0) + 1 })
+    const cats: ProjectItem['category'][] = ['robotics', 'nlp', 'web-app', 'data', 'tooling', 'ai-for-science', 'healthcare', 'resources', 'agent']
+    return [
+      {
+        key: 'all' as TopicKey, icon: FaFolderOpen, label: t('projects.all'),
         color: termInfo, activeBg: 'var(--accent-light)', count: cnt.all,
       },
       ...cats.filter(k => cnt[k] > 0).map(k => ({
-        key: k as TabKey, icon: themes[k].icon, label: t(`category.${k}`),
+        key: k as TopicKey, icon: themes[k].icon, label: t(`category.${k}`),
         color: themes[k].color, activeBg: themes[k].glow, count: cnt[k],
       })),
     ]
-  }, [projects, themes, termInfo])
+  }, [projectsInActiveType, t, themes, termInfo])
 
   /* ── Filtering + sorting ── */
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
     return projects
       .filter(p => {
-        if (activeTab !== 'all' && p.category !== activeTab) return false
+        if (activeProjectType !== 'all' && p.projectType !== activeProjectType) return false
+        if (activeTopic !== 'all' && p.category !== activeTopic) return false
         if (!q) return true
         return [p.title, p.summary, p.tags?.join(' '), p.highlights?.join(' ')]
           .filter(Boolean).some(s => (s as string).toLowerCase().includes(q))
@@ -340,7 +405,7 @@ const Projects: React.FC = () => {
         if (!a.featured && b.featured) return 1
         return a.title.localeCompare(b.title)
       })
-  }, [projects, searchQuery, activeTab])
+  }, [projects, searchQuery, activeProjectType, activeTopic])
 
   /* ── Year groups ── */
   const yearGroups = useMemo(() => {
@@ -352,14 +417,18 @@ const Projects: React.FC = () => {
   }, [filtered])
 
   /* ── Stats ── */
-  const totalIndep = useMemo(() => projects.filter(p => !p.role || p.role === 'independent').length, [projects])
-  const filteredIndep = useMemo(() => filtered.filter(p => !p.role || p.role === 'independent').length, [filtered])
+  const paperProjectCount = useMemo(() => projects.filter(p => p.projectType === 'paper').length, [projects])
+  const originalProjectCount = useMemo(() => projects.filter(p => p.projectType === 'original').length, [projects])
+  const communityContributionCount = useMemo(() => projects.filter(p => p.projectType === 'community').length, [projects])
+  const filteredPaperCount = useMemo(() => filtered.filter(p => p.projectType === 'paper').length, [filtered])
+  const filteredOriginalCount = useMemo(() => filtered.filter(p => p.projectType === 'original').length, [filtered])
+  const filteredCommunityCount = useMemo(() => filtered.filter(p => p.projectType === 'community').length, [filtered])
 
   const onImgClick = useCallback((src: string, alt: string) => {
     setImgPreview({ src, alt }); openImg()
   }, [openImg])
 
-  const promptPath = activeTab === 'all' ? '~' : `~/${activeTab}`
+  const promptPath = `~/${activeProjectType}/${activeTopic}`
 
   return (
     <Box w="full" minH="100vh" py={[8, 10, 12]}>
@@ -435,48 +504,103 @@ const Projects: React.FC = () => {
               <Text as="span" color={termPrompt} fontWeight="bold">{siteOwner.terminalUsername}</Text>
               <Text as="span" color={tc.border}> · </Text>
               <Text as="span" color={termHighlight}>{projects.length}</Text>
-              <Text as="span"> {t('projects.projectsAcross')} </Text>
-              <Text as="span" color={termPrompt}>{totalIndep} {t('projects.independentlyBuilt')}</Text>
+              <Text as="span"> {t('projects.projects')} · </Text>
+              <Text as="span" color={projectTypeConfig.paper.color(isDark)}>
+                {paperProjectCount} {t('projects.paperProjectsCount')}
+              </Text>
+              <Text as="span" color={tc.border}> · </Text>
+              <Text as="span" color={projectTypeConfig.original.color(isDark)}>
+                {originalProjectCount} {t('projects.originalProjectsCount')}
+              </Text>
+              <Text as="span" color={tc.border}> · </Text>
+              <Text as="span" color={projectTypeConfig.community.color(isDark)}>
+                {communityContributionCount} {t('projects.communityContributionsCount')}
+              </Text>
             </Text>
-            <Text color={termInfo} flexShrink={0}>~/projects/{promptPath === '~' ? 'all' : activeTab}</Text>
+            <Text color={termInfo} flexShrink={0}>/projects/{activeProjectType}/{activeTopic}</Text>
           </Flex>
 
-          {/* ═══ TAB BAR — filter chips ═══ */}
-          <Flex
-            bg={termTabBar} overflowX="auto" borderBottom={`1px solid ${termBorder}`}
-            px={3} py={2} gap={1.5} align="center"
-            sx={{ '&::-webkit-scrollbar': { height: '0' } }}
-          >
-            {tabs.map(tab => {
-              const active = activeTab === tab.key
-              return (
-                <Flex
-                  key={tab.key} as="button" align="center" gap={1.5}
-                  px={2.5} py={1} fontSize="xs" fontFamily="mono"
-                  borderRadius="full" border="1px solid"
-                  borderColor={active ? tab.color : 'transparent'}
-                  color={active ? tab.color : termSecondary}
-                  bg={active ? tab.activeBg : 'transparent'}
-                  fontWeight={active ? 'semibold' : 'normal'}
-                  transition="color 0.15s ease, border-color 0.15s ease, background 0.15s ease"
-                  _hover={{
-                    color: tab.color,
-                    borderColor: active ? tab.color : termBorder,
-                  }}
-                  onClick={() => setActiveTab(tab.key)}
-                  flexShrink={0} whiteSpace="nowrap"
-                >
-                  <Box sx={active && tab.key !== 'all'
-                    ? { animation: themes[tab.key as ProjectItem['category']].anim }
-                    : undefined}>
+          {/* ═══ FILTER BAR — project origin first, topic second ═══ */}
+          <Box bg={termTabBar} borderBottom={`1px solid ${termBorder}`}>
+            <Flex
+              overflowX="auto" px={3} py={2} gap={1.5} align="center"
+              role="group" aria-label={t('projects.projectOrigin')}
+              sx={{ '&::-webkit-scrollbar': { height: '0' } }}
+            >
+              <Text minW="96px" flexShrink={0} fontSize="2xs" color={termMuted}
+                letterSpacing="widest" fontWeight="semibold">
+                {t('projects.projectOrigin')}
+              </Text>
+              {projectTypeTabs.map(tab => {
+                const active = activeProjectType === tab.key
+                return (
+                  <Flex
+                    key={tab.key} as="button" type="button" align="center" gap={1.5}
+                    px={2.5} py={1} fontSize="xs" fontFamily="mono"
+                    borderRadius="full" border="1px solid"
+                    borderColor={active ? tab.color : 'transparent'}
+                    color={active ? tab.color : termSecondary}
+                    bg={active ? tab.activeBg : 'transparent'}
+                    fontWeight={active ? 'semibold' : 'normal'}
+                    transition="color 0.15s ease, border-color 0.15s ease, background 0.15s ease"
+                    _hover={{ color: tab.color, borderColor: active ? tab.color : termBorder }}
+                    _focusVisible={{ outline: `2px solid ${tab.color}`, outlineOffset: '2px' }}
+                    aria-pressed={active}
+                    onClick={() => {
+                      setActiveProjectType(tab.key)
+                      setActiveTopic('all')
+                    }}
+                    flexShrink={0} whiteSpace="nowrap"
+                  >
                     <Icon as={tab.icon} boxSize="11px" display="block" />
-                  </Box>
-                  {tab.label}
-                  <Text as="span" opacity={0.65}>({tab.count})</Text>
-                </Flex>
-              )
-            })}
-          </Flex>
+                    {tab.label}
+                    <Text as="span" opacity={0.65}>({tab.count})</Text>
+                  </Flex>
+                )
+              })}
+            </Flex>
+
+            <Box mx={3} h="1px" bg={termBorder} opacity={0.55} />
+
+            <Flex
+              overflowX="auto" px={3} py={2} gap={1.5} align="center"
+              role="group" aria-label={t('projects.topic')}
+              sx={{ '&::-webkit-scrollbar': { height: '0' } }}
+            >
+              <Text minW="96px" flexShrink={0} fontSize="2xs" color={termMuted}
+                letterSpacing="widest" fontWeight="semibold">
+                {t('projects.topic')}
+              </Text>
+              {topicTabs.map(tab => {
+                const active = activeTopic === tab.key
+                return (
+                  <Flex
+                    key={tab.key} as="button" type="button" align="center" gap={1.5}
+                    px={2.5} py={1} fontSize="xs" fontFamily="mono"
+                    borderRadius="full" border="1px solid"
+                    borderColor={active ? tab.color : 'transparent'}
+                    color={active ? tab.color : termSecondary}
+                    bg={active ? tab.activeBg : 'transparent'}
+                    fontWeight={active ? 'semibold' : 'normal'}
+                    transition="color 0.15s ease, border-color 0.15s ease, background 0.15s ease"
+                    _hover={{ color: tab.color, borderColor: active ? tab.color : termBorder }}
+                    _focusVisible={{ outline: `2px solid ${tab.color}`, outlineOffset: '2px' }}
+                    aria-pressed={active}
+                    onClick={() => setActiveTopic(tab.key)}
+                    flexShrink={0} whiteSpace="nowrap"
+                  >
+                    <Box sx={active && tab.key !== 'all'
+                      ? { animation: themes[tab.key as ProjectItem['category']].anim }
+                      : undefined}>
+                      <Icon as={tab.icon} boxSize="11px" display="block" />
+                    </Box>
+                    {tab.label}
+                    <Text as="span" opacity={0.65}>({tab.count})</Text>
+                  </Flex>
+                )
+              })}
+            </Flex>
+          </Box>
 
           {/* ═══ TOOLBAR ═══ */}
           <Flex
@@ -494,7 +618,7 @@ const Projects: React.FC = () => {
 
           {/* ═══ CONTENT — Timeline Flow ═══ */}
           <Box
-            key={activeTab}
+            key={`${activeProjectType}-${activeTopic}`}
             bg={termBg} color={termText}
             maxH="75vh" overflowY="auto"
             sx={{
@@ -524,10 +648,9 @@ const Projects: React.FC = () => {
                       w="1px" bg={termBorder} opacity={0.3} />
 
                     <VStack spacing={0} align="stretch">
-                      {group.items.map((item, idx) => (
+                      {group.items.map(item => (
                         <FlowNode key={item.id} item={item} ct={themes[item.category]}
-                          isDark={isDark} isLast={idx === group.items.length - 1}
-                          termText={termText}
+                          isDark={isDark} termBg={termBg} termText={termText}
                           termSecondary={termSecondary} termMuted={termMuted}
                           termBorder={termBorder}
                           hlc={hlc}
@@ -553,13 +676,21 @@ const Projects: React.FC = () => {
             align="center" justify="space-between" fontSize="2xs" color={termMuted}
             flexWrap="wrap" gap={2}
           >
-            <HStack spacing={3}>
+            <Flex align="center" gap={[1.5, 3]} flexWrap="wrap" minW={0}>
               <Text>{filtered.length}/{projects.length} {t('projects.shown')}</Text>
-              <HStack spacing={1} color={termHighlight}>
-                <Icon as={FaUser} boxSize="9px" />
-                <Text fontWeight="bold">{filteredIndep} {t('projects.independent')}</Text>
+              <HStack spacing={1} color={projectTypeConfig.paper.color(isDark)}>
+                <Icon as={FaBookOpen} boxSize="9px" />
+                <Text fontWeight="bold">{filteredPaperCount} {t('projects.paperProjectsCount')}</Text>
               </HStack>
-            </HStack>
+              <HStack spacing={1} color={projectTypeConfig.original.color(isDark)}>
+                <Icon as={FaLightbulb} boxSize="9px" />
+                <Text fontWeight="bold">{filteredOriginalCount} {t('projects.originalProjectsCount')}</Text>
+              </HStack>
+              <HStack spacing={1} color={projectTypeConfig.community.color(isDark)}>
+                <Icon as={FaCodeBranch} boxSize="9px" />
+                <Text fontWeight="bold">{filteredCommunityCount} {t('projects.communityContributionsCount')}</Text>
+              </HStack>
+            </Flex>
             <HStack spacing={1}>
               <Text color={termPrompt}>{siteOwner.terminalUsername}@projects:{promptPath}$</Text>
               <Box w="6px" h="11px" bg={termPrompt} sx={{ animation: `${blink} 1s step-end infinite` }} />

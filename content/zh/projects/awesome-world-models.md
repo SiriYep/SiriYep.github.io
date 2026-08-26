@@ -1,22 +1,30 @@
 ---
-title: Awesome-World-Models
+id: awesome-world-models
+title: Awesome World Models with Memory
+projectType: original
 category: resources
 tags:
   - 世界模型
-  - 文献综述
-  - 具身智能
-  - 强化学习
-link: https://github.com/leofan90/Awesome-World-Models
+  - 记忆机制
+  - 视频生成
+  - 研究整理
+link: https://github.com/SiriYep/Awesome-World-Models-with-Memory
+extraLinks:
+  - label: '同时维护：Awesome-World-Models'
+    url: https://github.com/leofan90/Awesome-World-Models
 isOpenSource: true
-role: maintainer
+role: independent
 featured: false
-badge: 890+ stars
-date: "2025-11"
+badge: '40+ 篇论文 · 12+ 个基准'
+starsFallback: "15"
+date: "2026-03"
 ---
 
-Awesome-World-Models 是面向世界模型研究方向的综述型资源索引和知识库。
+独立创建的记忆增强世界模型研究索引，同时持续参与维护覆盖更广的 Awesome-World-Models 社区列表。
 
 ## Highlights
 
-- 持续维护和扩展世界模型相关研究资源。
-- 系统整理视频预测、动作条件动态建模、具身智能和强化学习等方向的代表性工作。
+- 整理 40+ 篇论文和 12+ 个基准，覆盖记忆增强世界模型与长视频生成。
+- 提出双范式分类，将动作条件下的空间记忆与纯视频生成中的叙事记忆分开组织。
+- 按检索、压缩、循环状态、几何记忆和长上下文扩展等机制系统整理代表性工作。
+- 同时参与维护并持续扩充覆盖更广的 Awesome-World-Models 社区资源。

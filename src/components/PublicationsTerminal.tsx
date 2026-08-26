@@ -29,12 +29,15 @@ import {
   ModalCloseButton
 } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
+import { useTranslation } from 'react-i18next'
 import { getPublicationStats } from '../data'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import { FaChartBar, FaVideo, FaProjectDiagram, FaFileAlt, FaAtom, FaStar, FaRobot, FaGlobe, FaHandRock, FaCloudSun, FaFutbol } from 'react-icons/fa'
 import { IconType } from 'react-icons'
 import { highlightData } from '../utils/highlightData'
 import { publicationVenueColors, terminalPalette } from '@/config/theme'
+import type { Publication } from '@/types'
+import { sortPublications, type PublicationOrder } from '@/utils/publicationOrder'
 
 /* ── Emoji → Icon mapping ─────────────────────────────────────── */
 const emojiIconMap: Record<string, IconType> = {
@@ -55,18 +58,17 @@ const blink = keyframes`
   50% { opacity: 0; }
 `
 
-const monthOrder: Record<string, number> = {
-  Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
-  Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12,
-}
+const normalizeAuthorName = (name: string) => name.replace(/\*/g, '').trim().toLowerCase()
 
 const PublicationsTerminal: React.FC = () => {
+  const { t } = useTranslation()
   const { colorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const { publications, siteOwner } = useLocalizedData()
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedYear, setSelectedYear] = useState<string>('all')
   const [selectedVenue, setSelectedVenue] = useState<string>('all')
+  const [publicationOrder, setPublicationOrder] = useState<PublicationOrder>('newest')
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({})
   const [showStats, setShowStats] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -120,7 +122,19 @@ const PublicationsTerminal: React.FC = () => {
   }, [])
   
   // Get statistics
-  const stats = useMemo(() => getPublicationStats(), [publications])
+  const stats = useMemo(() => getPublicationStats(publications), [publications])
+  const authorVariants = new Set(
+    (siteOwner.name.authorVariants as readonly string[]).map(normalizeAuthorName)
+  )
+  const isFirstOrCoFirstAuthor = (publication: Publication) => (
+    Boolean(publication.isFirstAuthor) ||
+    Boolean(
+      publication.isCoFirst &&
+      publication.coFirstAuthors?.some(author => authorVariants.has(normalizeAuthorName(author)))
+    )
+  )
+  const firstOrCoFirstAuthorCount = publications.filter(isFirstOrCoFirstAuthor).length
+  const hasFirstOrCoFirstAuthorPublications = firstOrCoFirstAuthorCount > 0
   
   // Filter publications
   const filteredPublications = useMemo(() => {
@@ -147,14 +161,14 @@ const PublicationsTerminal: React.FC = () => {
       filtered = filtered.filter(pub => pub.venueType === selectedVenue)
     }
     
-    // Sort by year (newest first), then by month
-    filtered.sort((a, b) => {
-      if (b.year !== a.year) return b.year - a.year
-      return (monthOrder[b.month || ''] || 0) - (monthOrder[a.month || ''] || 0)
-    })
-    
-    return filtered
-  }, [publications, searchQuery, selectedYear, selectedVenue])
+    return sortPublications(filtered, publicationOrder)
+  }, [publications, publicationOrder, searchQuery, selectedYear, selectedVenue])
+
+  const filteredFirstOrCoFirstAuthorCount = filteredPublications.filter(isFirstOrCoFirstAuthor).length
+  const latestVisibleYear = filteredPublications.reduce(
+    (latest, publication) => Math.max(latest, publication.year),
+    0,
+  )
   
   // Get unique years for filter
   const availableYears = useMemo(() => {
@@ -189,13 +203,19 @@ const PublicationsTerminal: React.FC = () => {
       case 'stats':
         setShowStats(!showStats)
         break
+      case 'sort':
+        if (parts[1] === 'representative' || parts[1] === 'newest' || parts[1] === 'oldest') {
+          setPublicationOrder(parts[1])
+        }
+        break
       case 'clear':
         setSearchQuery('')
         setSelectedYear('all')
         setSelectedVenue('all')
+        setPublicationOrder('newest')
         break
       case 'help':
-        alert('Commands: search <query>, filter year <year>, filter venue <type>, stats, clear, help')
+        alert('Commands: search <query>, filter year <year>, filter venue <type>, sort <representative|newest|oldest>, stats, clear, help')
         break
     }
     
@@ -291,9 +311,14 @@ const PublicationsTerminal: React.FC = () => {
               <Text as="span" color={termPrompt} fontWeight="bold">{siteOwner.terminalUsername}</Text>
               <Text as="span" color={tc.border}> · </Text>
               <Text as="span" color={termHighlight}>{stats.total}</Text>
-              <Text as="span"> papers, </Text>
-              <Text as="span" color={termSuccess}>{stats.firstAuthor} first-authored</Text>
-              <Text as="span"> across </Text>
+              <Text as="span"> papers</Text>
+              {hasFirstOrCoFirstAuthorPublications && (
+                <>
+                  <Text as="span" color={tc.border}> · </Text>
+                  <Text as="span" color={termSuccess}>{firstOrCoFirstAuthorCount} as first/co-first author</Text>
+                </>
+              )}
+              <Text as="span" color={tc.border}> · </Text>
               <Text as="span" color={termCommand}>{Object.keys(stats.byVenue).length} venue types</Text>
               <Text as="span" color={tc.border}> · </Text>
               <Text as="span" color={termParam}>{stats.withCode} open-source</Text>
@@ -314,17 +339,19 @@ const PublicationsTerminal: React.FC = () => {
                 '.chakra-stat__help-text': { fontSize: '2xs', color: tc.muted, mb: 0 },
               }}
             >
-              <SimpleGrid columns={[2, 3, 6]} spacing={4}>
+              <SimpleGrid columns={[2, 3, hasFirstOrCoFirstAuthorPublications ? 6 : 5]} spacing={4}>
                 <Stat size="sm">
                   <StatLabel color={termInfo}>Total</StatLabel>
                   <StatNumber color={termHighlight}>{stats.total}</StatNumber>
                   <StatHelpText>Papers</StatHelpText>
                 </Stat>
-                <Stat size="sm">
-                  <StatLabel color={termInfo}>First Author</StatLabel>
-                  <StatNumber color={termSuccess}>{stats.firstAuthor}</StatNumber>
-                  <StatHelpText>Papers</StatHelpText>
-                </Stat>
+                {hasFirstOrCoFirstAuthorPublications && (
+                  <Stat size="sm">
+                    <StatLabel color={termInfo}>First / Co-First</StatLabel>
+                    <StatNumber color={termSuccess}>{firstOrCoFirstAuthorCount}</StatNumber>
+                    <StatHelpText>Papers</StatHelpText>
+                  </Stat>
+                )}
                 <Stat size="sm">
                   <StatLabel color={termInfo}>With Code</StatLabel>
                   <StatNumber color={termCommand}>{stats.withCode}</StatNumber>
@@ -406,6 +433,24 @@ const PublicationsTerminal: React.FC = () => {
                 <option value="workshop">Workshops</option>
                 <option value="demo">Demo</option>
                 <option value="preprint">Preprints</option>
+              </Select>
+
+              <Select
+                value={publicationOrder}
+                onChange={(e) => setPublicationOrder(e.target.value as PublicationOrder)}
+                aria-label={t('publications.sortLabel')}
+                size="sm"
+                w="180px"
+                bg={isDark ? 'rgba(0,0,0,0.2)' : 'white'}
+                border="1px solid"
+                borderColor={termBorder}
+                borderRadius="8px"
+                color={termText}
+                fontFamily="mono"
+              >
+                <option value="newest">{t('publications.sortNewest')}</option>
+                <option value="representative">{t('publications.sortRepresentative')}</option>
+                <option value="oldest">{t('publications.sortOldest')}</option>
               </Select>
               
               <IconButton
@@ -867,14 +912,16 @@ const PublicationsTerminal: React.FC = () => {
             Showing <Text as="span" color={termHighlight} fontWeight="bold">{filteredPublications.length}</Text> of {publications.length} papers
           </Text>
           <HStack spacing={4}>
-            <Text color={termSuccess}>
-              First Author: {filteredPublications.filter(p => p.isFirstAuthor).length}
-            </Text>
+            {filteredFirstOrCoFirstAuthorCount > 0 && (
+              <Text color={termSuccess}>
+                First / Co-First: {filteredFirstOrCoFirstAuthorCount}
+              </Text>
+            )}
             <Text color={termCommand}>
               With Code: {filteredPublications.filter(p => p.links.code).length}
             </Text>
             <Text color={termParam}>
-              Latest: {filteredPublications[0]?.year || 'N/A'}
+              Latest: {latestVisibleYear || 'N/A'}
             </Text>
           </HStack>
         </Flex>

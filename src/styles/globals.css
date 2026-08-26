@@ -7,7 +7,7 @@
 :root {
   /* Surfaces */
   --bg-color: #f6f4ef;
-  --card-bg: #ffffff;
+  --card-bg: #fffefb;
   --elevated-bg: #ffffff;
   --header-bg: #f0ece3;
   --hover-color: rgba(58, 95, 217, 0.05);
@@ -15,7 +15,7 @@
   /* Text */
   --text-color: #181a1f;
   --secondary-text: #565d68;
-  --muted-text: #9b9789;
+  --muted-text: #807d73;
 
   /* Accent */
   --accent-color: #3a5fd9;
@@ -23,12 +23,12 @@
   --accent-light: rgba(58, 95, 217, 0.09);
 
   /* Lines */
-  --border-color: rgba(76, 66, 43, 0.14);
-  --border-strong: rgba(76, 66, 43, 0.24);
+  --border-color: rgba(76, 66, 43, 0.18);
+  --border-strong: rgba(76, 66, 43, 0.3);
 
   /* Depth */
-  --shadow-sm: 0 1px 2px rgba(24, 26, 31, 0.04), 0 5px 14px -6px rgba(24, 26, 31, 0.08);
-  --shadow-card: 0 1px 2px rgba(24, 26, 31, 0.04), 0 12px 34px -14px rgba(28, 34, 64, 0.16);
+  --shadow-sm: 0 1px 2px rgba(49, 43, 35, 0.05), 0 6px 16px -8px rgba(45, 55, 90, 0.14);
+  --shadow-card: 0 1px 2px rgba(49, 43, 35, 0.05), 0 14px 38px -18px rgba(45, 55, 100, 0.24);
   --shadow-lift: 0 2px 4px rgba(24, 26, 31, 0.05), 0 24px 60px -24px rgba(30, 38, 80, 0.3);
   --glow-accent: 0 0 0 1px rgba(58, 95, 217, 0.18), 0 8px 28px -10px rgba(58, 95, 217, 0.28);
 

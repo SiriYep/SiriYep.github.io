@@ -1,26 +1,30 @@
 ---
-title: Awesome-World-Models
+id: awesome-world-models
+title: Awesome World Models with Memory
+projectType: original
 category: resources
 tags:
   - World Models
-  - Survey
-  - Embodied AI
-  - Reinforcement Learning
-link: https://github.com/leofan90/Awesome-World-Models
+  - Memory
+  - Video Generation
+  - Research Curation
+link: https://github.com/SiriYep/Awesome-World-Models-with-Memory
+extraLinks:
+  - label: 'Also Maintained: Awesome-World-Models'
+    url: https://github.com/leofan90/Awesome-World-Models
 isOpenSource: true
-role: maintainer
+role: independent
 featured: false
-badge: 890+ stars
-date: "2025-11"
+badge: '40+ Papers · 12+ Benchmarks'
+starsFallback: "15"
+date: "2026-03"
 ---
 
-A curated survey and resource index for World Model research.
+An independently created research index for memory-augmented world models, alongside continued maintenance of the broader Awesome-World-Models community list.
 
 ## Highlights
 
-- Video prediction and generation
-- Action-conditioned dynamics modeling
-- Embodied AI applications
-- Reinforcement learning with world models
-- Participated in maintaining and continuously expanding World Model related research resources
-- Systematically organized representative works across multiple research directions
+- Curated 40+ papers and 12+ benchmarks spanning memory-augmented world models and long-form video generation.
+- Proposed a two-paradigm taxonomy separating action-conditioned spatial memory from narrative memory in pure video generation.
+- Organized work by memory mechanism, including retrieval, compression, recurrent state, geometric memory, and long-context extensions.
+- Also contributes to maintaining and expanding the broader Awesome-World-Models community resource.

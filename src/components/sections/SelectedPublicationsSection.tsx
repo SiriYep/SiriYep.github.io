@@ -3,10 +3,14 @@ import { Box, Container, VStack, HStack, Text, Heading, Flex, Link,
   useColorMode } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { selectedPublicationIds } from '@/site.config'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import { publicationVenueColors } from '@/config/theme'
+import type { Publication } from '@/types'
+import { sortPublications } from '@/utils/publicationOrder'
 import DynamicIcon from '../DynamicIcon'
+import SectionMoreLink from '../SectionMoreLink'
+
+const HOME_PUBLICATION_LIMIT = 3
 
 const PubLink = ({ href, icon, label }: { href: string; icon: string; label: string }) => (
   <Link href={href} isExternal _hover={{ textDecoration: 'none' }}>
@@ -24,15 +28,10 @@ const PubLink = ({ href, icon, label }: { href: string; icon: string; label: str
   </Link>
 )
 
-const monthOrder: Record<string, number> = {
-  Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
-  Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12,
-}
-
 const AWARD_BADGES = ['Best Paper', 'Oral', 'Spotlight']
 const FIRST_AUTHOR_BADGES = ['First Author', 'Co-First']
 
-const PublicationCard = ({ pub }: { pub: any }) => {
+const PublicationCard = ({ pub }: { pub: Publication }) => {
   const { t } = useTranslation()
   const { siteOwner } = useLocalizedData()
   const { colorMode } = useColorMode()
@@ -173,12 +172,7 @@ const SelectedPublicationsSection: React.FC = () => {
   const { publications } = useLocalizedData()
 
   const selectedPubs = useMemo(
-    () => publications
-      .filter((pub) => selectedPublicationIds.has(pub.id))
-      .sort((a, b) => {
-        if (b.year !== a.year) return b.year - a.year
-        return (monthOrder[b.month || ''] || 0) - (monthOrder[a.month || ''] || 0)
-      }),
+    () => sortPublications(publications, 'newest').slice(0, HOME_PUBLICATION_LIMIT),
     [publications]
   )
 
@@ -196,15 +190,8 @@ const SelectedPublicationsSection: React.FC = () => {
           {selectedPubs.map((pub) => (
             <PublicationCard key={pub.id} pub={pub} />
           ))}
-          <Box textAlign="center" pt={2}>
-            <Link href="/publications" _hover={{ textDecoration: 'none' }}>
-              <HStack spacing={2} justify="center" color="textSecondary" fontSize="sm" fontFamily="mono" transition="color 0.15s ease" _hover={{ color: 'accent' }}>
-                <Text>{t('about.viewAllPublications')}</Text>
-                <Text>→</Text>
-              </HStack>
-            </Link>
-          </Box>
         </VStack>
+        <SectionMoreLink to="/publications">{t('about.viewAllPublications')}</SectionMoreLink>
       </Container>
     </Box>
   )

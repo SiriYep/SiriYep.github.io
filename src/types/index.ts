@@ -68,20 +68,47 @@ export interface Experience {
 
 export type ExperienceCategory = 'research' | 'industry' | 'academic' | 'leadership'
 export type RoleType = 'research' | 'mle' | 'sde' | 'teaching' | 'leadership'
+export type EngagementType = 'internship' | 'collaboration' | 'employment' | 'visiting'
 
-export interface ExperienceEntry {
+export interface ExperienceRolePhase {
+  id: string
   title: string
+  engagementType: EngagementType
+  start: string
+  end?: string
+  roleType?: RoleType
+}
+
+interface ExperienceEntryBase {
+  id: string
   company: string
   companyUrl?: string
   location?: string
-  start: string
-  end?: string
   category: ExperienceCategory
-  roleType?: RoleType
   summary?: string
-  highlights: string[]
+  highlights?: string[]
+  emphasis?: string[]
   isCurrent?: boolean
 }
+
+export interface LegacyExperienceEntry extends ExperienceEntryBase {
+  roles?: never
+  title: string
+  start: string
+  end?: string
+  roleType?: RoleType
+}
+
+export interface PhasedExperienceEntry extends ExperienceEntryBase {
+  roles: [ExperienceRolePhase, ...ExperienceRolePhase[]]
+  timelineAnchorRoleId: string
+  title?: never
+  start?: never
+  end?: never
+  roleType?: never
+}
+
+export type ExperienceEntry = LegacyExperienceEntry | PhasedExperienceEntry
 
 export interface JourneyPhase {
   period: string
@@ -120,19 +147,23 @@ export interface ProjectLink {
 }
 
 export interface ProjectItem {
+  id: string
   title: string
   summary: string
+  projectType: 'paper' | 'original' | 'community'
+  publicationId?: string
   link?: string
   extraLinks?: ProjectLink[]
   tags: string[]
   date?: string
-  category: 'robotics' | 'nlp' | 'web-app' | 'data' | 'tooling' | 'healthcare' | 'resources' | 'agent'
+  category: 'robotics' | 'nlp' | 'web-app' | 'data' | 'tooling' | 'healthcare' | 'ai-for-science' | 'resources' | 'agent'
   highlights?: string[]
   featuredImage?: string
   isOpenSource?: boolean
-  role?: 'independent' | 'lead' | 'tech-lead' | 'maintainer' | 'contributor'
+  role?: 'independent' | 'lead' | 'tech-lead' | 'maintainer' | 'contributor' | 'coauthor'
   story?: string
   badge?: string
+  starsFallback?: string
   featured?: boolean
 }
 
@@ -163,6 +194,7 @@ export interface Publication {
   coFirstAuthors?: string[]
   emoji?: string
   featuredImage?: string
+  representativeRank?: number
 }
 
 export interface Award {
@@ -195,10 +227,18 @@ export interface TeachingEntry {
   link?: string
 }
 
+export interface SkillEvidence {
+  kind: 'experience' | 'project' | 'publication'
+  ref: string
+  note?: string
+}
+
 export interface Skill {
+  id: string
   name: string
   icon?: string
   description?: string
   category?: string
   level?: number
+  evidence?: SkillEvidence[]
 }

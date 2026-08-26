@@ -75,14 +75,14 @@ const semanticTokens = {
     accentSubtle: { default: 'rgba(58,95,217,0.09)', _dark: 'rgba(138,162,242,0.13)' },
     prompt: { default: '#be4519', _dark: '#f0925e' },
     warm: { default: '#8a3bb0', _dark: '#b877dd' },
-    surface: { default: '#ffffff', _dark: '#1a1920' },
+    surface: { default: '#fffefb', _dark: '#1a1920' },
     surfaceElevated: { default: '#ffffff', _dark: '#211f2a' },
     surfaceHeader: { default: '#f0ece3', _dark: '#1d1b24' },
-    borderSubtle: { default: 'rgba(76,66,43,0.14)', _dark: 'rgba(160,158,180,0.15)' },
-    borderStrong: { default: 'rgba(76,66,43,0.24)', _dark: 'rgba(160,158,180,0.3)' },
+    borderSubtle: { default: 'rgba(76,66,43,0.18)', _dark: 'rgba(160,158,180,0.15)' },
+    borderStrong: { default: 'rgba(76,66,43,0.3)', _dark: 'rgba(160,158,180,0.3)' },
     textPrimary: { default: '#181a1f', _dark: '#eceaf2' },
     textSecondary: { default: '#565d68', _dark: '#a09eae' },
-    textMuted: { default: '#9b9789', _dark: '#6c6a78' },
+    textMuted: { default: '#807d73', _dark: '#6c6a78' },
   },
 }
 

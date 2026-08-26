@@ -51,13 +51,82 @@
     ]
   },
   {
+    "type": "experience",
+    "badge": "合作",
+    "count": 1,
+    "icon": "FaBriefcase",
+    "iconColor": "green.400",
+    "title": "米哈游",
+    "description": "开始与米哈游围绕游戏 AI 开展科研合作。",
+    "date": "2026 年 7 月",
+    "sortDate": "2026-07-01",
+    "links": [
+      {
+        "text": "官网",
+        "url": "https://www.mihoyo.com/",
+        "icon": "FaGlobe"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "📄 LaST-HD 技术报告",
+    "description": "我们的技术报告 LaST-HD: Learning Latent Physical Reasoning from Scalable Human Data for Robot Manipulation 已发布于 arXiv；我为共同第一作者之一。",
+    "date": "2026 年 6 月",
+    "sortDate": "2026-06-22",
+    "links": [
+      {
+        "text": "arXiv",
+        "url": "https://arxiv.org/abs/2606.23685",
+        "icon": "SiArxiv"
+      },
+      {
+        "text": "项目",
+        "url": "https://siriyep.github.io/last-hd-project-page/",
+        "icon": "FaGlobe"
+      },
+      {
+        "text": "PDF",
+        "url": "https://arxiv.org/pdf/2606.23685",
+        "icon": "FaFileAlt"
+      }
+    ]
+  },
+  {
+    "type": "publication",
+    "badge": "论文",
+    "count": 1,
+    "icon": "FaFileAlt",
+    "iconColor": "blue.400",
+    "title": "🎉 CVPR 2026 GigaBrain Challenge",
+    "description": "我们的论文 EchoArena: Learning World Models for Reliable VLA Policy Evaluation 发表于 CVPR 2026 GigaBrain Challenge Workshop。",
+    "date": "2026 年 6 月",
+    "sortDate": "2026-06-03",
+    "links": [
+      {
+        "text": "CVF",
+        "url": "https://openaccess.thecvf.com/content/CVPR2026W/GigaBrainChallenge/html/Wang_EchoArena_Learning_World_Models_for_Reliable_VLA_Policy_Evaluation_CVPRW_2026_paper.html",
+        "icon": "FaExternalLinkAlt"
+      },
+      {
+        "text": "PDF",
+        "url": "https://openaccess.thecvf.com/content/CVPR2026W/GigaBrainChallenge/papers/Wang_EchoArena_Learning_World_Models_for_Reliable_VLA_Policy_Evaluation_CVPRW_2026_paper.pdf",
+        "icon": "FaFileAlt"
+      }
+    ]
+  },
+  {
     "type": "publication",
     "badge": "论文",
     "count": 1,
     "icon": "FaFileAlt",
     "iconColor": "blue.400",
     "title": "📄 LaST-R1 技术报告",
-    "description": "我们的技术报告 LaST-R1: Reinforcing Action via Adaptive Physical Latent Reasoning for VLA Models 已发布在 arXiv。",
+    "description": "我们的技术报告 LaST-R1: Reinforcing Robotic Manipulation via Adaptive Physical Latent Reasoning 已发布在 arXiv。",
     "date": "Apr 2026",
     "sortDate": "2026-04-30",
     "links": [
@@ -72,6 +141,11 @@
         "icon": "FaGlobe"
       },
       {
+        "text": "代码",
+        "url": "https://github.com/CHEN-H01/LaST-R1",
+        "icon": "FaGithub"
+      },
+      {
         "text": "PDF",
         "url": "https://arxiv.org/pdf/2604.28192",
         "icon": "FaFileAlt"
@@ -80,12 +154,12 @@
   },
   {
     "type": "experience",
-    "badge": "实习",
+    "badge": "合作",
     "count": 1,
     "icon": "FaBriefcase",
     "iconColor": "green.400",
     "title": "北京人形机器人创新中心",
-    "description": "开始在北京人形机器人创新中心担任研究实习生，研究面向具身世界模型的记忆系统与 World Action Model。",
+    "description": "开始与北京人形机器人创新中心开展科研合作，研究面向具身世界模型的记忆系统与 World Action Model。",
     "date": "Mar 2026",
     "sortDate": "2026-03-01",
     "links": [
@@ -114,7 +188,7 @@
       },
       {
         "text": "代码",
-        "url": "https://github.com/RoyZry98/INIF-Pytorch",
+        "url": "https://github.com/PKU-HMI/INIF",
         "icon": "FaGithub"
       }
     ]
@@ -149,18 +223,18 @@
   },
   {
     "type": "experience",
-    "badge": "研究员",
+    "badge": "合作",
     "count": 1,
     "icon": "FaFlask",
     "iconColor": "green.400",
     "title": "联合实验室（至简动力 & 北京大学）",
-    "description": "加入联合实验室（至简动力 & 北京大学），担任研究员，推进真实移动操作场景中的 VLA 部署。",
+    "description": "开始与联合实验室（至简动力 & 北京大学）开展科研合作，推进真实移动操作场景中的 VLA 部署。",
     "date": "Sep 2025",
     "sortDate": "2025-09-01",
     "links": [
       {
         "text": "官网",
-        "url": "https://www.simplexity.ai/",
+        "url": "https://www.simplexityrobotics.com/",
         "icon": "FaGlobe"
       }
     ]
@@ -188,8 +262,13 @@
       },
       {
         "text": "代码",
-        "url": "https://github.com/x-humanoid-robomind",
+        "url": "https://github.com/Open-X-Humanoid/RoboMIND-dataset-utils",
         "icon": "FaGithub"
+      },
+      {
+        "text": "数据集",
+        "url": "https://huggingface.co/datasets/x-humanoid-robomind/RoboMIND",
+        "icon": "FaDatabase"
       }
     ]
   },

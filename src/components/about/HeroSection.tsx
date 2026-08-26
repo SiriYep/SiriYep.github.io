@@ -1,11 +1,12 @@
-import { Box, VStack, Text, useColorModeValue, Image, HStack, Container, Stack, Link, Flex, SimpleGrid, Heading, Tooltip } from '@chakra-ui/react'
-import { useEffect, useRef, useState } from 'react'
+import { Box, VStack, Text, useColorModeValue, Image, HStack, Container, Grid, GridItem, Link, Flex, SimpleGrid, Tooltip } from '@chakra-ui/react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { withBase } from '@/utils/asset'
 import DynamicIcon from '../DynamicIcon'
 import { useTranslation } from 'react-i18next'
 import { useLocalizedData } from '@/hooks/useLocalizedData'
 import { cvEntries } from '@/generated/cv-manifest'
+import InstitutionLogo from '../InstitutionLogo'
 
 const MotionBox = motion(Box)
 const MotionText = motion(Text)
@@ -37,6 +38,9 @@ interface ResearchItem {
   advisorUrl?: string
   focus: string
   link: string
+  statusKind?: 'academic' | 'internship' | 'collaboration'
+  role?: string
+  period?: string
 }
 
 interface EducationItem {
@@ -55,6 +59,79 @@ interface HeroSectionProps {
   educationLogos?: Record<string, string>
 }
 
+const CurrentStatusPanel = ({
+  label,
+  children,
+  accentGradient,
+  isZh,
+  secondary = false,
+}: {
+  label: string
+  children: ReactNode
+  accentGradient: string
+  isZh: boolean
+  secondary?: boolean
+}) => (
+  <Box
+    py={[1, 2]}
+    pr={{ base: 0, md: secondary ? 0 : 6 }}
+    pl={{ base: 0, md: secondary ? 6 : 0 }}
+    mt={{ base: secondary ? 5 : 0, md: 0 }}
+    pt={{ base: secondary ? 5 : 1, md: 1 }}
+    borderTopWidth={{ base: secondary ? '1px' : '0', md: '0' }}
+    borderLeftWidth={{ base: '0', md: secondary ? '1px' : '0' }}
+    borderColor="var(--border-color)"
+  >
+    <HStack spacing={2} mb={4} align="center">
+      <Box w="24px" h="3px" bgGradient={accentGradient} borderRadius="full" flexShrink={0} />
+      <Text
+        fontFamily={isZh ? 'body' : 'mono'}
+        color="textPrimary"
+        textTransform={isZh ? 'none' : 'uppercase'}
+        letterSpacing={isZh ? '0.08em' : '0.1em'}
+        fontSize={{ base: '0.75rem', md: '0.8125rem' }}
+        fontWeight="700"
+        lineHeight="1.4"
+      >
+        {label}
+      </Text>
+    </HStack>
+    <VStack align="stretch" spacing={4}>{children}</VStack>
+  </Box>
+)
+
+const CurrentStatusSection = ({
+  label,
+  children,
+}: {
+  label: string
+  children: ReactNode
+}) => (
+  <Box>
+    <Text
+      mb={2.5}
+      fontFamily="body"
+      color="textSecondary"
+      textTransform="none"
+      letterSpacing="0.025em"
+      fontSize={{ base: '0.6875rem', md: '0.75rem' }}
+      fontWeight="600"
+      lineHeight="1.4"
+    >
+      {label}
+    </Text>
+    <VStack align="stretch" spacing={2.5}>{children}</VStack>
+  </Box>
+)
+
+const CurrentStatusDivider = () => (
+  <Box
+    h="1px"
+    bgGradient="linear(to-r, var(--border-color), transparent)"
+    opacity={0.7}
+  />
+)
+
 const HeroSection = ({ title, avatar, research = [], researchLogos = {}, education = [], educationLogos = {} }: HeroSectionProps) => {
   const { t, i18n } = useTranslation()
   const { siteOwner, siteConfig } = useLocalizedData()
@@ -72,8 +149,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
   }
   const headingColor = useColorModeValue('gray.800', 'white')
   const textColor = useColorModeValue('gray.600', 'gray.400')
-  const bg = useColorModeValue('gray.50', 'gray.900')
-  const socialIconColor = useColorModeValue('gray.400', 'gray.500')
+  const socialIconColor = useColorModeValue('gray.500', 'gray.500')
   const nameGradient = useColorModeValue(
     'linear(112deg, #ef6a38, #c44fbf, #3a5fd9)',
     'linear(112deg, #f0854e, #d76ad4, #8aa2f2)',
@@ -118,23 +194,82 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
   const tickerTimes = tickerY.map((_, i) => (i / tickerCount) * 0.9)
   const tickerDuration = (tickerCount * 4) / 3
 
+  const academicItems = research.filter((item) => item.statusKind === 'academic')
+  const internshipItems = research.filter((item) => item.statusKind === 'internship')
+  const collaborationItems = research.filter((item) => item.statusKind === 'collaboration')
+
+  const renderResearchRows = (items: ResearchItem[]) => items.map((item) => {
+    const logo = researchLogos[item.lab]
+    return (
+      <HStack key={item.lab} spacing={3} align="center" minW={0}>
+        <InstitutionLogo
+          src={logo ? withBase(logo) : undefined}
+          label={item.lab}
+          fallback={item.emoji}
+          size="md"
+          framed
+        />
+        <VStack align="start" spacing={0.5} flex={1} minW={0}>
+          <Link
+            href={item.link}
+            isExternal
+            fontSize={["xs", "sm"]}
+            fontWeight="semibold"
+            lineHeight="short"
+            color={headingColor}
+            _hover={{ color: 'accent', textDecoration: 'none' }}
+          >
+            {item.lab}
+          </Link>
+          <Text fontSize={{ base: '0.6875rem', md: 'xs' }} color={textColor} lineHeight="short">
+            {item.role ?? item.focus}{item.period ? ` · ${item.period}` : ''}
+          </Text>
+          {item.advisor && (
+            <Text fontSize={{ base: '0.6875rem', md: 'xs' }} color={textColor} lineHeight="short">
+              {t('hero.advisorPrefix', 'Advisor: ')}
+              {item.advisorUrl ? (
+                <Link href={item.advisorUrl} isExternal color="textPrimary" fontWeight="semibold" textDecoration="underline" textDecorationColor="var(--border-strong)" textUnderlineOffset="2px" _hover={{ color: 'accent', textDecorationColor: 'accent' }}>
+                  {item.advisor}
+                </Link>
+              ) : item.advisor}
+            </Text>
+          )}
+        </VStack>
+      </HStack>
+    )
+  })
+
   return (
     <Box
       w="full"
-      bg={bg}
+      bg="transparent"
       py={[4, 5, 10]}
       mt={[2, 3, 4]}
-      borderBottom="1px solid"
-      borderColor="var(--border-color)"
+      position="relative"
+      _after={{
+        content: '""',
+        position: 'absolute',
+        left: { base: 2, md: 8 },
+        right: { base: 2, md: 8 },
+        bottom: 0,
+        h: '1px',
+        bgGradient: 'linear(to-r, transparent, var(--border-color) 12%, var(--border-color) 88%, transparent)',
+        pointerEvents: 'none',
+      }}
     >
       <Container maxW={["full", "full", "7xl"]} px={[2, 4, 8]}>
-        <Stack
-          direction={['column', 'column', 'row']}
-          spacing={[3, 4, 6]}
-          align="center"
-          justify="space-between"
+        <Grid
+          templateAreas={{
+            base: '"intro" "avatar" "status" "contact"',
+            lg: '"intro avatar" "status avatar" "contact avatar"',
+          }}
+          templateColumns={{ base: 'minmax(0, 1fr)', lg: 'minmax(0, 1fr) auto' }}
+          columnGap={6}
+          rowGap={[3, 4]}
+          alignItems={{ base: 'stretch', lg: 'center' }}
         >
-          <VStack spacing={[2, 3]} align={['center', 'center', 'flex-start']} flex="1">
+          <GridItem gridArea="intro" minW={0}>
+          <VStack spacing={[2, 3]} align={{ base: 'center', lg: 'flex-start' }}>
             <MotionText
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -151,11 +286,9 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
               alignItems="center"
               gap={[1, 2]}
               flexWrap={["wrap", "wrap", "nowrap"]}
-              textAlign={["center", "center", "left"]}
+              textAlign={{ base: 'center', lg: 'left' }}
               w="full"
-              sx={{
-                justifyContent: ["center", "center", "flex-start"]
-              }}
+              justifyContent={{ base: 'center', lg: 'flex-start' }}
             >
               <MotionText
                 as="span"
@@ -220,7 +353,7 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
             <HStack
               spacing={[1, 2]}
               mb={[2, 3, 4]}
-              justify={['center', 'center', 'flex-start']}
+              justify={{ base: 'center', lg: 'flex-start' }}
               flexWrap="wrap"
               w="full"
             >
@@ -252,128 +385,61 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 </MotionBox>
               </Box>
             </HStack>
+          </VStack>
+          </GridItem>
 
-
-            <Box w="full" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
-
-            {/* Research & Education compact section */}
-            {(research.length > 0 || education.length > 0) && (
-              <SimpleGrid columns={[1, 1, 2]} spacing={[3, 3, 4]} w="full">
-                {research.length > 0 && (
-                  <VStack align="start" spacing={2}>
-                    <HStack spacing={2} align="center">
-                      <Box w="3px" h="12px" bg="accent" borderRadius="full" flexShrink={0} />
-                      <Heading size="xs" fontFamily="mono" color="textMuted" textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                        {t('about.researchExperience', 'Research & Internships')}
-                      </Heading>
-                    </HStack>
-                    {research.map((item, index) => {
-                      const logo = researchLogos[item.lab]
-                      const cardHref = item.advisorUrl || item.link
-                      return (
-                        <Link key={index} href={cardHref} isExternal _hover={{ textDecoration: 'none' }} w="full">
-                          <HStack
-                            spacing={2.5}
-                            p={2}
-                            minH="46px"
-                            align="center"
-                            borderRadius="10px"
-                            border="1px solid"
-                            borderColor="transparent"
-                            transition="background 0.2s ease, border-color 0.2s ease"
-                            _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-color)' }}
-                          >
-                            <Flex
-                              w="32px"
-                              h="32px"
-                              borderRadius="8px"
-                              bg="var(--elevated-bg)"
-                              border="1px solid"
-                              borderColor="var(--border-color)"
-                              align="center"
-                              justify="center"
-                              flexShrink={0}
-                            >
-                              {logo ? (
-                                <Image src={withBase(logo)} alt={item.lab} maxW="26px" maxH="26px" objectFit="contain" />
-                              ) : (
-                                <Text fontSize="sm">{item.emoji}</Text>
-                              )}
-                            </Flex>
-                            <VStack align="start" spacing={0} flex={1} minW={0}>
-                              <Text fontSize={["xs", "sm"]} fontWeight="medium" lineHeight="short" color={headingColor}>{item.lab}</Text>
-                              <Text fontSize="2xs" color={textColor} lineHeight="short" noOfLines={1}>
-                                {item.advisor ? (
-                                  <>
-                                    <Text as="span" color={textColor}>{t('hero.advisorPrefix', 'Advisor: ')}</Text>
-                                    <Text as="span" color="accent" fontWeight="semibold">{item.advisor}</Text>
-                                  </>
-                                ) : item.focus}
-                              </Text>
-                            </VStack>
-                          </HStack>
-                        </Link>
-                      )
-                    })}
-                  </VStack>
-                )}
-                {education.length > 0 && (
-                  <VStack align="start" spacing={2}>
-                    <HStack spacing={2} align="center">
-                      <Box w="3px" h="12px" bg="accent" borderRadius="full" flexShrink={0} />
-                      <Heading size="xs" fontFamily="mono" color="textMuted" textTransform="uppercase" letterSpacing="wider" fontSize="2xs">
-                        {t('about.educationJourney', 'Education')}
-                      </Heading>
-                    </HStack>
-                    {education.map((item, index) => {
+          {(research.length > 0 || education.length > 0) && (
+            <GridItem gridArea="status" minW={0}>
+              <Box w="full" h="1px" mb={[3, 4]} bgGradient="linear(to-r, var(--border-strong), transparent)" />
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={0} w="full">
+                <CurrentStatusPanel label={t('hero.academicAndEducation', 'Academic & education')} accentGradient={nameGradient} isZh={isZh}>
+                  <CurrentStatusSection label={t('hero.academicAffiliation', 'Academic affiliation')}>
+                    {renderResearchRows(academicItems)}
+                  </CurrentStatusSection>
+                  <CurrentStatusDivider />
+                  <CurrentStatusSection label={t('hero.currentEducation', 'Current education')}>
+                    {education.map((item) => {
                       const logo = educationLogos[item.institution]
                       return (
-                        <HStack
-                          key={index}
-                          spacing={2.5}
-                          p={2}
-                          minH="46px"
-                          align="center"
-                          borderRadius="10px"
-                          border="1px solid"
-                          borderColor="transparent"
-                          transition="background 0.2s ease, border-color 0.2s ease"
-                          _hover={{ bg: 'var(--hover-color)', borderColor: 'var(--border-color)' }}
-                          w="full"
-                        >
-                          <Flex
-                            w="32px"
-                            h="32px"
-                            borderRadius="8px"
-                            bg="var(--elevated-bg)"
-                            border="1px solid"
-                            borderColor="var(--border-color)"
-                            align="center"
-                            justify="center"
-                            flexShrink={0}
-                          >
-                            {logo ? (
-                              <Image src={withBase(logo)} alt={item.institution} maxW="26px" maxH="26px" objectFit="contain" />
-                            ) : (
-                              <Text fontSize="sm" fontWeight="bold" color="accent">{item.institution.charAt(0)}</Text>
-                            )}
-                          </Flex>
-                          <VStack align="start" spacing={0} flex={1} minW={0}>
-                            <Text fontSize={["xs", "sm"]} fontWeight="medium" lineHeight="short" color={headingColor}>{item.course}</Text>
-                            <Text fontSize="2xs" color={textColor} lineHeight="short">{item.institution} · {item.year}</Text>
+                        <HStack key={`${item.institution}-${item.course}`} spacing={3} align="center" minW={0}>
+                          <InstitutionLogo
+                            src={logo ? withBase(logo) : undefined}
+                            label={item.institution}
+                            fallback={item.institution.charAt(0)}
+                            size="md"
+                            framed
+                          />
+                          <VStack align="start" spacing={0.5} flex={1} minW={0}>
+                            <Text fontSize={["xs", "sm"]} fontWeight="semibold" lineHeight="short" color={headingColor}>{item.course}</Text>
+                            <Text fontSize={{ base: '0.6875rem', md: 'xs' }} color={textColor} lineHeight="short">{item.institution} · {item.year}</Text>
                           </VStack>
                         </HStack>
                       )
                     })}
-                  </VStack>
-                )}
+                  </CurrentStatusSection>
+                </CurrentStatusPanel>
+                <CurrentStatusPanel label={t('about.researchExperience', 'Experience & research collaborations')} accentGradient={nameGradient} isZh={isZh} secondary>
+                  {internshipItems.length > 0 && (
+                    <CurrentStatusSection label={t('hero.currentInternship', 'Current internship')}>
+                      {renderResearchRows(internshipItems)}
+                    </CurrentStatusSection>
+                  )}
+                  {internshipItems.length > 0 && collaborationItems.length > 0 && <CurrentStatusDivider />}
+                  {collaborationItems.length > 0 && (
+                    <CurrentStatusSection label={t('hero.researchCollaborations', 'Research collaborations')}>
+                      {renderResearchRows(collaborationItems)}
+                    </CurrentStatusSection>
+                  )}
+                </CurrentStatusPanel>
               </SimpleGrid>
-            )}
+            </GridItem>
+          )}
 
-            <Box w="full" h="1px" bgGradient="linear(to-r, var(--border-strong), transparent)" />
+          <GridItem gridArea="contact" minW={0}>
+            <Box w="full" h="1px" mb={[3, 4]} bgGradient="linear(to-r, var(--border-strong), transparent)" />
 
             {/* Welcome + contact */}
-            <Flex w="full" direction={['column', 'column', 'row']} align={['center', 'center', 'center']} gap={[2, 2, 4]}>
+            <Flex w="full" direction={['column', 'column', 'row']} align="center" gap={[2, 2, 4]}>
               <Text
                 fontSize="sm"
                 color="var(--secondary-text)"
@@ -447,7 +513,8 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
                 )}
               </VStack>
             </Flex>
-          </VStack>
+          </GridItem>
+          <GridItem gridArea="avatar" justifySelf="center" alignSelf="center">
           <MotionBox
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -589,7 +656,8 @@ const HeroSection = ({ title, avatar, research = [], researchLogos = {}, educati
               )}
             </VStack>
           </MotionBox>
-        </Stack>
+          </GridItem>
+        </Grid>
       </Container>
     </Box>
   )

@@ -112,7 +112,7 @@ npm run dev` },
         { name: 'social.twitter', desc: 'Full Twitter/X profile URL' },
         { name: 'social.googleScholar', desc: 'Google Scholar profile URL' },
         { name: 'terminal.username', desc: 'Username shown in the terminal prompt', example: 'alex' },
-        { name: 'terminal.skills', desc: 'Skill tags — string or { name, icon } objects', example: '[{ "name": "Python", "icon": "FaPython" }]' },
+        { name: 'terminal.skills', desc: 'Skill cards with stable IDs, descriptions, and up to two evidence references', example: '[{ "id": "python", "name": "Python", "description": "..." }]' },
         { name: 'terminal.timezone', desc: 'Your timezone for the clock display', example: 'America/Los_Angeles' },
         { name: 'avatar', required: true, desc: 'Filename of your photo in content/images/', example: 'avatar.jpg' },
       ] },
@@ -126,7 +126,13 @@ npm run dev` },
   "social": { "github": "https://github.com/alexchen" },
   "terminal": {
     "username": "alex",
-    "skills": [{ "name": "Python", "icon": "FaPython" }, { "name": "React", "icon": "FaReact" }]
+    "skills": [{
+      "id": "python",
+      "name": "Python",
+      "icon": "FaPython",
+      "description": "Scientific computing and research tooling.",
+      "evidence": [{ "kind": "project", "ref": "study-buddy" }]
+    }]
   },
   "avatar": "avatar.jpg"
 }` },
@@ -177,6 +183,7 @@ Minimal|projects only` },
     blocks: [
       { type: 'text', content: 'Create a .md file in content/publications/ for each paper. The top section (between --- marks) contains structured data, the body is an optional description.' },
       { type: 'fields', fields: [
+        { name: 'id', required: true, desc: 'Stable identifier used by selected-publication and skill evidence links', example: 'edge-transformers' },
         { name: 'title', required: true, desc: 'Full paper title' },
         { name: 'authors', required: true, desc: 'Comma-separated author list (your name will be highlighted automatically)' },
         { name: 'venue', required: true, desc: 'Conference or journal name', example: 'NeurIPS 2025' },
@@ -190,6 +197,7 @@ Minimal|projects only` },
         { name: 'tldr', desc: 'One-line plain-English summary' },
       ] },
       { type: 'code', label: 'Example: content/publications/my-paper.md', content: `---
+id: edge-transformers
 title: "Efficient Transformers for Edge Devices"
 authors: "Alex Chen, Jane Smith, Bob Park"
 venue: "NeurIPS 2025"
@@ -220,30 +228,41 @@ Optional longer description goes here. Supports **Markdown**.` },
     blocks: [
       { type: 'text', content: 'Create a .md file in content/projects/ for each project. The structure is similar to publications.' },
       { type: 'fields', fields: [
+        { name: 'id', required: true, desc: 'Stable identifier used by skill evidence links', example: 'study-buddy' },
         { name: 'title', required: true, desc: 'Project name' },
-        { name: 'description', required: true, desc: 'Short one-line description' },
-        { name: 'tags', desc: 'Technology tags', example: 'React, Python, Docker' },
-        { name: 'year', desc: 'Year of the project', example: '2025' },
-        { name: 'links', desc: 'List of links (demo, GitHub, docs, etc.)' },
+        { name: 'projectType', required: true, desc: 'Use paper for a publication repository, original for work you initiated, or community for contributions to an existing project', example: 'original' },
+        { name: 'publicationId', desc: 'Required for paper projects; must match a publication frontmatter ID', example: 'chen2025acdit' },
+        { name: 'category', required: true, desc: 'Topic used by the secondary project filter', example: 'tooling' },
+        { name: 'tags', required: true, desc: 'Technology tags', example: 'React, Python, Docker' },
+        { name: 'link', desc: 'Primary repository URL; paper projects must use a concrete GitHub repository' },
+        { name: 'extraLinks', desc: 'Additional links such as paper, project page, dataset, demo, or docs' },
+        { name: 'date', desc: 'Project date used for sorting', example: '2025-03' },
+        { name: 'role', desc: 'Your relationship to the project', example: 'independent' },
         { name: 'featured', desc: 'Set to true to highlight this project' },
         { name: 'featuredImage', desc: 'Path to a screenshot', example: '/images/projects/demo.png' },
       ] },
       { type: 'code', label: 'Example: content/projects/my-app.md', content: `---
+id: study-buddy
 title: "AI Study Buddy"
-description: "An AI-powered study assistant for students."
+projectType: original
+category: tooling
 tags: [React, OpenAI, Node.js]
-year: 2025
+link: https://github.com/user/study-buddy
+date: "2025-03"
+role: independent
+isOpenSource: true
 featured: true
-links:
-  - text: Demo
+extraLinks:
+  - label: Demo
     url: https://study-buddy.app
-    icon: FaExternalLinkAlt
-  - text: GitHub
-    url: https://github.com/user/study-buddy
-    icon: FaGithub
 ---
 
-Longer description in Markdown. Explain what it does and why.` },
+An AI-powered study assistant for students.
+
+## Highlights
+
+- Explain what it does and why it matters.` },
+      { type: 'tip', content: 'Use projectType: paper with a matching publicationId for publication repositories, original for your own open-source work, and community for upstream or collaborative contributions. The validator checks the classification in both languages.' },
     ],
   },
   {
@@ -282,29 +301,33 @@ Your article body in **Markdown**. Use headings, lists, code blocks, etc.` },
     title: 'Edit Experience',
     subtitle: 'Work history and education in one JSON file',
     blocks: [
-      { type: 'text', content: 'Edit content/experience.json to add your work positions, internships, and education history. Each entry is displayed on a visual timeline.' },
+      { type: 'text', content: 'Edit content/experience.json to add internships, research collaborations, and other professional roles. Keep one entry per organization and use roles for changes over time.' },
       { type: 'fields', fields: [
-        { name: 'title', required: true, desc: 'Job title or degree name', example: 'Software Engineer' },
-        { name: 'company', required: true, desc: 'Company or university name', example: 'Google' },
-        { name: 'type', required: true, desc: 'Entry type: work, education, internship, or research' },
-        { name: 'startDate', required: true, desc: 'Start date', example: '2023-09' },
-        { name: 'endDate', desc: 'End date (leave empty for current position)', example: '2025-06' },
-        { name: 'isCurrent', desc: 'Set to true for ongoing positions (shows "Present")' },
-        { name: 'location', desc: 'City and state/country', example: 'San Francisco, CA' },
-        { name: 'description', desc: 'Short description of your role' },
-        { name: 'tags', desc: 'Skills and technologies used' },
+        { name: 'id', required: true, desc: 'Stable organization identifier used by skill evidence links', example: 'example-lab' },
+        { name: 'company', required: true, desc: 'Company, lab, or organization name', example: 'Example Lab' },
+        { name: 'companyUrl', desc: 'Official organization URL' },
+        { name: 'category', required: true, desc: 'Internal grouping: research, industry, academic, or leadership' },
+        { name: 'roles', required: true, desc: 'One or more role phases with stable id, engagementType, title, dates, and roleType' },
+        { name: 'timelineAnchorRoleId', required: true, desc: 'ID of the internship phase shown on the outer internship timeline' },
+        { name: 'summary', desc: 'One public-safe sentence describing the scope of the work' },
+        { name: 'highlights', desc: 'Three or four selected contributions; action, method/system, and result when public' },
+        { name: 'emphasis', desc: 'Exact phrases to highlight in blue, ordered by importance; keep each sentence to one or two meaningful methods, projects, or platforms' },
       ] },
       { type: 'code', label: 'Example entry in experience.json', content: `{
-  "title": "Software Engineer",
-  "company": "Google",
-  "type": "work",
-  "startDate": "2023-09",
-  "isCurrent": true,
-  "location": "Mountain View, CA",
-  "description": "Working on search infrastructure.",
-  "tags": ["Go", "Distributed Systems", "Kubernetes"]
+  "id": "example-lab",
+  "company": "Example Lab",
+  "companyUrl": "https://example.com/",
+  "category": "research",
+  "roles": [
+    { "id": "research-intern", "title": "Research Intern", "engagementType": "internship", "start": "2025-09-01", "end": "2026-02-28", "roleType": "research" },
+    { "id": "research-collaborator", "title": "Research Collaborator", "engagementType": "collaboration", "start": "2026-03-01", "roleType": "research" }
+  ],
+  "timelineAnchorRoleId": "research-intern",
+  "summary": "Researching robust robot learning for long-horizon tasks.",
+  "emphasis": ["World Action Model", "Mobile ALOHA"],
+  "highlights": ["Built an evaluation pipeline.", "Deployed the system on real robots."]
 }` },
-      { type: 'tip', content: 'Entries are sorted by start date. Use isCurrent: true for ongoing positions — they appear at the top. If a company name matches an entry in logos.json, its logo will be displayed.' },
+      { type: 'tip', content: 'Omit a role phase end date for an ongoing relationship. Everything in content/ is public: never include NDA-protected project names, data, metrics, or implementation details.' },
     ],
   },
   {
@@ -395,7 +418,7 @@ FaCode|Code|Open source releases` },
       { type: 'fields', fields: [
         { name: 'talks.json', desc: 'Talks and presentations — each entry has title, event, date, type, slidesUrl, videoUrl' },
         { name: 'teaching.json', desc: 'Teaching entries — each has course, institution, semester, role, description' },
-        { name: 'site.json → skills', desc: 'Skills section — use { name, icon } objects for icons, or plain strings' },
+        { name: 'site.json → terminal.skills', desc: 'Skill cards — use stable id, name, optional icon/description, and at most two evidence references' },
         { name: 'site.json → contact', desc: 'Contact section — auto-reads email, location, and social links' },
       ] },
       { type: 'code', label: 'Example about.md structure', content: `---
@@ -608,7 +631,7 @@ reset_content|Clear all content for a fresh start` },
         { name: 'Avatar or logo not showing?', desc: 'Make sure the file is in content/images/ and the filename matches exactly (case-sensitive). Check avatar field in site.json or key in logos.json.' },
         { name: 'How to reorder home page sections?', desc: 'Edit the "sections" array in site.json. Remove a section name to hide it, reorder to change display order.' },
         { name: 'How to switch component variants?', desc: 'Set "components": { "hero": "minimal" } in site.json. Use the MCP list_templates tool to see available variants.' },
-        { name: 'How to add icons to skills?', desc: 'Change skills from strings to objects: { "name": "Python", "icon": "FaPython" }. Icons use react-icons names.' },
+        { name: 'How to document a skill?', desc: 'Use { "id": "python", "name": "Python", "icon": "FaPython", "description": "...", "evidence": [{ "kind": "project", "ref": "project-id" }] }. Evidence kind can be experience, project, or publication; keep the strongest one or two.' },
         { name: 'How to change colors/theme?', desc: 'Edit src/config/theme.ts — this requires some code knowledge. The file has comments explaining each color.' },
         { name: 'How to add a new page?', desc: 'Requires code changes: create a component in src/components/, add a route in src/App.tsx, and add to navItems in src/site.config.ts.' },
         { name: 'Not a researcher?', desc: 'No problem! Disable publications and research in site.json, focus on projects and articles. TermHub works great for developers, designers, students, and anyone who wants a clean portfolio.' },

@@ -1,5 +1,6 @@
 ---
 id: chen2025acdit
+representativeRank: 1
 title: 'AC-DiT: Adaptive Coordination Diffusion Transformer for Mobile Manipulation'
 authors:
   - Sixiang Chen

@@ -14,21 +14,61 @@
     ]
   },
   "reviewing": [
-    { "venue": "ECCV 2026", "role": "Reviewer" },
-    { "venue": "ICML 2026", "role": "Reviewer" },
-    { "venue": "NeurIPS 2025", "role": "Reviewer" },
-    { "venue": "ICML 2025", "role": "Reviewer" },
-    { "venue": "ECCV 2024", "role": "Reviewer" }
+    {
+      "venue": "ECCV 2026",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ICML 2026",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "NeurIPS 2025",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ICML 2025",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ECCV 2024",
+      "role": "Reviewer"
+    }
   ],
   "timeline": [
     {
-      "title": "Research Intern",
+      "id": "mihoyo",
+      "roles": [
+        {
+          "id": "game-ai-research-collaboration",
+          "title": "Game AI Research Collaborator",
+          "engagementType": "collaboration",
+          "start": "2026-07-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "game-ai-research-collaboration",
+      "company": "miHoYo",
+      "companyUrl": "https://www.mihoyo.com/",
+      "category": "industry",
+      "summary": "Conducting research on Game AI algorithms."
+    },
+    {
+      "id": "x-humanoid",
+      "roles": [
+        {
+          "id": "research-collaboration",
+          "title": "Research Collaborator",
+          "engagementType": "collaboration",
+          "start": "2026-03-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "Beijing Innovation Center of Humanoid Robotics",
       "companyUrl": "https://www.x-humanoid.com/",
       "location": "Beijing, China",
-      "start": "2026-03-01",
       "category": "research",
-      "roleType": "research",
       "summary": "Designing memory systems and World Action Models for embodied world models, improving long-horizon task planning and reliable generation in robotic scenarios.",
       "highlights": [
         "Designed an embodied memory system to reduce temporal inconsistency and memory drift in long-video world model generation.",
@@ -37,13 +77,21 @@
       ]
     },
     {
-      "title": "Joint Lab (Simplexity Robotics & PKU) Researcher",
+      "id": "simplexity",
+      "roles": [
+        {
+          "id": "research-collaboration",
+          "title": "Research Collaborator",
+          "engagementType": "collaboration",
+          "start": "2025-09-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "Simplexity Robotics",
-      "companyUrl": "https://www.simplexity.ai/",
+      "companyUrl": "https://www.simplexityrobotics.com/",
       "location": "Beijing, China",
-      "start": "2025-09-01",
       "category": "industry",
-      "roleType": "research",
       "summary": "Conducted research in the Joint Lab (Simplexity Robotics & PKU) on VLA deployment in real mobile manipulation scenarios, spanning task understanding, action generation, execution feedback, and robot-system deployment.",
       "highlights": [
         "Optimized whole-body control and mobile-manipulation coupling for stable action generation under complex motion states.",
@@ -55,14 +103,22 @@
       ]
     },
     {
-      "title": "Research Intern, Embodied Multimodal LLM Research Center",
+      "id": "baai",
+      "roles": [
+        {
+          "id": "research-intern",
+          "title": "Research Intern, Embodied Multimodal LLM Research Center",
+          "engagementType": "internship",
+          "start": "2024-08-01",
+          "end": "2025-08-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "research-intern",
       "company": "Beijing Academy of Artificial Intelligence (BAAI)",
       "companyUrl": "https://www.baai.ac.cn/",
       "location": "Beijing, China",
-      "start": "2024-08-01",
-      "end": "2025-08-01",
       "category": "research",
-      "roleType": "research",
       "summary": "Contributed to RoboBrain 1.0/2.0 and co-proposed AC-DiT, an end-to-end VLA framework for mobile manipulation with state-of-the-art benchmark performance.",
       "highlights": [
         "Co-built RoboBrain 1.0/2.0 to improve LLM/VLM spatial understanding, temporal modeling, and long-chain reasoning.",

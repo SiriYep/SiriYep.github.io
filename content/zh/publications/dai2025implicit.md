@@ -20,7 +20,7 @@ month: Oct
 status: published
 links:
   arxiv: https://arxiv.org/abs/2405.19012
-  code: https://github.com/RoyZry98/INIF-Pytorch
+  code: https://github.com/PKU-HMI/INIF
 isFirstAuthor: false
 isCorrespondingAuthor: false
 featuredImage: /images/publications/inr_compression.png

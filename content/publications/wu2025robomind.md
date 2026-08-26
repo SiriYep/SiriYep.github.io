@@ -1,5 +1,6 @@
 ---
 id: wu2025robomind
+representativeRank: 4
 title: 'RoboMIND: Benchmark on Multi-embodiment Intelligence Normative Data for Robot Manipulation'
 authors:
   - Kun Wu
@@ -47,7 +48,8 @@ status: accepted
 links:
   arxiv: https://arxiv.org/abs/2412.13877
   projectPage: https://x-humanoid-robomind.github.io/
-  code: https://github.com/x-humanoid-robomind
+  code: https://github.com/Open-X-Humanoid/RoboMIND-dataset-utils
+  dataset: https://huggingface.co/datasets/x-humanoid-robomind/RoboMIND
 isFirstAuthor: false
 isCorrespondingAuthor: false
 featuredImage: /images/publications/robomind.png

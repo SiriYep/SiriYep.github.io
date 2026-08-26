@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, HStack, VStack, SimpleGrid, Heading, Text, Image, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, VStack, SimpleGrid, Heading, Text, useColorModeValue } from '@chakra-ui/react'
 import { withBase } from '@/utils/asset'
+import InstitutionLogo from '../InstitutionLogo'
 
 interface Course {
   course: string
@@ -34,16 +35,7 @@ const EducationSection: React.FC<EducationSectionProps> = ({ courses, logos = {}
           >
             <HStack align="start" spacing={3}>
               {logo ? (
-                <Image
-                  src={withBase(logo)}
-                  alt={course.institution}
-                  w={["36px", "44px"]}
-                  h={["36px", "44px"]}
-                  borderRadius="md"
-                  objectFit="contain"
-                  flexShrink={0}
-                  mt={0.5}
-                />
+                <InstitutionLogo src={withBase(logo)} label={course.institution} size="md" />
               ) : (
                 <Box
                   w={["36px", "44px"]}

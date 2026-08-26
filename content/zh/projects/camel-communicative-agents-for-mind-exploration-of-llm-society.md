@@ -1,5 +1,7 @@
 ---
+id: camel
 title: 'CAMEL: Communicative Agents for Mind Exploration of LLM Society'
+projectType: community
 category: agent
 tags:
   - 多智能体
@@ -10,11 +12,11 @@ link: https://github.com/camel-ai/camel
 isOpenSource: true
 role: contributor
 featured: true
-badge: 15k+ stars
+starsFallback: 17.6k
 date: "2026"
 ---
 
-CAMEL 是一个面向多智能体社会、角色扮演、工具集成与任务自动化的研究和应用框架。
+为 CAMEL 多智能体研究与应用框架贡献具身智能体工具和提示词工作流，用于角色扮演、工具集成与任务自动化。
 
 ## Highlights
 

@@ -3,7 +3,7 @@
 
 import { IconType } from 'react-icons'
 import {
-  FaRobot, FaBrain, FaGlobe, FaChartBar, FaWrench, FaHeartbeat, FaBookOpen, FaUsers,
+  FaRobot, FaBrain, FaGlobe, FaChartBar, FaWrench, FaHeartbeat, FaFlask, FaBookOpen, FaUsers,
 } from 'react-icons/fa'
 import type { ProjectItem } from '../types'
 
@@ -84,6 +84,12 @@ export const buildCategoryThemes = (dk: boolean): Record<ProjectItem['category']
     color: dk ? '#f09090' : '#c04040', glow: dk ? 'rgba(255,128,128,0.25)' : 'rgba(192,64,64,0.12)',
     icon: FaHeartbeat, label: 'HEALTHCARE', cmd: '$ python recommend.py',
   },
+  'ai-for-science': {
+    bg: dk ? '#1f2d32' : '#eaf8fb', border: dk ? '#5aa6b8' : '#79bdca',
+    stripe: 'linear-gradient(180deg,#67c6d4,transparent)',
+    color: dk ? '#88d4df' : '#287f91', glow: dk ? 'rgba(103,198,212,0.25)' : 'rgba(40,127,145,0.12)',
+    icon: FaFlask, label: 'AI FOR SCIENCE', cmd: '$ python discover.py',
+  },
   resources: {
     bg: dk ? '#2e2a1f' : '#fff8e1', border: dk ? '#b8995a' : '#d4be7e',
     stripe: 'linear-gradient(180deg,#f0d090,transparent)',
@@ -101,7 +107,7 @@ export const buildCategoryThemes = (dk: boolean): Record<ProjectItem['category']
 /* ── Article category labels & colors ─────────────────────────── */
 export const articleCategoryLabels: Record<ProjectItem['category'], string> = {
   robotics: 'Robotics', nlp: 'NLP / AI', 'web-app': 'Web / App',
-  data: 'Data / ML', tooling: 'Tooling', healthcare: 'Healthcare',
+  data: 'Data / ML', tooling: 'Tooling', healthcare: 'Healthcare', 'ai-for-science': 'AI for Science',
   resources: 'Resources', agent: 'Agent',
 }
 
@@ -112,6 +118,7 @@ export const articleCategoryColors: Record<ProjectItem['category'], { fg: (dk: b
   data:       { fg: dk => dk ? '#7ce3b6' : '#2f9e6a', bg: dk => dk ? 'rgba(124,227,182,0.15)' : 'rgba(47,158,106,0.1)' },
   tooling:    { fg: dk => dk ? '#7feeee' : '#2aa9a9', bg: dk => dk ? 'rgba(127,238,238,0.15)' : 'rgba(42,169,169,0.1)' },
   healthcare: { fg: dk => dk ? '#f09090' : '#c04040', bg: dk => dk ? 'rgba(240,144,144,0.15)' : 'rgba(192,64,64,0.1)' },
+  'ai-for-science': { fg: dk => dk ? '#88d4df' : '#287f91', bg: dk => dk ? 'rgba(136,212,223,0.15)' : 'rgba(40,127,145,0.1)' },
   resources:  { fg: dk => dk ? '#ebcb8b' : '#a07a3e', bg: dk => dk ? 'rgba(235,203,139,0.15)' : 'rgba(160,122,62,0.1)' },
   agent:      { fg: dk => dk ? '#81a1c1' : '#4a6e9a', bg: dk => dk ? 'rgba(129,161,193,0.15)' : 'rgba(74,110,154,0.1)' },
 }

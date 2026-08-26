@@ -46,7 +46,7 @@ function About() {
             avatar={siteConfig.avatar}
             research={research.currentResearch}
             researchLogos={institutionLogos}
-            education={experience.education.courses}
+            education={experience.education.courses.slice(0, 1)}
             educationLogos={institutionLogos}
           />
         )

@@ -1,9 +1,10 @@
 {
   "Peking University HMI Lab": "/images/logos/pku-hmi-lab.jpg",
-  "Beijing Innovation Center of Humanoid Robotics": "/images/logos/x-humanoid.jpg",
+  "miHoYo": "/images/logos/mihoyo-icon.svg",
+  "Beijing Innovation Center of Humanoid Robotics": "/images/logos/x-humanoid-square.png",
   "Simplexity Robotics": "/images/logos/simplexity-robotics.jpg",
   "Joint Lab (Simplexity Robotics & PKU)": "/images/logos/simplexity-robotics.jpg",
-  "PKU / Peking University": "/images/logos/pku.png",
-  "BUAA / Beihang University": "/images/logos/buaa.png",
-  "Beijing Academy of Artificial Intelligence (BAAI)": "/images/logos/baai.jpg"
+  "PKU / Peking University": "/images/logos/pku-seal-normalized.png",
+  "BUAA / Beihang University": "/images/logos/buaa-seal-normalized.png",
+  "Beijing Academy of Artificial Intelligence (BAAI)": "/images/logos/baai-square.svg"
 }

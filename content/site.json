@@ -26,12 +26,13 @@
     ]
   },
   "title": "Hi, I'm Siyuan Qian",
-  "tagline": "I'm a Ph.D. candidate at Peking University HMI Lab, advised by Prof. Shanghang Zhang. My research centers on Embodied AI, with interests in VLA and World Models. I focus on long-horizon robotic tasks, particularly in mobile manipulation and complex multi-stage manipulation.",
+  "tagline": "I'm a Ph.D. candidate in the HMI Lab at Peking University, advised by Prof. Shanghang Zhang. Rooted in embodied AI, my research explores generalizable multimodal agents that perceive, reason, and act in complex physical and virtual environments. I am particularly interested in vision-language-action (VLA) models, world models, and hierarchical agent architectures for long-horizon decision-making, with applications spanning real-world mobile manipulation, multi-stage robotic tasks, and game AI.",
   "avatar": "My_Photo.jpg",
   "terminal": {
     "username": "siriyep",
     "rotatingSubtitles": [
       "research embodied AI",
+      "research Game AI",
       "build VLA systems",
       "work with real robots",
       "study world models",
@@ -41,64 +42,256 @@
     ],
     "skills": [
       {
+        "id": "embodied-ai",
         "name": "Embodied AI",
-        "description": "Building AI systems that perceive, reason, and act through robots in physical environments."
+        "description": "Building AI systems that perceive, reason, and act through robots in physical environments.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "RoboBrain and AC-DiT across embodied perception, reasoning, and action."
+          },
+          {
+            "kind": "project",
+            "ref": "camel",
+            "note": "Embodied-agent tools and task execution on RoboTwin."
+          }
+        ]
       },
       {
+        "id": "vla",
         "name": "Vision-Language-Action Models",
-        "description": "Models that map multimodal observations and language goals into executable robot actions."
+        "description": "Models that map multimodal observations and language goals into executable robot actions.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Real-robot VLA deployment for mobile manipulation."
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "Core implementation and simulation-to-real evaluation."
+          }
+        ]
       },
       {
+        "id": "world-models",
         "name": "World Models",
-        "description": "Learning predictive models of environment dynamics for planning and long-horizon decision-making."
+        "description": "Learning predictive models of environment dynamics for planning and long-horizon decision-making.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "x-humanoid",
+            "note": "Embodied memory systems and World Action Models."
+          },
+          {
+            "kind": "project",
+            "ref": "awesome-world-models",
+            "note": "Maintaining a structured index of world-model research."
+          }
+        ]
       },
       {
+        "id": "vlm",
         "name": "Vision-Language Models",
-        "description": "Multimodal perception and reasoning over images, videos, and language instructions."
+        "description": "Multimodal perception and reasoning over images, videos, and language instructions.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "RoboBrain multimodal understanding and long-chain reasoning."
+          },
+          {
+            "kind": "publication",
+            "ref": "ge2023cot",
+            "note": "Chain-of-thought prompt tuning for vision-language models."
+          }
+        ]
       },
       {
+        "id": "mobile-manipulation",
         "name": "Mobile Manipulation",
-        "description": "Whole-body and mobile-base manipulation with real robotic platforms."
+        "description": "Whole-body and mobile-base manipulation with real robotic platforms.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Whole-body mobile-manipulation coupling on real robots."
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "Mobile-manipulation simulation and real-robot evaluation."
+          }
+        ]
       },
       {
+        "id": "real-robot-operations",
+        "name": "Real-Robot Operations",
+        "description": "Extensive hands-on experience with hardware bring-up, system debugging, teleoperation, data collection, and end-to-end deployment across diverse real-robot platforms.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "• AgileX Mobile ALOHA (Cobot Magic, integrated)\n• Split-configuration ALOHA\n• RealMan compound single-arm lifting robot (RM65-B-V)"
+          },
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "• Galaxea R1 Lite\n• Franka Emika Panda\n• Simplexity Robotics i7 Pro (mobile-base and dual-arm bring-up)"
+          }
+        ]
+      },
+      {
+        "id": "robot-simulators",
+        "name": "Robot Simulation Experience",
+        "description": "Extensive hands-on experience with robot simulation, spanning simulated environments and digital assets, mobile-manipulation datasets and evaluation benchmarks, and VR/SpaceMouse teleoperation data-collection pipelines.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "• SAPIEN\n• MuJoCo\n• CoppeliaSim\n• Isaac Sim"
+          }
+        ]
+      },
+      {
+        "id": "human-data-transfer",
+        "name": "Human Data Collection & Cross-Embodiment Transfer",
+        "description": "End-to-end human demonstration data systems spanning sensorized egocentric gloves, synchronized multi-camera capture, Unity data-collection software, motion retargeting, and human-to-robot transfer.",
+        "evidence": [
+          {
+            "kind": "publication",
+            "ref": "liu2026lasthd",
+            "note": "OOL Glove and shared latent physical reasoning for data-efficient human-to-robot transfer."
+          },
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Co-designed two generations of sensorized gloves with multi-camera synchronization, Unity capture software, and motion retargeting."
+          }
+        ]
+      },
+      {
+        "id": "game-ai",
+        "name": "Game AI",
+        "description": "Research on AI methods and systems for games.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "mihoyo",
+            "note": "Ongoing Game AI research collaboration."
+          }
+        ]
+      },
+      {
+        "id": "pytorch",
         "name": "PyTorch",
         "description": "Deep learning training, evaluation, and deployment workflows."
       },
       {
+        "id": "ros",
         "name": "ROS/ROS2",
         "description": "Robot middleware for sensors, control, data collection, and system integration."
       },
       {
-        "name": "Robot Simulators",
-        "description": "Simulation pipelines for data generation, benchmarking, and task validation."
-      },
-      {
+        "id": "3d-printing",
         "name": "3D Printing",
-        "description": "Rapid hardware prototyping for robot components and experimental fixtures."
+        "description": "Rapid hardware prototyping for robot components and experimental fixtures.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Custom 3D-printed robot components for hardware development and rapid structural iteration."
+          }
+        ]
       },
       {
+        "id": "vr-teleoperation",
         "name": "VR Teleoperation",
-        "description": "Human data collection and robot control through immersive teleoperation interfaces."
+        "description": "Human data collection and robot control through immersive teleoperation interfaces.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "VR and SpaceMouse teleoperation pipelines for mobile-manipulation data."
+          }
+        ]
       },
       {
+        "id": "multi-agent-systems",
         "name": "Multi-Agent Systems",
-        "description": "Coordination and interaction among multiple agents in embodied environments."
+        "description": "Coordination and interaction among multiple agents in embodied environments.",
+        "evidence": [
+          {
+            "kind": "project",
+            "ref": "camel",
+            "note": "Agent tools and prompting schemes for embodied RoboTwin tasks."
+          }
+        ]
       },
       {
+        "id": "research-to-deployment",
         "name": "Research-to-Deployment",
-        "description": "Taking models from papers and benchmarks into real robot systems."
+        "description": "Taking models from papers and benchmarks into real robot systems.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "End-to-end deployment on Galaxea R1 Lite and Franka Panda."
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "Core modules, simulation evaluation, and real-robot validation."
+          }
+        ]
       },
       {
+        "id": "hitl-rl",
         "name": "Human-in-the-Loop RL",
-        "description": "Using online human feedback to improve robustness and adaptation."
+        "description": "Using online human feedback to improve robustness and adaptation.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Online human feedback for real-world policy adaptation."
+          }
+        ]
       },
       {
+        "id": "world-action-models",
         "name": "World Action Models",
-        "description": "Action-aware world models for long-horizon embodied task planning."
+        "description": "Action-aware world models for long-horizon embodied task planning.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "x-humanoid",
+            "note": "Memory-enhanced world-action modeling for long-horizon tasks."
+          },
+          {
+            "kind": "publication",
+            "ref": "qian2026hdr",
+            "note": "Hierarchical robotic world-action modeling."
+          }
+        ]
       },
       {
+        "id": "proprioceptive-modeling",
         "name": "Proprioceptive Modeling",
-        "description": "Modeling joint, force, and robot-state signals to improve action generation."
+        "description": "Modeling joint, force, and robot-state signals to improve action generation.",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "Joint-torque and physical-state signals for VLA policies."
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "Vision, language, and proprioceptive input processing."
+          }
+        ]
       }
     ],
     "timezone": "Asia/Shanghai"
@@ -154,12 +347,12 @@
     }
   ],
   "selectedPublicationIds": [
-    "wang2026groupoflatents",
     "qian2026hdr",
+    "wang2026groupoflatents",
+    "liu2026lasthd",
+    "wang2026echoarena",
     "chen2026lastr1",
-    "chen2025acdit",
-    "wu2025robomind",
-    "ge2023cot",
-    "dai2025implicit"
+    "dai2025implicit",
+    "chen2025acdit"
   ]
 }

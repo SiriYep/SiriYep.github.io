@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState, useCallback, useMemo } from 'react'
-import { Box, HStack, Text, Link, Flex, useColorMode, Collapse, useBreakpointValue } from '@chakra-ui/react'
+import { Box, HStack, Text, Link, Flex, useColorMode, Collapse, useBreakpointValue, useMediaQuery } from '@chakra-ui/react'
 import { keyframes } from '@emotion/react'
 import { useTranslation } from 'react-i18next'
 import DynamicIcon from '../DynamicIcon'
@@ -133,9 +133,9 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
   // Responsive check
   const isMobile = useBreakpointValue({ base: true, sm: false });
   const isSmallScreen = useBreakpointValue({ base: true, md: false });
-  const isVerySmallScreen = useBreakpointValue({ base: true, xs: false });
-  const dateColumnWidth = useBreakpointValue({ base: "70px", xs: "75px", sm: "100px", md: "120px" });
-  const typeColumnWidth = useBreakpointValue({ base: "60px", xs: "65px", sm: "80px", md: "100px" });
+  const [isVerySmallScreen] = useMediaQuery('(max-width: 374px)');
+  const dateColumnWidth = useBreakpointValue({ base: "70px", sm: "100px", md: "120px" });
+  const typeColumnWidth = useBreakpointValue({ base: "60px", sm: "80px", md: "100px" });
   const linksColumnWidth = useBreakpointValue({ base: "80px", sm: "100px", md: "130px" });
   const controlColumnWidth = useBreakpointValue({ base: "30px", sm: "40px", md: "50px" });
   
@@ -341,6 +341,7 @@ const NewsTimeline: React.FC<NewsTimelineProps> = ({ news, showHeader: _showHead
     if (type === 'experience') {
       const badge = (item.badge || '').toLowerCase();
       if (badge.includes('researcher') || badge.includes('研究员')) return 'FaFlask';
+      if (badge.includes('collab') || badge.includes('合作')) return 'FaHandshake';
       if (badge.includes('intern') || badge.includes('实习')) return 'FaBriefcase';
       return item.icon || 'FaBriefcase';
     }

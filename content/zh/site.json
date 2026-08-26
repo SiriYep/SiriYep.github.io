@@ -26,12 +26,13 @@
     ]
   },
   "title": "你好，我是 Siyuan Qian",
-  "tagline": "我是北京大学 HMI Lab 的博士，导师为仉尚航。我的研究方向聚焦在具身智能领域，兴趣主要集中在视觉-语言-动作模型（VLA）与世界模型（World Model），我专注于面向长程具身任务的一系列问题，包括移动操作与考察记忆能力复杂多阶段操作等。",
+  "tagline": "我是北京大学 HMI Lab 的博士生，导师为仉尚航教授。我的研究方向以具身智能为基础，聚焦具备泛化能力的多模态智能体，探索其在复杂物理与虚拟环境中的感知、推理与行动能力。我的研究重点包括视觉-语言-动作模型（VLA）、世界模型，以及面向长程决策的分层推理与控制架构；相关研究场景涵盖真实世界移动操作、复杂多阶段机器人任务与游戏 AI。",
   "avatar": "My_Photo.jpg",
   "terminal": {
     "username": "siriyep",
     "rotatingSubtitles": [
       "研究具身智能",
+      "研究游戏 AI",
       "构建 VLA 系统",
       "部署真实机器人",
       "探索世界模型",
@@ -41,64 +42,256 @@
     ],
     "skills": [
       {
+        "id": "embodied-ai",
         "name": "具身智能",
-        "description": "构建能在物理环境中感知、推理并通过机器人行动的智能系统。"
+        "description": "构建能在物理环境中感知、推理并通过机器人行动的智能系统。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "通过 RoboBrain 与 AC-DiT 推进具身感知、推理与行动研究。"
+          },
+          {
+            "kind": "project",
+            "ref": "camel",
+            "note": "面向 RoboTwin 的具身智能体工具与任务执行。"
+          }
+        ]
       },
       {
+        "id": "vla",
         "name": "视觉-语言-动作模型",
-        "description": "将多模态观测与语言目标映射为可执行机器人动作的模型。"
+        "description": "将多模态观测与语言目标映射为可执行机器人动作的模型。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "面向移动操作的真实机器人 VLA 部署。"
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "核心模块实现与仿真到真机评测。"
+          }
+        ]
       },
       {
+        "id": "world-models",
         "name": "世界模型",
-        "description": "学习环境动态的预测模型，用于规划与长程决策。"
+        "description": "学习环境动态的预测模型，用于规划与长程决策。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "x-humanoid",
+            "note": "面向具身任务的记忆系统与 World Action Model。"
+          },
+          {
+            "kind": "project",
+            "ref": "awesome-world-models",
+            "note": "持续维护结构化的世界模型研究索引。"
+          }
+        ]
       },
       {
+        "id": "vlm",
         "name": "视觉语言模型",
-        "description": "围绕图像、视频与语言指令的多模态感知和推理。"
+        "description": "围绕图像、视频与语言指令的多模态感知和推理。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "RoboBrain 多模态理解与长链推理。"
+          },
+          {
+            "kind": "publication",
+            "ref": "ge2023cot",
+            "note": "视觉语言模型的思维链提示调优。"
+          }
+        ]
       },
       {
+        "id": "mobile-manipulation",
         "name": "移动操作",
-        "description": "真实机器人平台上的全身控制与移动底盘操作。"
+        "description": "真实机器人平台上的全身控制与移动底盘操作。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "真实机器人上的全身移动操作耦合。"
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "移动操作仿真与真机评测。"
+          }
+        ]
       },
       {
+        "id": "real-robot-operations",
+        "name": "真机机器人操作",
+        "description": "具备丰富的真机机器人操作经验，覆盖硬件联调、系统调试、遥操作、数据采集与端到端部署。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "• 松灵（AgileX）Mobile ALOHA（Cobot Magic，一体式）\n• 分体式 ALOHA\n• 睿尔曼（RealMan）复合式单臂升降机器人（RM65-B-V）"
+          },
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "• Galaxea R1 Lite\n• Franka Emika Panda\n• 至简动力 i7 Pro（移动底盘与双臂系统联调）"
+          }
+        ]
+      },
+      {
+        "id": "robot-simulators",
+        "name": "机器人仿真经验",
+        "description": "具备丰富的机器人仿真实践经验，覆盖仿真环境与数字资产构建、移动操作数据集与评测基准建设，以及 VR 与 SpaceMouse 遥操作数据采集流水线。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "• SAPIEN\n• MuJoCo\n• CoppeliaSim\n• Isaac Sim"
+          }
+        ]
+      },
+      {
+        "id": "human-data-transfer",
+        "name": "人手数据采集与跨本体迁移",
+        "description": "面向机器人学习的人手示教数据系统，覆盖传感器化第一视角手套、多相机同步、Unity 数采软件、动作重定向与人到机器人迁移。",
+        "evidence": [
+          {
+            "kind": "publication",
+            "ref": "liu2026lasthd",
+            "note": "基于 OOL Glove 与共享潜在物理推理空间，实现数据高效的人到机器人迁移。"
+          },
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "参与两代人手数据采集手套设计，涵盖传感器集成、多相机同步、Unity 数采软件与动作重定向。"
+          }
+        ]
+      },
+      {
+        "id": "game-ai",
+        "name": "游戏 AI",
+        "description": "面向游戏场景的 AI 方法与系统研究。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "mihoyo",
+            "note": "持续开展游戏 AI 科研合作。"
+          }
+        ]
+      },
+      {
+        "id": "pytorch",
         "name": "PyTorch",
         "description": "深度学习训练、评测与部署工作流。"
       },
       {
+        "id": "ros",
         "name": "ROS/ROS2",
         "description": "用于传感器、控制、数据采集和系统集成的机器人中间件。"
       },
       {
-        "name": "机器人仿真",
-        "description": "用于数据生成、基准测试与任务验证的仿真流水线。"
-      },
-      {
+        "id": "3d-printing",
         "name": "3D 打印",
-        "description": "机器人零部件与实验治具的快速硬件原型制作。"
+        "description": "机器人零部件与实验治具的快速硬件原型制作。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "面向团队机器人硬件研发的定制 3D 打印零部件设计与制作。"
+          }
+        ]
       },
       {
+        "id": "vr-teleoperation",
         "name": "VR 遥操作",
-        "description": "通过沉浸式遥操作界面进行人类数据采集与机器人控制。"
+        "description": "通过沉浸式遥操作界面进行人类数据采集与机器人控制。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "baai",
+            "note": "用于移动操作数据采集的 VR 与 SpaceMouse 遥操作流水线。"
+          }
+        ]
       },
       {
+        "id": "multi-agent-systems",
         "name": "多智能体系统",
-        "description": "具身环境中多个智能体之间的协作与交互。"
+        "description": "具身环境中多个智能体之间的协作与交互。",
+        "evidence": [
+          {
+            "kind": "project",
+            "ref": "camel",
+            "note": "面向 RoboTwin 具身任务的 Agent Tools 与 Prompt 设计。"
+          }
+        ]
       },
       {
+        "id": "research-to-deployment",
         "name": "研究到部署",
-        "description": "将论文和基准中的模型推进到真实机器人系统。"
+        "description": "将论文和基准中的模型推进到真实机器人系统。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "在 Galaxea R1 Lite 与 Franka Panda 上完成端到端部署。"
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "核心模块、仿真评测与真机验证。"
+          }
+        ]
       },
       {
+        "id": "hitl-rl",
         "name": "Human-in-the-Loop 强化学习",
-        "description": "利用人类在线反馈提升模型鲁棒性与适应性。"
+        "description": "利用人类在线反馈提升模型鲁棒性与适应性。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "利用在线人类反馈提升真实场景策略适应性。"
+          }
+        ]
       },
       {
+        "id": "world-action-models",
         "name": "World Action Model",
-        "description": "面向长程具身任务规划的动作感知世界模型。"
+        "description": "面向长程具身任务规划的动作感知世界模型。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "x-humanoid",
+            "note": "面向长程任务的记忆增强世界-动作建模。"
+          },
+          {
+            "kind": "publication",
+            "ref": "qian2026hdr",
+            "note": "分层机器人世界-动作建模。"
+          }
+        ]
       },
       {
+        "id": "proprioceptive-modeling",
         "name": "本体感知建模",
-        "description": "建模关节、力和机器人状态信号，以提升动作生成质量。"
+        "description": "建模关节、力和机器人状态信号，以提升动作生成质量。",
+        "evidence": [
+          {
+            "kind": "experience",
+            "ref": "simplexity",
+            "note": "面向 VLA 策略建模关节力矩与物理状态信号。"
+          },
+          {
+            "kind": "project",
+            "ref": "ac-dit",
+            "note": "视觉、语言与本体感知输入处理。"
+          }
+        ]
       }
     ],
     "timezone": "Asia/Shanghai"
@@ -154,12 +347,12 @@
     }
   ],
   "selectedPublicationIds": [
-    "wang2026groupoflatents",
     "qian2026hdr",
+    "wang2026groupoflatents",
+    "liu2026lasthd",
+    "wang2026echoarena",
     "chen2026lastr1",
-    "chen2025acdit",
-    "wu2025robomind",
-    "ge2023cot",
-    "dai2025implicit"
+    "dai2025implicit",
+    "chen2025acdit"
   ]
 }

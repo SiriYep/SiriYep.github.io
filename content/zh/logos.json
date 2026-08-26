@@ -1,9 +1,10 @@
 {
   "北京大学 HMI Lab": "/images/logos/pku-hmi-lab.jpg",
-  "北京人形机器人创新中心": "/images/logos/x-humanoid.jpg",
+  "米哈游": "/images/logos/mihoyo-icon.svg",
+  "北京人形机器人创新中心": "/images/logos/x-humanoid-square.png",
   "至简动力": "/images/logos/simplexity-robotics.jpg",
   "联合实验室（至简动力 & 北京大学）": "/images/logos/simplexity-robotics.jpg",
-  "PKU / 北京大学": "/images/logos/pku.png",
-  "BUAA / 北京航空航天大学": "/images/logos/buaa.png",
-  "北京智源人工智能研究院（BAAI）": "/images/logos/baai.jpg"
+  "PKU / 北京大学": "/images/logos/pku-seal-normalized.png",
+  "BUAA / 北京航空航天大学": "/images/logos/buaa-seal-normalized.png",
+  "北京智源人工智能研究院（BAAI）": "/images/logos/baai-square.svg"
 }

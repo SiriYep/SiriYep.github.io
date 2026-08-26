@@ -1,5 +1,7 @@
 ---
+id: camel
 title: 'CAMEL: Communicative Agents for Mind Exploration of LLM Society'
+projectType: community
 category: agent
 tags:
   - Multi-Agent Systems
@@ -10,11 +12,11 @@ link: https://github.com/camel-ai/camel
 isOpenSource: true
 role: contributor
 featured: true
-badge: 15k+ stars
+starsFallback: 17.6k
 date: "2026"
 ---
 
-Multi-agent research and application framework emphasizing Role-Playing, tool integration, and task automation.
+Contributed embodied-agent tools and prompting workflows to CAMEL, a multi-agent research and application framework for role-playing, tool integration, and task automation.
 
 ## Highlights
 

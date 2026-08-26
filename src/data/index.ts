@@ -38,22 +38,25 @@ function collectMd(modules: Record<string, { default: Record<string, unknown> }>
   })
 }
 
+const htmlToText = (value: string) => value
+  .replace(/<[^>]+>/g, '')
+  .replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"')
+  .replace(/&#39;/g, "'")
+  .trim()
+
 // Convert Markdown body into the fields components expect
 function mdToProject(raw: Record<string, unknown>): ProjectItem {
   const { _body, ...rest } = raw
   const bodyStr = (_body as string) || ''
 
-  const highlights: string[] = []
-  const lines = bodyStr.replace(/<[^>]+>/g, '').split('\n')
-  for (const line of lines) {
-    const m = line.match(/^[-*]\s+(.+)/)
-    if (m) highlights.push(m[1].trim())
-  }
-
-  const summary = lines
-    .filter(l => l.trim() && !l.match(/^[-*#]/) && !l.match(/^</))
-    .map(l => l.trim())
-    .join(' ')
+  const summaryMatch = bodyStr.match(/<p>([\s\S]*?)<\/p>/i)
+  const summary = summaryMatch ? htmlToText(summaryMatch[1]) : htmlToText(bodyStr)
+  const highlights = [...bodyStr.matchAll(/<li>([\s\S]*?)<\/li>/gi)]
+    .map(match => htmlToText(match[1]))
+    .filter(Boolean)
 
   return {
     summary,
@@ -163,9 +166,9 @@ export const getPublicationsByVenue = (venueType: string) =>
 export const getFirstAuthorPublications = () =>
   publications.filter(pub => pub.isFirstAuthor)
 
-export const getPublicationStats = () => {
+export const getPublicationStats = (items: Publication[] = publications) => {
   const stats = {
-    total: publications.length,
+    total: items.length,
     byYear: {} as Record<number, number>,
     byVenue: {} as Record<string, number>,
     firstAuthor: 0,
@@ -173,7 +176,7 @@ export const getPublicationStats = () => {
     withCode: 0,
     withDataset: 0,
   }
-  publications.forEach(pub => {
+  items.forEach(pub => {
     stats.byYear[pub.year] = (stats.byYear[pub.year] || 0) + 1
     stats.byVenue[pub.venueType] = (stats.byVenue[pub.venueType] || 0) + 1
     if (pub.isFirstAuthor) stats.firstAuthor++

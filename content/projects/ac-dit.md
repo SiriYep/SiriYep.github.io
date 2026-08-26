@@ -1,5 +1,8 @@
 ---
+id: ac-dit
 title: 'AC-DiT: Adaptive Coordination Diffusion Transformer'
+projectType: paper
+publicationId: chen2025acdit
 category: robotics
 tags:
   - VLA
@@ -7,14 +10,20 @@ tags:
   - Diffusion Transformer
   - Real Robots
 link: https://github.com/PKU-HMI-Lab/AC-DiT
+extraLinks:
+  - label: Project Page
+    url: https://ac-dit.github.io/
+  - label: Paper
+    url: https://arxiv.org/abs/2507.01961
 isOpenSource: true
 role: tech-lead
 featured: true
 badge: NeurIPS 2025
+starsFallback: "49"
 date: "2025-09"
 ---
 
-Official code for our NeurIPS 2025 paper on end-to-end VLA for mobile manipulation.
+Co-developed the official implementation for our NeurIPS 2025 paper on end-to-end VLA for mobile manipulation.
 
 ## Highlights
 

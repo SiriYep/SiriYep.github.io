@@ -1,5 +1,6 @@
 ---
 id: qian2026hdr
+representativeRank: 3
 title: 'HDR: Hierarchical Denoising for Multi-Step Visual Reasoning and Robotic World Action Modeling'
 authors:
   - Zezhong Qian
