@@ -30,7 +30,9 @@ const JourneySection: React.FC = () => {
     ? [
         {
           title: t('about.educationJourney', 'Education'),
-          phases: about.journeyPhases.filter((phase) => phase.kind === 'education'),
+          phases: about.journeyPhases
+            .filter((phase) => phase.kind === 'education')
+            .reverse(),
         },
         {
           title: t('about.researchExperience', 'Research & Internships'),
