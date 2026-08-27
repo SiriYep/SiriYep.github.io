@@ -19,7 +19,7 @@ isOpenSource: true
 role: tech-lead
 featured: true
 badge: NeurIPS 2025
-starsFallback: "49"
+starsFallback: "50"
 date: "2025-09"
 ---
 

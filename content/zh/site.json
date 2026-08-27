@@ -180,7 +180,7 @@
           {
             "kind": "experience",
             "ref": "mihoyo",
-            "note": "当前游戏 AI 研究实习。"
+            "note": "持续开展游戏 AI 科研合作。"
           }
         ]
       },
@@ -197,7 +197,7 @@
       {
         "id": "3d-printing",
         "name": "3D 打印",
-        "description": "机器人零部件与实验治具的快速硬件原型制作。",
+        "description": "机器人零部件与实验辅助结构件的快速硬件原型制作。",
         "evidence": [
           {
             "kind": "experience",

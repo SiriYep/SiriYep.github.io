@@ -18,7 +18,7 @@ isOpenSource: true
 role: contributor
 featured: false
 badge: 'PR #379 · Merged'
-starsFallback: "819"
+starsFallback: "821"
 date: "2026-01"
 ---
 

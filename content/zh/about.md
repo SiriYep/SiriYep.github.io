@@ -31,9 +31,9 @@ journeyPhases:
       - 仿真基准
   - kind: experience
     period: 2025.09 - 至今
-    title: 研究实习生 → 科研合作
+    title: 科研合作
     org: 至简动力
-    description: 2025.09–2026.02 在 **联合实验室（至简动力 & 北京大学）** 担任研究实习生；自 2026.03 起以科研合作身份继续推进真实移动操纵场景中的 **VLA 部署**。
+    description: 自 2025.09 起与**联合实验室（至简动力 & 北京大学）**开展科研合作，推进真实移动操纵场景中的 **VLA 部署**。
     tags:
       - 真实机器人
       - 移动操作
@@ -41,9 +41,9 @@ journeyPhases:
       - Human-in-the-Loop RL
   - kind: experience
     period: 2026.03 - 至今
-    title: 研究实习生 → 科研合作
+    title: 科研合作
     org: 北京人形机器人创新中心
-    description: 2026.03–2026.06 担任研究实习生；自 2026.07 起以科研合作身份继续研究面向具身世界模型的 **记忆系统** 与 **World Action Model**。
+    description: 自 2026.03 起开展科研合作，研究面向具身世界模型的**记忆系统**与 **World Action Model**。
     tags:
       - 世界模型
       - 记忆系统
@@ -51,12 +51,12 @@ journeyPhases:
       - 长程规划
   - kind: experience
     period: 2026.07 - 至今
-    title: 游戏 AI 算法研究员
+    title: 游戏 AI 科研合作
     org: 米哈游
-    description: 目前在米哈游担任**游戏 AI 算法研究员**。
+    description: 与米哈游围绕**游戏 AI** 开展科研合作。
     tags:
       - 游戏 AI
-      - 研究实习
+      - 科研合作
 version:
   current: v1.0.0
   history:
@@ -68,6 +68,6 @@ version:
 
 我目前是[北京大学](https://www.pku.edu.cn/)计算机学院[视觉技术国家工程研究中心](https://idm.pku.edu.cn/)博士生，导师为[仉尚航](https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao)。本科毕业于[北京航空航天大学](https://www.buaa.edu.cn/)电子信息工程专业。
 
-我目前在**米哈游**担任游戏 AI 算法研究员，并继续与**至简动力**和**北京人形机器人创新中心**开展科研合作。
+我目前与**米哈游**、**至简动力**和**北京人形机器人创新中心**持续开展科研合作，方向涵盖游戏 AI、VLA 部署与具身世界模型。
 
 我的研究围绕**具身智能**展开，兴趣包括**视觉-语言-动作模型（VLA）**和**世界模型**。我专注于长程机器人任务，特别是移动操作和复杂多阶段操作场景。我在 ACM MM、NeurIPS、RSS 和 Nature Computational Science 等会议和期刊发表论文，并担任 NeurIPS、ICML、ECCV 等会议审稿人。

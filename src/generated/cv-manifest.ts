@@ -16,17 +16,17 @@ export const cvEntries: CvEntry[] = [
   {
     "lang": "zh",
     "label": "Chinese CV",
-    "filename": "钱思远-简历-260826.pdf",
-    "href": "/cv/%E9%92%B1%E6%80%9D%E8%BF%9C-%E7%AE%80%E5%8E%86-260826.pdf",
-    "dateCode": "260826",
-    "updated": "2026-08-26"
+    "filename": "钱思远-简历-260827.pdf",
+    "href": "/cv/%E9%92%B1%E6%80%9D%E8%BF%9C-%E7%AE%80%E5%8E%86-260827.pdf",
+    "dateCode": "260827",
+    "updated": "2026-08-27"
   },
   {
     "lang": "en",
     "label": "English CV",
-    "filename": "Siyuan-Qian-CV-260826.pdf",
-    "href": "/cv/Siyuan-Qian-CV-260826.pdf",
-    "dateCode": "260826",
-    "updated": "2026-08-26"
+    "filename": "Siyuan-Qian-CV-260827.pdf",
+    "href": "/cv/Siyuan-Qian-CV-260827.pdf",
+    "dateCode": "260827",
+    "updated": "2026-08-27"
   }
 ]

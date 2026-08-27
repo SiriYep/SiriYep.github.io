@@ -14,129 +14,92 @@
     ]
   },
   "reviewing": [
-    { "venue": "ECCV 2026", "role": "Reviewer" },
-    { "venue": "ICML 2026", "role": "Reviewer" },
-    { "venue": "NeurIPS 2025", "role": "Reviewer" },
-    { "venue": "ICML 2025", "role": "Reviewer" },
-    { "venue": "ECCV 2024", "role": "Reviewer" }
+    {
+      "venue": "ECCV 2026",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ICML 2026",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "NeurIPS 2025",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ICML 2025",
+      "role": "Reviewer"
+    },
+    {
+      "venue": "ECCV 2024",
+      "role": "Reviewer"
+    }
   ],
   "timeline": [
     {
       "id": "mihoyo",
       "roles": [
         {
-          "id": "game-ai-intern",
-          "title": "Game AI Research Intern",
-          "engagementType": "internship",
-          "start": "2026-07-01",
-          "roleType": "research"
-        }
-      ],
-      "timelineAnchorRoleId": "game-ai-intern",
-      "company": "miHoYo",
-      "companyUrl": "https://www.mihoyo.com/",
-      "location": "Beijing & Shanghai, China",
-      "category": "industry",
-      "summary": "Researching and prototyping how hierarchical reasoning-and-control mechanisms from embodied AI can be transferred to Game AI, targeting cross-scenario generalization, complex-scene reasoning, low-latency action execution, and natural, believable human-like behavior.",
-      "emphasis": [
-        "hierarchical high-level/low-level fast-slow architecture",
-        "data-collection standards and quality-acceptance criteria",
-        "scene representation encoder",
-        "evaluation environment",
-        "Game AI"
-      ],
-      "highlights": [
-        "Contributed to a hierarchical high-level/low-level fast-slow architecture: the deliberative high-level module handles semantic understanding, long-horizon planning, and complex decision-making, while the reactive low-level module supports low-latency action selection and execution, enabling the architecture to balance cross-scenario generalization, complex-scene reasoning, and runtime responsiveness.",
-        "Systematically reviewed external data samples, iterated multiple versions of data-collection standards and quality-acceptance criteria with the team, and conducted acceptance and quality checks on the initial delivered batch to establish a consistent data foundation for subsequent experiments.",
-        "Researched structured representations of game scenes and assets and developed a scene representation encoder that converts structured scene and asset information into inputs consumable by multimodal models, replacing the agent-facing RGB observation stream and exploring deployment without an additional RGB rendering pass.",
-        "Set up an initial evaluation environment and validation workflow for early assessment of model behavior, action execution, and deployment feasibility across representative scenarios."
-      ]
-    },
-    {
-      "id": "x-humanoid",
-      "roles": [
-        {
-          "id": "research-intern",
-          "title": "Research Intern",
-          "engagementType": "internship",
-          "start": "2026-03-01",
-          "end": "2026-06-30",
-          "roleType": "research"
-        },
-        {
-          "id": "research-collaborator",
-          "title": "Research Collaborator",
+          "id": "game-ai-research-collaboration",
+          "title": "Game AI Research Collaborator",
           "engagementType": "collaboration",
           "start": "2026-07-01",
           "roleType": "research"
         }
       ],
-      "timelineAnchorRoleId": "research-intern",
+      "timelineAnchorRoleId": "game-ai-research-collaboration",
+      "company": "miHoYo",
+      "companyUrl": "https://www.mihoyo.com/",
+      "category": "industry",
+      "summary": "Conducting research on Game AI algorithms."
+    },
+    {
+      "id": "x-humanoid",
+      "roles": [
+        {
+          "id": "research-collaboration",
+          "title": "Research Collaborator",
+          "engagementType": "collaboration",
+          "start": "2026-03-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "Beijing Innovation Center of Humanoid Robotics",
       "companyUrl": "https://www.x-humanoid.com/",
       "location": "Beijing, China",
       "category": "research",
-      "summary": "Researching pretraining and long-horizon modeling for embodied world models, spanning memory systems, World Action Models, and data infrastructure for egocentric human-hand and robot data.",
-      "emphasis": [
-        "World Action Model",
-        "embodied memory system",
-        "world-model pretraining",
-        "data-validation",
-        "cleaning pipelines"
-      ],
+      "summary": "Designing memory systems and World Action Models for embodied world models, improving long-horizon task planning and reliable generation in robotic scenarios.",
       "highlights": [
-        "Designed an embodied memory system to mitigate temporal inconsistency and memory drift in long-horizon video generation.",
-        "Built a World Action Model on top of the memory system to improve action planning and generation consistency for long-horizon robotic tasks.",
-        "Investigated how to jointly incorporate egocentric human-hand and robot data into world-model pretraining to improve pretraining performance.",
-        "Built separate data-validation and cleaning pipelines for egocentric human-hand and robot data, deeply integrating both into the company's existing data-processing workflow."
+        "Designed an embodied memory system to reduce temporal inconsistency and memory drift in long-video world model generation.",
+        "Built a World Action Model around the memory system to improve long-horizon robot task planning.",
+        "Explored how world models can strengthen VLA generalization and task understanding."
       ]
     },
     {
       "id": "simplexity",
       "roles": [
         {
-          "id": "research-intern",
-          "title": "Research Intern",
-          "engagementType": "internship",
-          "start": "2025-09-01",
-          "end": "2026-02-28",
-          "roleType": "research"
-        },
-        {
-          "id": "research-collaborator",
+          "id": "research-collaboration",
           "title": "Research Collaborator",
           "engagementType": "collaboration",
-          "start": "2026-03-01",
+          "start": "2025-09-01",
           "roleType": "research"
         }
       ],
-      "timelineAnchorRoleId": "research-intern",
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "Simplexity Robotics",
       "companyUrl": "https://www.simplexityrobotics.com/",
       "location": "Beijing, China",
       "category": "industry",
       "summary": "Conducted research in the Joint Lab (Simplexity Robotics & PKU) on VLA deployment in real mobile manipulation scenarios, spanning task understanding, action generation, execution feedback, and robot-system deployment.",
-      "emphasis": [
-        "Human-in-the-Loop reinforcement learning",
-        "latent-space reasoning",
-        "Galaxea R1 Lite",
-        "Franka Emika Panda",
-        "i7 Pro",
-        "ZED 2i",
-        "Insta360 GO 3S",
-        "motion retargeting"
-      ],
       "highlights": [
-        "Systematically optimized whole-body control and mobile-manipulation coupling within a fast-slow dual-system architecture centered on latent-space reasoning, improving the stability and consistency of action generation under complex motion states.",
+        "Optimized whole-body control and mobile-manipulation coupling for stable action generation under complex motion states.",
         "Explored robot proprioception modeling by integrating joint-torque and other physical-state signals.",
         "Introduced Human-in-the-Loop reinforcement learning with online human feedback to improve real-world adaptability and robustness.",
-        "Contributed substantially to the end-to-end design and iteration of two generations of lightweight egocentric hand-data collection gloves. Both generations used a ZED 2i for the primary ego view and dual wrist-mounted Insta360 GO 3S cameras, with a companion Unity application for capture visualization and three-camera timestamp synchronization.",
-        "For Gen 1, used magnetic localization for wrist-pose estimation and a multi-IMU configuration for finger-joint capture, completing the first integrated glove and data-collection system.",
-        "For Gen 2, replaced magnetic wrist localization with SLAM and reduced the IMU count; motion retargeting and rigorous accuracy validation preserved finger-joint localization accuracy while significantly lowering hardware cost and mitigating wrist-tracker dropouts in challenging positions and orientations.",
-        "Incorporated multi-task, multi-view human-hand data collected with the gloves into VLA pretraining and downstream training, improving generalization to out-of-distribution scenarios.",
-        "Deployed and operated Galaxea R1 Lite and Franka Emika Panda robots end-to-end, covering real-robot data collection and cleaning, model training, testing, and validation.",
-        "Collaborated with the hardware team on bring-up and debugging of Simplexity Robotics' in-house i7 Pro platform, including its mobile base and dual-arm system.",
-        "Designed and fabricated multiple custom 3D-printed robot components for the team's hardware development, enabling rapid structural iteration and real-system debugging."
+        "Incorporated multi-task, multi-view human data collected from data gloves into VLA pretraining and downstream training.",
+        "Deployed and operated Galaxea R1 Lite and Franka Emika Panda robots end-to-end, covering data collection, cleaning, training, testing, and validation.",
+        "Designed and fabricated 3D-printed robot components to support rapid hardware iteration and system debugging."
       ]
     },
     {
@@ -156,21 +119,12 @@
       "companyUrl": "https://www.baai.ac.cn/",
       "location": "Beijing, China",
       "category": "research",
-      "summary": "Contributed to the open-source RoboBrain 1.0/2.0 projects and the RoboMIND benchmark, and co-developed AC-DiT, an end-to-end VLA method for mobile manipulation that achieved state-of-the-art performance across multiple benchmarks.",
-      "emphasis": [
-        "AC-DiT",
-        "RoboMIND",
-        "RoboBrain 1.0/2.0",
-        "AgileX Mobile ALOHA",
-        "RM65-B-V"
-      ],
+      "summary": "Contributed to RoboBrain 1.0/2.0 and co-proposed AC-DiT, an end-to-end VLA framework for mobile manipulation with state-of-the-art benchmark performance.",
       "highlights": [
         "Co-built RoboBrain 1.0/2.0 to improve LLM/VLM spatial understanding, temporal modeling, and long-chain reasoning.",
-        "Co-developed AC-DiT, an end-to-end VLA method that achieved state-of-the-art performance across multiple mobile-manipulation benchmarks.",
-        "Contributed to building RoboMIND (RSS 2025), a standardized multi-embodiment robot-manipulation dataset and benchmark comprising 107K demonstration trajectories across 4 robot embodiments, 479 tasks, and 96 object classes, with 5K real-world failure demonstrations annotated with their causes and an Isaac Sim digital-twin environment.",
-        "Performed hardware bring-up, system debugging, and real-robot data collection for the AgileX Mobile ALOHA platforms and a RealMan compound single-arm lifting robot. The AgileX systems included an integrated Cobot Magic robot and a split-configuration ALOHA; the RealMan platform features an RM65-B-V arm, 900 mm of vertical travel, a 5 kg payload, a compact 505 mm circular base, and autonomous SLAM navigation.",
-        "Built cross-simulator mobile-manipulation datasets and evaluation benchmarks spanning SAPIEN, MuJoCo, CoppeliaSim, and Isaac Sim.",
-        "Developed data-collection pipelines across these simulation environments with support for VR and SpaceMouse teleoperation.",
+        "Co-proposed AC-DiT, an end-to-end VLA framework that achieved SOTA on multiple mobile-manipulation benchmarks.",
+        "Handled hardware debugging, real-robot data collection, training, and testing on Mobile ALOHA and compound mobile manipulators.",
+        "Built mobile-manipulation datasets and benchmarks across multiple simulators, including VR and SpaceMouse teleoperation pipelines.",
         "Led construction of robot digital assets across simulators, including 100+ objects and 10+ scenes."
       ]
     }

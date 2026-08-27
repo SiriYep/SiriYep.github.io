@@ -52,12 +52,12 @@
   },
   {
     "type": "experience",
-    "badge": "实习",
+    "badge": "合作",
     "count": 1,
     "icon": "FaBriefcase",
     "iconColor": "green.400",
     "title": "米哈游",
-    "description": "开始在米哈游担任游戏 AI 算法研究员。",
+    "description": "开始与米哈游围绕游戏 AI 开展科研合作。",
     "date": "2026 年 7 月",
     "sortDate": "2026-07-01",
     "links": [
@@ -154,12 +154,12 @@
   },
   {
     "type": "experience",
-    "badge": "实习",
+    "badge": "合作",
     "count": 1,
     "icon": "FaBriefcase",
     "iconColor": "green.400",
     "title": "北京人形机器人创新中心",
-    "description": "开始在北京人形机器人创新中心担任研究实习生，研究面向具身世界模型的记忆系统与 World Action Model。",
+    "description": "开始与北京人形机器人创新中心开展科研合作，研究面向具身世界模型的记忆系统与 World Action Model。",
     "date": "Mar 2026",
     "sortDate": "2026-03-01",
     "links": [
@@ -223,12 +223,12 @@
   },
   {
     "type": "experience",
-    "badge": "实习",
+    "badge": "合作",
     "count": 1,
     "icon": "FaFlask",
     "iconColor": "green.400",
     "title": "联合实验室（至简动力 & 北京大学）",
-    "description": "开始在联合实验室（至简动力 & 北京大学）担任研究实习生，推进真实移动操作场景中的 VLA 部署。",
+    "description": "开始与联合实验室（至简动力 & 北京大学）开展科研合作，推进真实移动操作场景中的 VLA 部署。",
     "date": "Sep 2025",
     "sortDate": "2025-09-01",
     "links": [

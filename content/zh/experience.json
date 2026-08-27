@@ -14,129 +14,92 @@
     ]
   },
   "reviewing": [
-    { "venue": "ECCV 2026", "role": "审稿人" },
-    { "venue": "ICML 2026", "role": "审稿人" },
-    { "venue": "NeurIPS 2025", "role": "审稿人" },
-    { "venue": "ICML 2025", "role": "审稿人" },
-    { "venue": "ECCV 2024", "role": "审稿人" }
+    {
+      "venue": "ECCV 2026",
+      "role": "审稿人"
+    },
+    {
+      "venue": "ICML 2026",
+      "role": "审稿人"
+    },
+    {
+      "venue": "NeurIPS 2025",
+      "role": "审稿人"
+    },
+    {
+      "venue": "ICML 2025",
+      "role": "审稿人"
+    },
+    {
+      "venue": "ECCV 2024",
+      "role": "审稿人"
+    }
   ],
   "timeline": [
     {
       "id": "mihoyo",
       "roles": [
         {
-          "id": "game-ai-intern",
-          "title": "游戏 AI 算法研究员",
-          "engagementType": "internship",
-          "start": "2026-07-01",
-          "roleType": "research"
-        }
-      ],
-      "timelineAnchorRoleId": "game-ai-intern",
-      "company": "米哈游",
-      "companyUrl": "https://www.mihoyo.com/",
-      "location": "中国北京、上海",
-      "category": "industry",
-      "summary": "围绕将具身智能的分层推理与控制机制引入 Game AI 开展预研与原型开发，重点探索跨场景泛化、复杂场景推理、低延迟动作执行，以及自然、可信的拟人化行为。",
-      "emphasis": [
-        "“大脑+小脑”快慢双系统架构",
-        "数据采集与质量验收标准",
-        "场景表征编码器",
-        "评测环境",
-        "Game AI"
-      ],
-      "highlights": [
-        "参与设计“大脑+小脑”快慢双系统架构：高层“大脑”模块负责语义理解、长程规划与复杂决策，低层“小脑”模块负责低延迟动作选择与执行，从架构层面兼顾跨场景泛化、复杂场景推理与实时响应能力。",
-        "系统审查外部数据样例，与团队协同迭代多版数据采集与质量验收标准，并开展首批数据的验收与质量校验，为后续技术验证建立一致的数据基础。",
-        "研究游戏场景与资产的结构化表征并开发场景表征编码器，将结构化场景与资产信息转换为多模态模型可直接利用的输入，以替代智能体侧 RGB 观测流，并探索部署阶段无需额外 RGB 渲染链路的推理方案。",
-        "搭建初步评测环境与验证流程，用于早期评估代表性场景下的模型行为、动作执行与部署可行性。"
-      ]
-    },
-    {
-      "id": "x-humanoid",
-      "roles": [
-        {
-          "id": "research-intern",
-          "title": "研究实习生",
-          "engagementType": "internship",
-          "start": "2026-03-01",
-          "end": "2026-06-30",
-          "roleType": "research"
-        },
-        {
-          "id": "research-collaborator",
-          "title": "科研合作",
+          "id": "game-ai-research-collaboration",
+          "title": "游戏 AI 科研合作",
           "engagementType": "collaboration",
           "start": "2026-07-01",
           "roleType": "research"
         }
       ],
-      "timelineAnchorRoleId": "research-intern",
+      "timelineAnchorRoleId": "game-ai-research-collaboration",
+      "company": "米哈游",
+      "companyUrl": "https://www.mihoyo.com/",
+      "category": "industry",
+      "summary": "开展游戏 AI 算法研究。"
+    },
+    {
+      "id": "x-humanoid",
+      "roles": [
+        {
+          "id": "research-collaboration",
+          "title": "科研合作",
+          "engagementType": "collaboration",
+          "start": "2026-03-01",
+          "roleType": "research"
+        }
+      ],
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "北京人形机器人创新中心",
       "companyUrl": "https://www.x-humanoid.com/",
       "location": "中国北京",
       "category": "research",
-      "summary": "围绕具身世界模型的预训练与长程建模开展研究，涵盖记忆系统、World Action Model，以及面向第一视角人手与机器人数据的数据基础设施建设。",
-      "emphasis": [
-        "World Action Model",
-        "具身场景的记忆系统",
-        "世界模型预训练",
-        "质量验收流水线",
-        "数据清洗流水线"
-      ],
+      "summary": "针对具身场景中的世界模型，设计记忆系统与 World Action Model，提升长程任务规划能力与生成稳定性。",
       "highlights": [
-        "针对长视频生成中的时序不一致与记忆漂移问题，设计面向具身场景的记忆系统，提升长程生成稳定性。",
-        "基于记忆系统构建 World Action Model，增强机器人长程任务中的动作规划与生成一致性。",
-        "探索将第一视角（Egocentric）人手与机器人数据联合融入世界模型预训练，提升模型的预训练表现。",
-        "分别构建面向第一视角人手与机器人数据的质量验收流水线和数据清洗流水线，并将二者深度集成至公司的现有数据处理流程。"
+        "针对世界模型在长视频生成中时序一致性不足的问题，设计面向具身场景的记忆系统。",
+        "基于记忆系统构建 World Action Model，使机器人在长程任务中具备更稳定的任务规划与生成表现。",
+        "探索世界模型赋能 VLA 模型泛化性与任务理解能力的路径。"
       ]
     },
     {
       "id": "simplexity",
       "roles": [
         {
-          "id": "research-intern",
-          "title": "研究实习生",
-          "engagementType": "internship",
-          "start": "2025-09-01",
-          "end": "2026-02-28",
-          "roleType": "research"
-        },
-        {
-          "id": "research-collaborator",
+          "id": "research-collaboration",
           "title": "科研合作",
           "engagementType": "collaboration",
-          "start": "2026-03-01",
+          "start": "2025-09-01",
           "roleType": "research"
         }
       ],
-      "timelineAnchorRoleId": "research-intern",
+      "timelineAnchorRoleId": "research-collaboration",
       "company": "至简动力",
       "companyUrl": "https://www.simplexityrobotics.com/",
       "location": "中国北京",
       "category": "industry",
       "summary": "在联合实验室（至简动力 & 北京大学）开展研究，面向真实移动操纵场景推进 VLA 在机器人系统中的落地，覆盖任务理解、动作生成、执行反馈与真机部署。",
-      "emphasis": [
-        "Human-in-the-Loop 强化学习机制",
-        "隐空间（Latent Space）推理",
-        "Galaxea R1 Lite",
-        "Franka Emika Panda",
-        "i7 Pro",
-        "ZED 2i",
-        "Insta360 GO 3S",
-        "动作重定向（Retargeting）"
-      ],
       "highlights": [
-        "采用以隐空间（Latent Space）推理为核心的快慢双系统架构，系统性优化机器人全身控制与移动-操纵耦合建模，提升复杂运动状态下动作生成的稳定性与一致性。",
+        "系统性优化机器人全身控制与移动-操纵耦合建模，提升复杂运动状态下动作生成的稳定性与一致性。",
         "融合关节力矩等本体感知信号，增强模型对机器人物理状态的感知能力。",
         "引入 Human-in-the-Loop 强化学习机制，结合人类在线反馈持续优化策略。",
-        "深度参与两代轻量化第一视角（Egocentric）人手数据采集手套的端到端设计与迭代。两代均采用 ZED 2i 采集主视角、双腕部 Insta360 GO 3S 采集腕部视角，并配套开发 Unity 数采软件，实现采集可视化与三相机时间戳同步。",
-        "第一代采用磁定位实现腕部位姿估计，并通过多 IMU 配置采集手指关节状态，完成首版手套与数采系统的软硬件集成。",
-        "第二代将腕部定位由磁定位升级为 SLAM，并精简 IMU 数量；通过动作重定向（Retargeting）算法与严格精度验证，在显著降低硬件成本的同时保持手指关节点定位精度，并显著改善腕部定位器在部分位置和姿态下的丢帧问题。",
-        "将数据手套采集的多任务、多视角人手数据融入 VLA 预训练与下游任务训练，提升 OOD 场景泛化能力。",
-        "熟练部署并操作 Galaxea R1 Lite 与 Franka Emika Panda，覆盖真机数据采集与清洗、模型训练、测试及验证。",
-        "参与至简动力自研 i7 Pro 机器人的真机联调，协同硬件团队完成移动底盘与双臂系统调试。",
-        "熟练掌握 3D 打印机器人零部件的设计与制作流程，设计并制作多款用于团队机器人硬件研发的定制零部件，支持快速结构迭代与真机系统调试。"
+        "将多任务多视角的人手数据手套采集数据融入 VLA 预训练与下游任务训练，提升 OOD 场景泛化能力。",
+        "熟练部署并操作 Galaxea R1 Lite 与 Franka Emika Panda，覆盖真机数据采集、清洗、模型训练和测试验证。",
+        "熟悉 3D 打印机器人零部件设计与制作流程，支持快速结构迭代与真实系统调试。"
       ]
     },
     {
@@ -156,22 +119,12 @@
       "companyUrl": "https://www.baai.ac.cn/",
       "location": "中国北京",
       "category": "research",
-      "summary": "参与开源具身智能项目 RoboBrain 1.0/2.0 与 RoboMIND 基准，并共同提出面向移动操作的端到端 VLA 方法 AC-DiT，在多个基准上达到 SOTA。",
-      "emphasis": [
-        "AC-DiT",
-        "RoboMIND",
-        "RoboBrain 1.0/2.0",
-        "RoboBrain 1.0 与 2.0",
-        "松灵（AgileX）Mobile ALOHA",
-        "RM65-B-V"
-      ],
+      "summary": "参与开源项目 RoboBrain 1.0 与 2.0，并共同提出端到端 VLA 移动操作框架 AC-DiT，在多个基准上达到 SOTA。",
       "highlights": [
         "共同建设 RoboBrain 1.0 与 2.0，增强 LLM/VLM 的空间理解与时序建模能力。",
-        "共同提出端到端 VLA 方法 AC-DiT，在多个移动操作基准上达到 SOTA。",
-        "参与构建 RoboMIND（RSS 2025）多本体机器人操作数据集与基准：基于统一采集规范汇集 10.7 万条示范轨迹，覆盖 4 种机器人本体、479 项任务和 96 类物体，并包含 5,000 条带失败原因标注的真机失败示范及 Isaac Sim 数字孪生环境。",
-        "负责松灵（AgileX）Mobile ALOHA 平台及睿尔曼（RealMan）复合式单臂升降机器人的硬件调试与真机数据采集。其中，松灵平台包括 Cobot Magic 一体式机器人与分体式 ALOHA 机器人；睿尔曼平台搭载 RM65-B-V 机械臂，具备 900 mm 升降行程、5 kg 负载和 505 mm 紧凑型圆形底盘，并支持自主 SLAM 导航。",
-        "构建跨模拟器的移动操作数据集与评测基准，覆盖 SAPIEN、MuJoCo、CoppeliaSim 与 Isaac Sim。",
-        "面向上述模拟环境，搭建支持 VR 与 SpaceMouse 遥操作的数据采集流水线。",
+        "共同提出 AC-DiT 端到端 VLA 框架，在多个基准上达到 SOTA。",
+        "负责 Mobile ALOHA 与复合式移动操作平台的硬件调试和真实机器人数据采集。",
+        "构建跨仿真器的移动操作数据集与基准，包括 VR 与 SpaceMouse 遥操作流水线。",
         "主导跨仿真器机器人数字资产建设，覆盖 100+ 物体与 10+ 场景。"
       ]
     }

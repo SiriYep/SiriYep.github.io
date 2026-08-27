@@ -52,12 +52,12 @@
   },
   {
     "type": "experience",
-    "badge": "Intern",
+    "badge": "Collaboration",
     "count": 1,
     "icon": "FaBriefcase",
     "iconColor": "green.400",
     "title": "miHoYo",
-    "description": "Started a Game AI research internship at miHoYo.",
+    "description": "Started a Game AI research collaboration with miHoYo.",
     "date": "Jul 2026",
     "sortDate": "2026-07-01",
     "links": [
@@ -154,12 +154,12 @@
   },
   {
     "type": "experience",
-    "badge": "Intern",
+    "badge": "Collaboration",
     "count": 1,
     "icon": "FaBriefcase",
     "iconColor": "green.400",
     "title": "Beijing Innovation Center of Humanoid Robotics",
-    "description": "Started research internship at Beijing Innovation Center of Humanoid Robotics, working on memory systems and World Action Models for embodied world models.",
+    "description": "Started a research collaboration with the Beijing Innovation Center of Humanoid Robotics on memory systems and World Action Models for embodied world models.",
     "date": "Mar 2026",
     "sortDate": "2026-03-01",
     "links": [
@@ -223,12 +223,12 @@
   },
   {
     "type": "experience",
-    "badge": "Intern",
+    "badge": "Collaboration",
     "count": 1,
     "icon": "FaFlask",
     "iconColor": "green.400",
     "title": "Joint Lab (Simplexity Robotics & PKU)",
-    "description": "Started a research internship at the Joint Lab (Simplexity Robotics & PKU), working on VLA deployment for real mobile manipulation scenarios.",
+    "description": "Started a research collaboration with the Joint Lab (Simplexity Robotics & PKU) on VLA deployment for real mobile manipulation scenarios.",
     "date": "Sep 2025",
     "sortDate": "2025-09-01",
     "links": [
