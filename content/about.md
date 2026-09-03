@@ -31,9 +31,9 @@ journeyPhases:
       - Simulation Benchmarks
   - kind: experience
     period: Sep 2025 - Present
-    title: Research Collaborator
+    title: Research Intern → Research Collaborator
     org: Simplexity Robotics
-    description: Collaborating with the **Joint Lab (Simplexity Robotics & PKU)** since Sep 2025 on VLA deployment for real mobile manipulation.
+    description: Served as a Research Intern from Sep 2025 to Feb 2026 in the **Joint Lab (Simplexity Robotics & PKU)**, and have continued as a Research Collaborator since Mar 2026 on VLA deployment for real mobile manipulation.
     tags:
       - Real Robots
       - Mobile Manipulation
@@ -41,9 +41,9 @@ journeyPhases:
       - Human-in-the-Loop RL
   - kind: experience
     period: Mar 2026 - Present
-    title: Research Collaborator
+    title: Research Intern → Research Collaborator
     org: Beijing Innovation Center of Humanoid Robotics
-    description: Collaborating since Mar 2026 on **memory systems** and **World Action Models** for embodied world models.
+    description: Served as a Research Intern from Mar to Jun 2026, and have continued as a Research Collaborator since Jul 2026 on **memory systems** and **World Action Models** for embodied world models.
     tags:
       - World Models
       - Memory Systems
@@ -51,12 +51,12 @@ journeyPhases:
       - Long-Horizon Planning
   - kind: experience
     period: Jul 2026 - Present
-    title: Game AI Research Collaborator
+    title: Game AI Research Intern
     org: miHoYo
-    description: Collaborating with miHoYo on **Game AI research**.
+    description: Working as a **Game AI Research Intern** at miHoYo.
     tags:
       - Game AI
-      - Research Collaboration
+      - Research Internship
 version:
   current: v1.0.0
   history:
@@ -68,6 +68,6 @@ version:
 
 I am currently a Ph.D. candidate at the [National Engineering Research Center of Visual Technology](https://idm.pku.edu.cn/) (NERCVT), School of Computer Science, [Peking University](https://www.pku.edu.cn/). I got my B.Eng. in Electronic Information Engineering from [Beihang University](https://www.buaa.edu.cn/) (BUAA). My supervisor is Prof. [Shanghang Zhang](https://scholar.google.com/citations?user=voqw10cAAAAJ&hl=en&oi=ao).
 
-I currently collaborate with **miHoYo**, **Simplexity Robotics**, and the **Beijing Innovation Center of Humanoid Robotics** on Game AI, VLA deployment, and embodied world models.
+I am currently a **Game AI Research Intern at miHoYo**, while continuing research collaborations with **Simplexity Robotics** and the **Beijing Innovation Center of Humanoid Robotics**.
 
 My research centers on **Embodied AI**, with interests in **Vision-Language-Action Models (VLA)** and **World Models**. I focus on long-horizon robotic tasks, particularly in mobile manipulation and complex multi-stage manipulation. I have published papers at top-tier venues including **ACM MM**, **NeurIPS**, **RSS**, and **Nature Computational Science**, and serve as a reviewer for conferences such as NeurIPS, ICML and ECCV.
